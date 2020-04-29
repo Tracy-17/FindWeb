@@ -65,11 +65,11 @@
             <!-- 针对 oracle 数据库的一个配置，是否把 schema 作为字包名 -->
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
-                <table tableName="user" domainObjectName="User"/>
+<!--                <table tableName="user" domainObjectName="User"/>-->
 <!--                <table tableName="question" domainObjectName="Question"/>-->
 <!--                <table tableName="comment" domainObjectName="Comment"/>-->
 <!--                <table tableName="notification" domainObjectName="Notification"/>-->
-<!--                <table tableName="like" domainObjectName="Like"/>-->
+                <table tableName="like_t" domainObjectName="Like"/>
 <!--                <table tableName="collection" domainObjectName="Collection"/>-->
 
     </context>

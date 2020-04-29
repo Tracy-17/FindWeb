@@ -34,7 +34,6 @@ public class SessionInterceptor implements HandlerInterceptor {
             for (Cookie cookie : cookies) {
                 if ((cookie.getName()).equals("token")) {
                     String token = cookie.getValue();
-
                     UserExample userExample = new UserExample();
                     userExample.createCriteria()
                             .andTokenEqualTo(token);
@@ -42,8 +41,8 @@ public class SessionInterceptor implements HandlerInterceptor {
                     if (users.size() != 0) {
                         //写入session
                         request.getSession().setAttribute("user", users.get(0));
-                        int unreadCount = notificationService.unreadCount(users.get(0).getId());
-                        request.getSession().setAttribute("unreadCount", unreadCount);
+//                        int unreadCount = notificationService.unreadCount(users.get(0).getId());
+//                        request.getSession().setAttribute("unreadCount", unreadCount);
                     }
                     break;//命中结束循环
                 }

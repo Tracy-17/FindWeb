@@ -1,6 +1,5 @@
 package com.shu.find.mapper;
 
-import com.shu.find.dto.QuestionQueryDTO;
 import com.shu.find.model.Question;
 
 import java.util.List;
@@ -14,9 +13,11 @@ public interface QuestionExtMapper {
 
     int incComment(Question record);
 
+    int incCollection(Question record);
+
     List<Question> selectRelated(Question question);
 
-    Integer countBySearch(QuestionQueryDTO questionQueryDTO);
+    Integer countBySearch(String search);
 
-    List<Question> selectBySearch(QuestionQueryDTO questionQueryDTO);
+    List<Question> selectBySearch(String search);
 }

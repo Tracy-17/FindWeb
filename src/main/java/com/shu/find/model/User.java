@@ -1,9 +1,9 @@
 package com.shu.find.model;
 
 public class User {
-    private String account;
-
     private Integer id;
+
+    private String account;
 
     private String password;
 
@@ -19,9 +19,9 @@ public class User {
 
     private Long gmtModify;
 
-    public User(String account, Integer id, String password, String token, String name, String avatar, String bio, Long gmtCreate, Long gmtModify) {
-        this.account = account;
+    public User(Integer id, String account, String password, String token, String name, String avatar, String bio, Long gmtCreate, Long gmtModify) {
         this.id = id;
+        this.account = account;
         this.password = password;
         this.token = token;
         this.name = name;
@@ -35,20 +35,20 @@ public class User {
         super();
     }
 
-    public String getAccount() {
-        return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account == null ? null : account.trim();
-    }
-
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account == null ? null : account.trim();
     }
 
     public String getPassword() {

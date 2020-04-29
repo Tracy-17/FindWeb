@@ -17,11 +17,12 @@ public class QuestionDTO {
     private String description;
     private String tag;
     private Long gmtCreate;
-    private Long gmtModified;
-    private Long creator;
+    private Long gmtModify;
+    private Integer creator;
     private Integer viewCount;
     private Integer commentCount;
     private Integer likeCount;
+    private Integer collCount;
     //需要展示给前端用户信息，但不存储进数据库
     private User user;
 }

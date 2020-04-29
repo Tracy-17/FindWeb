@@ -21,24 +21,30 @@ public class SignUpController {
     //get方法：渲染页面
     @GetMapping("/signUp")
     public String signUp(Model model) {
-        return "/SignUp";
+        return "/signUp";
     }
 
     @PostMapping("/signUp")
-    public String doSignUp(@RequestParam(name = "name") String name,
+    public String doSignUp(@RequestParam(name = "account") String account,
                            @RequestParam(name = "password") String password,
+                           @RequestParam(name = "name") String name,
+                           @RequestParam(name = "avatar") String avatar,
+                           @RequestParam(name = "bio") String bio,
                            Model model) {
         //查询一下是否存在此用户
-        if (userService.isExist(name)) {
+        if (userService.isExist(account)) {
             //此用户名已存在
             model.addAttribute("error", "此用户名已存在！");
-            return "/SignUp";
+            return "/signUp";
         } else {
             User user = new User();
-            user.setName(name);
+            user.setAccount(account);
             user.setPassword(password);
+            user.setName(name);
+            user.setAvatar(avatar);
+            user.setBio(bio);
             userService.create(user);
-            return "redirect:/login";
+            return "redirect:/";
         }
     }
 }

@@ -1,3 +1,33 @@
+//收藏
+function coll(){
+    let questionId = $("#question_id").val();
+    addColl(questionId);
+}
+function addColl(questionId){
+    $.ajax({
+            type: "GET",
+            url: "/collection",
+            contentType: "application/json",
+            data: JSON.stringify({
+                "questionId": questionId
+            }),
+            success: function (response) {
+                if (response.code == 200) {
+                    //提交问题后自动刷新页面
+                    window.location.reload();
+                } else if (response.code == 2003) {
+                    //未登录
+                    let isAccepted = confirm(response.message);
+                    if (isAccepted) {
+                        window.open("http://localhost:8080/");
+                    }
+                } else {
+                    alert(response.message);
+                }
+            },
+            dataType: "json"
+        });
+}
 //提交回复
 function post() {
     //jquery获取th:value的值
@@ -7,7 +37,6 @@ function post() {
 
     addComment(questionId, 1, content);
 }
-
 //添加回复方法
 function addComment(targetId, type, content) {
     //评论内容不能为空
@@ -33,10 +62,9 @@ function addComment(targetId, type, content) {
                 //未登录
                 let isAccepted = confirm(response.message);
                 if (isAccepted) {
-                    //点击确定，自动登录（火狐被拦截了。。。）
-                    window.open("https://github.com/login/oauth/authorize?client_id=adb444ad45124c00105f&redirect_uri=http://localhost:8080/callback?scope=user&state=1");
-                    //设置自动登录成功后自动关掉登录页，并回到评论页
-                    window.localStorage.setItem("closable", true);
+                 window.open("http://localhost:8080/");
+                 //设置自动登录成功后自动关掉登录页，并回到评论页
+                 window.localStorage.setItem("closable", true);
                 }
             } else {
                 alert(response.message);
@@ -44,7 +72,6 @@ function addComment(targetId, type, content) {
         },
         dataType: "json"
     });
-
 }
 
 //添加二级评论

@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>发布</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>发布</title>
     <link rel="stylesheet" href="/css/bootstrap.css"/>
     <link rel="stylesheet" href="/css/bootstrap-theme.css"/>
     <link rel="stylesheet" href="/css/test.css"/>
@@ -19,7 +19,7 @@
 <!--发起问题-->
 <div class="container-fluid main">
     <div class="row">
-        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+        <div class="">
             <!--                icon标签 icon名-->
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
             <hr>
@@ -27,8 +27,8 @@
                 <!--                hidden表示不会在页面显示但是会传数据到后台-->
                 <input type="hidden" name="id" th:value="${id}">
                 <div class="form-group">
-                    <label for="title">问题标题</label>
-                    <input type="text" class="form-control" th:value="${title}" id="title" name="title"
+                    <label for="title" class="question-title-small">问题标题</label>
+                    <input type="text" class="form-control " th:value="${title}" id="title" name="title"
                            autocomplete="off"
                            placeholder="问题标题......">
                 </div>
@@ -85,9 +85,9 @@
                 <div class="container-fluid main">
                     <div class="row">
                         <!--                        判断error有值后，显示标签-->
-                        <div class="alert alert-danger col-lg-9 col-md-12 col-sm-12 col-xs-12" th:if="${error!=null}"
+                        <div class="alert alert-danger " th:if="${error!=null}"
                              th:text="${error}"></div>
-                        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                        <div class="">
                             <button type="submit" class="btn btn-info btn-publish">
                                 发布
                             </button>
@@ -96,7 +96,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+        <div class="">
             <h3>提问说明</h3>
             ==================================<br>
             这里的内容<br>
@@ -107,6 +107,6 @@
         </div>
     </div>
 </div>
-<div th:insert="~{footer::foot}"></div>
+<!--<div th:insert="~{footer::foot}"></div>-->
 </body>
 </html>

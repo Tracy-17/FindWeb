@@ -1,58 +1,51 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link rel="stylesheet" href="css/bootstrap.css"/>
+<link rel="stylesheet" href="css/bootstrap-theme.css"/>
+<link rel="stylesheet" href="css/test.css"/>
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/bootstrap.min.js" type="application/javascript"></script>
 <body>
 <!--导航：-->
 <div th:fragment="nav">
-
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">测试1</span>
-                    <span class="icon-bar">测试2</span>
-                </button>
+    <!--        <img th:if="${session.user==null}" src="images/logos/find_icon.png" href="/index.html" height=auto>-->
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="span12 col-xs-12">
+            <div class="navbar-left" th:if="${session.user==null}">
                 <a class="navbar-brand" href="/index">Find</a>
             </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <form class="navbar-form navbar-left" action="/index" method="get">
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="search" placeholder="搜索你感兴趣的">
-                    </div>
-                    <button type="submit" class="btn btn-default">搜索</button>
-                </form>
-                <ul class="nav navbar-nav navbar-right">
-                    <li th:if="${session.user!=null}"><a href="/publish">提问</a></li>
-                    <li><a href="/profile/replies">通知 <span class="badge" th:text="${session.unreadCount}"></span></a>
-                    </li>
-                    <!--                session调试：-->
-                    <!--                <div th:text="${session.user}"></div>-->
-                    <li class="dropdown" th:if="${session.user!=null}">
-                        <!--                    session不为空，展示以下内容-->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">
+            <!--th:text="${session.user!=null?session.user.name:'你还没登录哦'}"-->
+            <div class="navbar-left" th:if="${session.user!=null}">
+                <ul class="nav navbar">
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false">
                             <span th:text="${session.user.getName()}"></span>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <!--                        <li><a href="#">个人资料</a></li>-->
+                            <li><a href="/info">个人资料</a></li>
                             <li><a href="/profile/questions">我的问题</a></li>
-                            <li><a href="/images/qq.png">ＰＹ交易</a></li>
+                            <li><a href="/profile/collections">我的收藏</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="/logout">退出登录</a></li>
                         </ul>
                     </li>
-                    <!--                https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/-->
-                    <li class="dropdown" th:if="${session.user==null}">
-                        <a href="/login">注册</a>
-                    </li>
                 </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
+            </div>
+            <div class="navbar-right">
+                <form class="form-horizontal" action="/index" method="get">
+                    <input type="text" placeholder="搜索你感兴趣的" name="search" class="search">
+                    <button type="submit" class="btn btn-default">搜索</button>
+                    <a href="/publish" th:if="${session.user!=null}">
+                        <button type="button" class="btn btn-success btn-publish-index">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                    </a>
+                </form>
+            </div>
+        </div>
     </nav>
-
 </div>
 </body>

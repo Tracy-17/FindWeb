@@ -1,12 +1,23 @@
 package com.shu.find.controller;
 
 import com.shu.find.dto.PaginationDTO;
+import com.shu.find.dto.QuestionDTO;
+import com.shu.find.model.Question;
+import com.shu.find.model.User;
 import com.shu.find.service.QuestionService;
+import com.shu.find.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * @Author ShiQi
@@ -19,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class IndexController {
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/index")
     //这里只写/ 火狐测试ok，chrome需要在所有地方补全/index
@@ -30,6 +43,7 @@ public class IndexController {
         PaginationDTO pagination = questionService.list(search);
         model.addAttribute("pagination", pagination);
         model.addAttribute("search", search);
+
         return "index";
     }
 }

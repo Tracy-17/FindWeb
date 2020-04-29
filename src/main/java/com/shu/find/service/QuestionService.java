@@ -2,20 +2,16 @@ package com.shu.find.service;
 
 import com.shu.find.dto.PaginationDTO;
 import com.shu.find.dto.QuestionDTO;
-import com.shu.find.dto.QuestionQueryDTO;
 import com.shu.find.exception.CustomizeErrorCode;
 import com.shu.find.exception.CustomizeException;
 import com.shu.find.mapper.QuestionExtMapper;
 import com.shu.find.mapper.QuestionMapper;
-import com.shu.find.mapper.UserExtMapper;
 import com.shu.find.mapper.UserMapper;
 import com.shu.find.model.Question;
 import com.shu.find.model.QuestionExample;
 import com.shu.find.model.User;
 import org.apache.commons.lang3.StringUtils;
-import org.omg.CORBA.UserException;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -37,11 +33,9 @@ public class QuestionService {
     private QuestionExtMapper questionExtMapper;
     @Resource
     private UserMapper userMapper;
-    @Autowired
-    private UserExtMapper userExtMapper;
 
         //展示在首页的问题列表
-        public PaginationDTO list(String search) {
+        public PaginationDTO<QuestionDTO> list(String search) {
             //查找：
             if (StringUtils.isNotBlank(search)) {
                 String[] tags = StringUtils.split(search, " ");
@@ -49,23 +43,12 @@ public class QuestionService {
                 search = Arrays.stream(tags).collect(Collectors.joining("|"));
 
             }
+            PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
 
-            PaginationDTO paginationDTO = new PaginationDTO();
-            Integer totalPage;
-
-            QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
-            questionQueryDTO.setSearch(search);
-            Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);
-
-        /*QuestionExample questionExample = new QuestionExample();
-        //首页倒序显示：
-        questionExample.setOrderByClause("gmt_create desc");*/
-
-            List<Question> questions = questionExtMapper.selectBySearch(questionQueryDTO);
-
+            List<Question> questions = questionExtMapper.selectBySearch(search);
             List<QuestionDTO> questionDTOS = new ArrayList<>();
             for (Question question : questions) {
-                User user = userExtMapper.selectById(question.getCreator());
+                User user = userMapper.selectByPrimaryKey(question.getCreator());
                 QuestionDTO questionDTO = new QuestionDTO();
                 //BeanUtils.copyProperties:对象之间属性的赋值
                 BeanUtils.copyProperties(question, questionDTO);
@@ -78,22 +61,18 @@ public class QuestionService {
         }
 
         //展示在个人页的问题列表
-        public PaginationDTO list(Integer userId) {
-
-            PaginationDTO paginationDTO = new PaginationDTO();
-            Integer totalPage;
+        public PaginationDTO<QuestionDTO> list(Integer userId) {
+            PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<QuestionDTO>();
             QuestionExample questionExample = new QuestionExample();
             questionExample.createCriteria()
                     .andCreatorEqualTo(userId);
-            Integer totalCount = questionMapper.countByExample(questionExample);
-
             QuestionExample example = new QuestionExample();
             example.createCriteria()
                     .andCreatorEqualTo(userId);
             List<Question> questions = questionMapper.selectByExample(example);
             List<QuestionDTO> questionDTOS = new ArrayList<>();
             for (Question question : questions) {
-                User user = userExtMapper.selectById(question.getCreator());
+                User user = userMapper.selectByPrimaryKey(question.getCreator());
                 QuestionDTO questionDTO = new QuestionDTO();
                 //BeanUtils.copyProperties:对象之间属性的赋值
                 BeanUtils.copyProperties(question, questionDTO);
@@ -114,7 +93,7 @@ public class QuestionService {
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question, questionDTO);
             //获取user对象
-            User user = userExtMapper.selectById(question.getCreator());
+            User user = userMapper.selectByPrimaryKey(question.getCreator());
             questionDTO.setUser(user);
             return questionDTO;
         }
@@ -127,6 +106,7 @@ public class QuestionService {
                 question.setViewCount(0);
                 question.setCommentCount(0);
                 question.setLikeCount(0);
+                question.setCollCount(0);
 
                 questionMapper.insert(question);
             } else {

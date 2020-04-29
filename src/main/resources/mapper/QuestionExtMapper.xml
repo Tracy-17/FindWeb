@@ -43,6 +43,15 @@
         comment_count = comment_count+#{commentCount,jdbcType=INTEGER}
         where id=#{id}
     </update>
+    <update id="incCollection" parameterType="com.shu.find.model.Question">
+        <!--
+         4.23：更新收藏数
+        -->
+        update question
+        set
+        coll_count = coll_count+#{collCount,jdbcType=INTEGER}
+        where id=#{id}
+    </update>
     <!--  sql正则表达查找tag-->
     <select id="selectRelated" resultMap="BaseResultMap" parameterType="com.shu.find.model.Question">
         select * from question where id!=#{id} and tag regexp #{tag}
@@ -50,7 +59,7 @@
     <!--  search不为空时，搜索标题（返回值resultType可以写Integer类型？？？）
     12.20：修改为resultType后，首页不展示description的问题竟然自动修复了。。。神奇
     添加and search != ''后，修复search为空的bug-->
-    <select id="countBySearch" resultType="java.lang.Integer" parameterType="com.shu.find.dto.QuestionQueryDTO">
+    <select id="countBySearch" resultType="java.lang.Integer" parameterType="com.shu.find.model.Question">
         select count(*) from question
         <where>
             <if test="search != null and search != ''">
@@ -59,14 +68,14 @@
         </where>
     </select>
     <!--  -->
-    <select id="selectBySearch" resultMap="BaseResultMap" parameterType="com.shu.find.dto.QuestionQueryDTO">
+    <select id="selectBySearch" resultMap="BaseResultMap" parameterType="com.shu.find.model.Question">
         select * from question
         <where>
             <if test="search != null and search != ''">
                 and title regexp #{search}
             </if>
         </where>
-        order by gmt_create desc limit #{page},#{size}
+        order by gmt_create desc
     </select>
 
 </mapper>

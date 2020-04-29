@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Spring测试-主页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="/css/bootstrap.css"/>
     <link rel="stylesheet" href="/css/bootstrap-theme.css"/>
@@ -18,6 +19,6 @@
     <p th:text="${message}">可以稍等下再来试试吗</p>
     <p><a class="btn btn-primary btn-lg" href="/index" role="button">回到主页</a></p>
 </div>
-<div th:insert="~{footer::foot}"></div>
+<!--<div th:insert="~{footer::foot}"></div>-->
 </body>
 </html>

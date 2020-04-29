@@ -54,4 +54,16 @@ public class ProfileController {
 
         return "profile";
     }
+    @GetMapping("/info")
+    public String info(HttpServletRequest request,Model model){
+        //获取当前页面用户信息
+        //验证登录：
+        User user = (User) request.getSession().getAttribute("user");
+        //未登录跳转：
+        if (user == null) {
+            return "redirect:/index";
+        }
+        model.addAttribute("user",user);
+        return "info";
+    }
 }

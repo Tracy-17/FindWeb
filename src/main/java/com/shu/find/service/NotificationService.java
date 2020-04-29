@@ -29,7 +29,6 @@ public class NotificationService {
 
     public PaginationDTO list(Integer userId) {
         PaginationDTO<NotificationDTO> paginationDTO = new PaginationDTO<>();
-        Integer totalPage;
         NotificationExample notificationExample = new NotificationExample();
         notificationExample.createCriteria()
                 .andReceiverEqualTo(userId)

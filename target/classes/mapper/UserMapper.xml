@@ -3,8 +3,8 @@
 <mapper namespace="com.shu.find.mapper.UserMapper">
   <resultMap id="BaseResultMap" type="com.shu.find.model.User">
     <constructor>
-      <idArg column="account" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="account" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="password" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="token" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -73,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    account, id, password, token, name, avatar, bio, gmt_create, gmt_modify
+    id, account, password, token, name, avatar, bio, gmt_create, gmt_modify
   </sql>
   <select id="selectByExample" parameterType="com.shu.find.model.UserExample" resultMap="BaseResultMap">
     select
@@ -89,15 +89,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from user
-    where account = #{account,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
-    where account = #{account,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.shu.find.model.UserExample">
     delete from user
@@ -106,11 +106,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.shu.find.model.User">
-    insert into user (account, id, password, 
+    insert into user (id, account, password, 
       token, name, avatar, 
       bio, gmt_create, gmt_modify
       )
-    values (#{account,jdbcType=VARCHAR}, #{id,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{token,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
       #{bio,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=BIGINT}, #{gmtModify,jdbcType=BIGINT}
       )
@@ -118,11 +118,11 @@
   <insert id="insertSelective" parameterType="com.shu.find.model.User">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="account != null">
-        account,
-      </if>
       <if test="id != null">
         id,
+      </if>
+      <if test="account != null">
+        account,
       </if>
       <if test="password != null">
         password,
@@ -147,11 +147,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="account != null">
-        #{account,jdbcType=VARCHAR},
-      </if>
       <if test="id != null">
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
@@ -185,11 +185,11 @@
   <update id="updateByExampleSelective" parameterType="map">
     update user
     <set>
-      <if test="record.account != null">
-        account = #{record.account,jdbcType=VARCHAR},
-      </if>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.account != null">
+        account = #{record.account,jdbcType=VARCHAR},
       </if>
       <if test="record.password != null">
         password = #{record.password,jdbcType=VARCHAR},
@@ -219,8 +219,8 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update user
-    set account = #{record.account,jdbcType=VARCHAR},
-      id = #{record.id,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=INTEGER},
+      account = #{record.account,jdbcType=VARCHAR},
       password = #{record.password,jdbcType=VARCHAR},
       token = #{record.token,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
@@ -235,8 +235,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.shu.find.model.User">
     update user
     <set>
-      <if test="id != null">
-        id = #{id,jdbcType=INTEGER},
+      <if test="account != null">
+        account = #{account,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
@@ -260,11 +260,11 @@
         gmt_modify = #{gmtModify,jdbcType=BIGINT},
       </if>
     </set>
-    where account = #{account,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.shu.find.model.User">
     update user
-    set id = #{id,jdbcType=INTEGER},
+    set account = #{account,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       token = #{token,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
@@ -272,6 +272,6 @@
       bio = #{bio,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=BIGINT},
       gmt_modify = #{gmtModify,jdbcType=BIGINT}
-    where account = #{account,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

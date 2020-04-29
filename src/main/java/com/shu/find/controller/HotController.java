@@ -23,4 +23,6 @@ public class HotController {
     private QuestionService questionService;
     @Autowired
     private CommentService commentService;
+
+
 }
