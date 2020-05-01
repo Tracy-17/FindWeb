@@ -28,9 +28,9 @@ public class CommentService {
     @Resource
     private CommentMapper commentMapper;
     @Resource
-    private QuestionMapper questionMapper;
+    private ContentMapper contentMapper;
     @Resource
-    private QuestionExtMapper questionExtMapper;
+    private ContentExtMapper contentExtMapper;
     @Resource
     private UserMapper userMapper;
     @Resource
@@ -55,8 +55,8 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
             //查询当前问题题目
-            Question question = questionMapper.selectByPrimaryKey(dbComment.getParentId());
-            if (question == null) {
+            Content content = contentMapper.selectByPrimaryKey(dbComment.getParentId());
+            if (content == null) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
             commentMapper.insert(comment);
@@ -66,18 +66,18 @@ public class CommentService {
             parentComment.setCommentCount(1);
             commentExtMapper.incComment(parentComment);
             //创建通知
-            createNotify(comment, dbComment.getCommentator(), commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_COMMENT, question.getId());
+            createNotify(comment, dbComment.getCommentator(), commentator.getName(), content.getTitle(), NotificationTypeEnum.REPLY_COMMENT, content.getId());
         } else {
             //回复问题
-            Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
-            if (question == null) {
+            Content content = contentMapper.selectByPrimaryKey(comment.getParentId());
+            if (content == null) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
             commentMapper.insert(comment);
-            question.setCommentCount(1);
-            questionExtMapper.incComment(question);
+            content.setCommentCount(1);
+            contentExtMapper.incComment(content);
             //创建通知
-            createNotify(comment, question.getCreator(), commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_QUESTION, question.getId());
+            createNotify(comment, content.getCreator(), commentator.getName(), content.getTitle(), NotificationTypeEnum.REPLY_QUESTION, content.getId());
         }
     }
 

@@ -12,35 +12,31 @@
 <div th:fragment="nav">
     <!--        <img th:if="${session.user==null}" src="images/logos/find_icon.png" href="/index.html" height=auto>-->
     <nav class="navbar navbar-default" role="navigation">
-        <div class="span12 col-xs-12">
-            <div class="navbar-left" th:if="${session.user==null}">
-                <a class="navbar-brand" href="/index">Find</a>
+        <div class="col-xs-12" style="background-color: #ff9e85;color: #ff9e85;">
+            <div th:if="${session.user==null}">
+                <a style="color: #fdfdfd;" class="navbar-brand" href="/index">Find</a>
             </div>
             <!--th:text="${session.user!=null?session.user.name:'你还没登录哦'}"-->
-            <div class="navbar-left" th:if="${session.user!=null}">
-                <ul class="nav navbar">
-                    <li class="dropdown">
-                        <a data-toggle="dropdown" role="button"
-                           aria-haspopup="true" aria-expanded="false">
-                            <span th:text="${session.user.getName()}"></span>
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/info">个人资料</a></li>
-                            <li><a href="/profile/questions">我的问题</a></li>
-                            <li><a href="/profile/collections">我的收藏</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="/logout">退出登录</a></li>
-                        </ul>
-                    </li>
-                </ul>
+            <div th:if="${session.user!=null}">
+                <li class="dropdown" style="margin-bottom: -18px;">
+                    <a data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+                       style="color: #fdfdfd;" class="navbar-brand" th:text="${session.user.getName()}">
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/info">个人资料</a></li>
+                        <li><a href="/profile/questions">我的发布</a></li>
+                        <li><a href="/profile/collections">我的收藏</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/logout">退出登录</a></li>
+                    </ul>
+                </li>
             </div>
-            <div class="navbar-right">
+            <div>
                 <form class="form-horizontal" action="/index" method="get">
                     <input type="text" placeholder="搜索你感兴趣的" name="search" class="search">
                     <button type="submit" class="btn btn-default">搜索</button>
                     <a href="/publish" th:if="${session.user!=null}">
-                        <button type="button" class="btn btn-success btn-publish-index">
+                        <button type="button" class="btn btn-publish-index">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
                     </a>
                 </form>

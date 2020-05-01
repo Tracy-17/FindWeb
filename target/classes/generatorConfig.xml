@@ -4,12 +4,13 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
+    <!--命令：mvn mybatis-generator:generate
+    mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate-->
     <!--导入属性配置-->
     <properties resource="application.properties"></properties>
 
     <!-- 指定数据库驱动的jdbc驱动jar包的位置 -->
     <classPathEntry location="${spring.datasource.driverLocation}" />
-
     <!-- context 是逆向工程的主要配置信息 -->
     <!-- id：起个名字 -->
     <!-- targetRuntime：设置生成的文件适用于那个 mybatis 版本 -->
@@ -66,11 +67,11 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 <!--                <table tableName="user" domainObjectName="User"/>-->
-<!--                <table tableName="question" domainObjectName="Question"/>-->
+                <table tableName="content" domainObjectName="Content"/>
 <!--                <table tableName="comment" domainObjectName="Comment"/>-->
 <!--                <table tableName="notification" domainObjectName="Notification"/>-->
-                <table tableName="like_t" domainObjectName="Like"/>
+<!--                <table tableName="mylike" domainObjectName="Mylike"/>-->
+<!--                <table tableName="follow" domainObjectName="Follow"/>-->
 <!--                <table tableName="collection" domainObjectName="Collection"/>-->
-
     </context>
 </generatorConfiguration>

@@ -1,7 +1,7 @@
 package com.shu.find.controller;
 
 import com.shu.find.service.CommentService;
-import com.shu.find.service.QuestionService;
+import com.shu.find.service.ContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class HotController {
     @Autowired
-    private QuestionService questionService;
+    private ContentService contentService;
     @Autowired
     private CommentService commentService;
 

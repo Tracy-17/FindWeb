@@ -1,13 +1,15 @@
 /*用户*/
 create table user
 (
-	id int auto_increment,
+	id int auto_increment primary key,
 	account varchar(50) not null comment '用户名',
 	password varchar(16) null comment '密码',
 	token varchar(36) null comment '缓存数据',
 	name varchar(50) null comment '昵称',
 	avatar varchar(255) null comment '头像',
 	bio varchar(255) null comment '简介',
+	follow_count int default 0 null,
+	fans_count int default 0 null,
 	gmt_create bigint null,
 	gmt_modify bigint null,
 	constraint user_account_uindex
@@ -20,7 +22,7 @@ alter table user
 	add primary key (account);
 
 /*问题*/
-create table question
+create table content
 (
 	id int auto_increment
 		primary key,
@@ -28,6 +30,7 @@ create table question
 	description text null,
 	tag varchar(256) null,
 	creator int null,
+	type int null default 0 comment '1：普通问题；2：文章',
 	view_count int default 0 null,
 	comment_count int default 0 null,
 	like_count int default 0 null,
@@ -41,7 +44,7 @@ create table comment
 (
 	id int auto_increment,
 	parent_id int not null comment '被评论的问题or评论的id',
-	type int not null comment '是一级评论or二级回复',
+	type int not null comment '是一级评论or二级回复or精选回复',
 	commentator int not null comment '撰写评论的人',
 	comment_count int default 0 null comment '二级评论数',
 	like_count int default 0 null comment '点赞数',
@@ -73,18 +76,30 @@ create table collection
 	id int auto_increment,
 	user_id int null,
 	question_id int null,
+	gmt_create bigint null,
 	constraint collection_pk
 		primary key (id)
 );
 
 /*点赞*/
-create table `like`
+create table mylike
 (
 	id int auto_increment,
 	user_id int null comment '点赞的人',
 	type int null comment '被点赞的是1：问题or2：评论',
 	content_id int null comment '被点赞的内容的id',
-	constraint like_pk
+	gmt_create bigint null,
+	constraint mylike_pk
+		primary key (id)
+);
+/*关注*/
+create table follow
+(
+    id int auto_increment,
+	user_id int null comment '操作用户',
+	follower int null comment '被关注者',
+	gmt_create bigint null,
+	constraint follow_pk
 		primary key (id)
 );
 

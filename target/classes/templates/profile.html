@@ -23,28 +23,28 @@
             <hr>
             <!--展示问题-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section=='questions'}">
-                <!--            无提问的页面展示需要修改-->
-                <div class="media" th:each="questionDTO : ${pagination.data}">
+                <!--无提问的页面展示需要修改-->
+                <div class="media" th:each="contentDTO : ${pagination.data}">
                     <div class="media-left">
                         <a href="#">
                             <img class="media-object img-rounded"
-                                 th:if="${questionDTO.user.avatar!=null}"
-                                 th:src="@{${questionDTO.user.avatar}}">
+                                 th:if="${contentDTO.user.avatar!=null}"
+                                 th:src="@{${contentDTO.user.avatar}}">
                         </a>
                     </div>
                     <div class="media-body">
                         <h4 class="media-heading">
-                            <a th:href="@{'/question/'+${questionDTO.id}}" th:text="${questionDTO.title}"></a>
+                            <a th:href="@{'/content/'+${contentDTO.id}}" th:text="${contentDTO.title}"></a>
                         </h4>
-                        <!--                    去掉了description-->
+                        <span th:text="${contentDTO.description}" class="description"></span><br>
                         <span class="text-desc">
-                         <span th:text="${questionDTO.viewCount}"></span>次浏览 ·
-                        <span th:text="${questionDTO.commentCount}"></span> 个回复 ·
-                         <span th:text="${questionDTO.collCount}"></span>次收藏 ·
-                        <span th:text="${#dates.format(questionDTO.gmtCreate,'yyyy-MM-dd HH:mm')}"></span> ·
-                        <a th:href="@{'/publish/'+${questionDTO.id}}" class="test-menu"
-                           th:if="${session.user!=null && session.user.id==questionDTO.creator}">
-                        <span class="glyphicon glyphicon-pencil" aria-hidden="true">编辑</span></a>
+                            <span th:text="${contentDTO.viewCount}"></span>次浏览 ·
+                            <span th:text="${contentDTO.commentCount}"></span> 个回复 ·
+                            <span th:text="${contentDTO.collCount}"></span>次收藏 ·
+                            <span th:text="${#dates.format(contentDTO.gmtCreate,'yyyy-MM-dd HH:mm')}"></span> ·
+                        <a th:href="@{'/publish/'+${contentDTO.id}}" class="test-menu"
+                           th:if="${session.user!=null && session.user.id==contentDTO.creator}">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true" style="float: right;">编辑</span></a>
                     </span>
                     </div>
                 </div>
@@ -64,6 +64,8 @@
                     </div>
                 </div>
             </div>-->
+            <!--展示关注列表-->
+
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <!--            下述css引用失败，目前不知道原因(.profile.section{}失败-->
@@ -81,6 +83,7 @@
         </div>
     </div>
 </div>
-<!--<div th:insert="~{footer::foot}"></div>-->
+<!--底栏-->
+<div th:insert="~{footer::foot}"></div>
 </body>
 </html>

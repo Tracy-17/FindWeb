@@ -1,26 +1,18 @@
-//收藏
-function coll(){
-    let questionId = $("#question_id").val();
-    addColl(questionId);
-}
-function addColl(questionId){
-    $.ajax({
-            type: "GET",
-            url: "/collection",
+
+//关注
+function follow(){
+     let creator = $("#creator").val();
+        $.ajax({
+            type: "POST",
+            url: "/follow",/*根目录的/collection而不是当前的question/collection*/
             contentType: "application/json",
             data: JSON.stringify({
-                "questionId": questionId
+                "follower": creator
             }),
             success: function (response) {
                 if (response.code == 200) {
-                    //提交问题后自动刷新页面
-                    window.location.reload();
-                } else if (response.code == 2003) {
-                    //未登录
-                    let isAccepted = confirm(response.message);
-                    if (isAccepted) {
-                        window.open("http://localhost:8080/");
-                    }
+                    //提交问题后局部刷新
+                    $("#follow").load(location.href + " #follow")
                 } else {
                     alert(response.message);
                 }
@@ -28,14 +20,35 @@ function addColl(questionId){
             dataType: "json"
         });
 }
+//收藏
+function coll(){
+    let contentId = $("#contentId").val();
+    $.ajax({
+        type: "POST",
+        url: "/collection",/*根目录的/collection而不是当前的question/collection*/
+        contentType: "application/json",
+        data: JSON.stringify({
+            "questionId": contentId
+        }),
+        success: function (response) {
+            if (response.code == 200) {
+                //提交问题后局部刷新
+            $("#collection").load(location.href + " #collection")
+            } else {
+                alert(response.message);
+            }
+        },
+        dataType: "json"
+        });
+}
 //提交回复
 function post() {
     //jquery获取th:value的值
-    let questionId = $("#question_id").val();
+    let contentId = $("#content_id").val();
     //jquery获取textarea的值
     let content = $("#comment_content").val();
 
-    addComment(questionId, 1, content);
+    addComment(contentId, 1, content);
 }
 //添加回复方法
 function addComment(targetId, type, content) {
@@ -80,7 +93,6 @@ function comment2(e) {
     let content = $("#input-" + commentId).val();
     addComment(commentId, 2, content);
 }
-
 //展开二级评论（待测试：hasClass校验是否有in，不需要额外标记e）
 function collapseComments(e) {
     //拿到id
@@ -111,7 +123,7 @@ function collapseComments(e) {
                         "class": "media-left",
                     }).append($("<img/>", {
                         "class": "media-object img-rounded",
-                        "src": comment.user.avatarUrl
+                        "src": comment.user.avatar
                     }));
                     let mediaBodyElement = $("<div/>", {
                         "class": "media-body",
@@ -150,9 +162,7 @@ function collapseComments(e) {
 //标签
 function showSelectTag() {
     $("#select-tag").show();
-
 }
-
 function selectTag(e) {
     let value = e.getAttribute("data-tag");
     let previous = $("#tag").val();

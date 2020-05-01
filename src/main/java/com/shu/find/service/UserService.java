@@ -50,6 +50,8 @@ public class UserService {
 
     //注册
     public void create(User user) {
+        user.setFansCount(0);
+        user.setFollowCount(0);
         user.setGmtCreate(nowTime);
         user.setGmtModify(nowTime);
         userMapper.insert(user);

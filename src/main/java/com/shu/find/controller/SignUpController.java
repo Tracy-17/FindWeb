@@ -44,7 +44,7 @@ public class SignUpController {
             user.setAvatar(avatar);
             user.setBio(bio);
             userService.create(user);
-            return "redirect:/";
+            return "redirect:/index";
         }
     }
 }

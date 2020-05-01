@@ -10,6 +10,8 @@
       <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="avatar" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="bio" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="follow_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="fans_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="gmt_create" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="gmt_modify" javaType="java.lang.Long" jdbcType="BIGINT" />
     </constructor>
@@ -73,7 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, account, password, token, name, avatar, bio, gmt_create, gmt_modify
+    id, account, password, token, name, avatar, bio, follow_count, fans_count, gmt_create, 
+    gmt_modify
   </sql>
   <select id="selectByExample" parameterType="com.shu.find.model.UserExample" resultMap="BaseResultMap">
     select
@@ -108,12 +111,12 @@
   <insert id="insert" parameterType="com.shu.find.model.User">
     insert into user (id, account, password, 
       token, name, avatar, 
-      bio, gmt_create, gmt_modify
-      )
+      bio, follow_count, fans_count, 
+      gmt_create, gmt_modify)
     values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{token,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
-      #{bio,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=BIGINT}, #{gmtModify,jdbcType=BIGINT}
-      )
+      #{bio,jdbcType=VARCHAR}, #{followCount,jdbcType=INTEGER}, #{fansCount,jdbcType=INTEGER}, 
+      #{gmtCreate,jdbcType=BIGINT}, #{gmtModify,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.shu.find.model.User">
     insert into user
@@ -138,6 +141,12 @@
       </if>
       <if test="bio != null">
         bio,
+      </if>
+      <if test="followCount != null">
+        follow_count,
+      </if>
+      <if test="fansCount != null">
+        fans_count,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -167,6 +176,12 @@
       </if>
       <if test="bio != null">
         #{bio,jdbcType=VARCHAR},
+      </if>
+      <if test="followCount != null">
+        #{followCount,jdbcType=INTEGER},
+      </if>
+      <if test="fansCount != null">
+        #{fansCount,jdbcType=INTEGER},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=BIGINT},
@@ -206,6 +221,12 @@
       <if test="record.bio != null">
         bio = #{record.bio,jdbcType=VARCHAR},
       </if>
+      <if test="record.followCount != null">
+        follow_count = #{record.followCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.fansCount != null">
+        fans_count = #{record.fansCount,jdbcType=INTEGER},
+      </if>
       <if test="record.gmtCreate != null">
         gmt_create = #{record.gmtCreate,jdbcType=BIGINT},
       </if>
@@ -226,6 +247,8 @@
       name = #{record.name,jdbcType=VARCHAR},
       avatar = #{record.avatar,jdbcType=VARCHAR},
       bio = #{record.bio,jdbcType=VARCHAR},
+      follow_count = #{record.followCount,jdbcType=INTEGER},
+      fans_count = #{record.fansCount,jdbcType=INTEGER},
       gmt_create = #{record.gmtCreate,jdbcType=BIGINT},
       gmt_modify = #{record.gmtModify,jdbcType=BIGINT}
     <if test="_parameter != null">
@@ -253,6 +276,12 @@
       <if test="bio != null">
         bio = #{bio,jdbcType=VARCHAR},
       </if>
+      <if test="followCount != null">
+        follow_count = #{followCount,jdbcType=INTEGER},
+      </if>
+      <if test="fansCount != null">
+        fans_count = #{fansCount,jdbcType=INTEGER},
+      </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=BIGINT},
       </if>
@@ -270,6 +299,8 @@
       name = #{name,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
       bio = #{bio,jdbcType=VARCHAR},
+      follow_count = #{followCount,jdbcType=INTEGER},
+      fans_count = #{fansCount,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=BIGINT},
       gmt_modify = #{gmtModify,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}

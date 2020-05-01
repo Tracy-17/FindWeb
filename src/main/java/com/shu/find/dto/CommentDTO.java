@@ -9,15 +9,16 @@ import com.shu.find.model.User;
  */
 @Data
 public class CommentDTO {
-    private Long id;
-    private Long parentId;
+    private Integer id;
+    private Integer parentId;
     private Integer type;
-    private Long commentator;
+    private Integer commentator;
     private Long gmtCreate;
     private Long gmtModified;
+    private Integer commentCount;
     private Integer likeCount;
     private String content;
     //新增：
     private User user;
-    private Integer commentCount;
+    private boolean status;
 }

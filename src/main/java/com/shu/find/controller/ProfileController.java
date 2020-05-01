@@ -3,7 +3,7 @@ package com.shu.find.controller;
 import com.shu.find.dto.PaginationDTO;
 import com.shu.find.model.User;
 import com.shu.find.service.NotificationService;
-import com.shu.find.service.QuestionService;
+import com.shu.find.service.ContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class ProfileController {
     @Autowired
-    private QuestionService questionService;
+    private ContentService contentService;
     @Autowired
     private NotificationService notificationService;
 
@@ -39,17 +39,18 @@ public class ProfileController {
         if (user == null) {
             return "redirect:/index";
         }
-
         if ("questions".equals(action)) {
             model.addAttribute("section", "questions");
             model.addAttribute("sectionName", "我的问题");
-            PaginationDTO paginationDTO = questionService.list(user.getId());
+            PaginationDTO paginationDTO = contentService.list(user.getId());
             model.addAttribute("pagination", paginationDTO);
         } else if ("replies".equals(action)) {
             PaginationDTO paginationDTO = notificationService.list(user.getId());
             model.addAttribute("section", "replies");
             model.addAttribute("pagination", paginationDTO);
             model.addAttribute("sectionName", "最新回复");
+        }else if ("articles".equals(action)){
+
         }
 
         return "profile";

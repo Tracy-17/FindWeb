@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="true" />
+    <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DataExportManager">
@@ -22,10 +22,10 @@
   <component name="DBNavigator.Project.DatabaseBrowserManager">
     <autoscroll-to-editor value="true" />
     <autoscroll-from-editor value="true" />
-    <show-object-properties value="true" />
+    <show-object-properties value="false" />
     <loaded-nodes>
       <connection connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef">
-        <schema name="find" object-types="procedure, column, dataset trigger, view, table, function, constraint, index" />
+        <schema name="find" object-types="table, function, constraint, column, view, procedure, index, dataset trigger" />
       </connection>
     </loaded-nodes>
   </component>
@@ -45,7 +45,33 @@
     <connection id="b3dfd507-8024-473c-8807-df9c9a158652" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" dataset="find.user" active-filter-id="aceb8187-869b-4604-8f51-5092f2703e05">
+      <filter id="aceb8187-869b-4604-8f51-5092f2703e05" name="0" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="id" operator="&gt;" value="0" active="true" />
+      </filter>
+    </filter-actions>
+    <filter-actions connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" dataset="find.collection" active-filter-id="c3579e50-366e-4465-a3a4-27e918cc20bf">
+      <filter id="c3579e50-366e-4465-a3a4-27e918cc20bf" name="0" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="id" operator="&gt;" value="0" active="true" />
+      </filter>
+    </filter-actions>
     <filter-actions connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" dataset="find.like" active-filter-id="" />
+    <filter-actions connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" dataset="find.comment" active-filter-id="ced300b9-0405-440c-a48c-95e5c57b3850">
+      <filter id="ced300b9-0405-440c-a48c-95e5c57b3850" name="0" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="id" operator="&gt;" value="0" active="true" />
+      </filter>
+    </filter-actions>
+    <filter-actions connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" dataset="find.follow" active-filter-id="EMPTY_FILTER">
+      <filter id="719888bf-6c34-4129-9ba0-ef893b11f577" name="0" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="id" operator="&gt;" value="0" active="true" />
+      </filter>
+    </filter-actions>
+    <filter-actions connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" dataset="find.content" active-filter-id="9ef0af03-c8b8-4a5d-a42c-be7bcc00758f">
+      <filter id="9ef0af03-c8b8-4a5d-a42c-be7bcc00758f" name="0" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="id" operator="&gt;" value="0" active="true" />
+      </filter>
+    </filter-actions>
+    <filter-actions connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" dataset="find.mylike" active-filter-id="" />
     <filter-actions connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" dataset="find.question" active-filter-id="f4535ed3-5211-4782-b8a8-4fe543c19956">
       <filter id="f4535ed3-5211-4782-b8a8-4fe543c19956" name="all" temporary="false" custom-name="true" type="basic" join-type="AND">
         <condition column="id" operator="&gt;" value="0" active="true" />

@@ -83,14 +83,17 @@
                     </div>
                 </div>
                 <div class="container-fluid main">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="isArticle">是否发布文章
+                        </label>
+                    </div>
                     <div class="row">
                         <!--                        判断error有值后，显示标签-->
                         <div class="alert alert-danger " th:if="${error!=null}"
                              th:text="${error}"></div>
                         <div class="">
-                            <button type="submit" class="btn btn-info btn-publish">
-                                发布
-                            </button>
+                            <button type="submit" class="btn btn-info btn-publish">发布</button>
                         </div>
                     </div>
                 </div>

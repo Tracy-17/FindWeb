@@ -15,11 +15,15 @@ public class User {
 
     private String bio;
 
+    private Integer followCount;
+
+    private Integer fansCount;
+
     private Long gmtCreate;
 
     private Long gmtModify;
 
-    public User(Integer id, String account, String password, String token, String name, String avatar, String bio, Long gmtCreate, Long gmtModify) {
+    public User(Integer id, String account, String password, String token, String name, String avatar, String bio, Integer followCount, Integer fansCount, Long gmtCreate, Long gmtModify) {
         this.id = id;
         this.account = account;
         this.password = password;
@@ -27,6 +31,8 @@ public class User {
         this.name = name;
         this.avatar = avatar;
         this.bio = bio;
+        this.followCount = followCount;
+        this.fansCount = fansCount;
         this.gmtCreate = gmtCreate;
         this.gmtModify = gmtModify;
     }
@@ -89,6 +95,22 @@ public class User {
 
     public void setBio(String bio) {
         this.bio = bio == null ? null : bio.trim();
+    }
+
+    public Integer getFollowCount() {
+        return followCount;
+    }
+
+    public void setFollowCount(Integer followCount) {
+        this.followCount = followCount;
+    }
+
+    public Integer getFansCount() {
+        return fansCount;
+    }
+
+    public void setFansCount(Integer fansCount) {
+        this.fansCount = fansCount;
     }
 
     public Long getGmtCreate() {

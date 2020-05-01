@@ -1,10 +1,10 @@
 package com.shu.find.controller;
 
 import com.shu.find.cache.TagCache;
-import com.shu.find.dto.QuestionDTO;
-import com.shu.find.model.Question;
+import com.shu.find.dto.ContentDTO;
+import com.shu.find.model.Content;
 import com.shu.find.model.User;
-import com.shu.find.service.QuestionService;
+import com.shu.find.service.ContentService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,12 +24,12 @@ import javax.servlet.http.HttpServletRequest;
 public class PublishController {
 
     @Resource
-    private QuestionService questionService;
+    private ContentService contentService;
 
     @GetMapping("/publish/{id}")
     public String edit(@PathVariable(name = "id") Integer id,
                        Model model) {
-        QuestionDTO question = questionService.getById(id);
+        ContentDTO question = contentService.getById(id);
         model.addAttribute("title", question.getTitle());
         model.addAttribute("description", question.getDescription());
         model.addAttribute("tag", question.getTag());
@@ -51,6 +51,7 @@ public class PublishController {
             @RequestParam(value = "description", required = false) String description,
             @RequestParam(value = "tag", required = false) String tag,
             @RequestParam(value = "id", required = false) Integer id,
+            @RequestParam(value = "isArticle", required = false) Boolean isArticle,
             HttpServletRequest request,
             //model可以把数据推送到前端页面
             Model model) {
@@ -86,16 +87,20 @@ public class PublishController {
             return "/publish";
         }
         //提问数据进库
-        Question question = new Question();
-        question.setTitle(title);
-        question.setDescription(description);
-        question.setTag(tag);
-        question.setId(id);
-
-        question.setCreator(user.getId());
+        Content content = new Content();
+        content.setTitle(title);
+        content.setDescription(description);
+        content.setTag(tag);
+        content.setId(id);
+        if(isArticle!=null){
+            content.setType(1);
+        }else{
+            content.setType(0);
+        }
+        content.setCreator(user.getId());
 
         //存在风险：非法修改
-        questionService.createOrUpdate(question);
+        contentService.createOrUpdate(content);
         return "redirect:/index";
     }
 }

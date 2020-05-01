@@ -3,8 +3,49 @@
 <body>
 <!--页脚：-->
 <div th:fragment="foot" class="footer">
-    <div>Copyright ♥ 2020 · 没有凉风的授权 · <a href="/images/qq.png">联系开发者</a> ·
+    <!--<div>Copyright ♥ 2020 · 没有凉风的授权 · <a href="/images/qq.png">联系开发者</a> ·
         <a href="https://github.com/Tracy-17/FindWeb">git地址</a>
+    </div>-->
+    <!--底栏-->
+    <div class="fix-bottom">
+        <li class="dropdown" th:if="${session.user==null}">
+            <div class="form-group">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <form class="form-horizontal" action="/login" method="post">
+                            <div class="control-group center">
+                                <input id="email" type="text" placeholder="邮箱" name="account" class="input-my"/>
+                                <input id="inputPassword" type="password" placeholder="密码" name="password"
+                                       class="input-my"/>
+                                <button type="submit" class="btn btn-default">登录</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="alert alert-danger msg-danger" th:if="${error!=null}" th:text="${error}"></div>
+            </div>
+            <div class="span4">
+                <a href="/signUp"><button class="btn btn-large btn-inverse btn-block" type="button">新用户注册</button></a>
+            </div>
+        </li>
+        <div class="row-fluid" th:if="${session.user!=null}">
+            <div class="span12">
+                <div class="control-group center">
+                    <a href="/index">
+                        <button class="btn btn-default nav-bottom" onclick="now()" id="index" type="button">主页</button>
+                    </a>
+                    <a href="/hot">
+                        <button class="btn btn-default nav-bottom" id="hot" type="button">热门</button>
+                    </a>
+                    <a href="/focus">
+                        <button class="btn btn-default nav-bottom" id="focus" type="button">关注</button>
+                    </a>
+                    <a href="/article">
+                        <button class="btn btn-default nav-bottom" id="article" type="button">文章</button>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>

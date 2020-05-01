@@ -6,7 +6,8 @@ package com.shu.find.enums;
  */
 public enum CommentTypeEnum {
     QUESTION(1),
-    COMMENT(2);
+    COMMENT(2),
+    ANSWER(3);/*精选回答*/
     private Integer type;
 
     public static boolean isExist(Integer type) {

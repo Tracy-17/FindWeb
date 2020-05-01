@@ -36,7 +36,7 @@ public class LoginController {
         if(!userService.isExist(account)){
             //找不到该用户
             model.addAttribute("error", "该用户不存在！");
-            return "/index";
+            return "index";
         }
         User dbUser=userService.getByAccount(account);
         if (dbUser.getPassword().equals(password)) {
@@ -52,7 +52,7 @@ public class LoginController {
         } else {
             //登录失败
             model.addAttribute("error", "用户名或密码错误");
-            return "/index";
+            return "index";
         }
 
     }
