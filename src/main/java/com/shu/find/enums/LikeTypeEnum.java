@@ -2,17 +2,17 @@ package com.shu.find.enums;
 
 /**
  * Author:ShiQi
- * Date:2019/12/13-19:52
+ * Date:2020/5/2-20:25
  */
-public enum CommentTypeEnum {
+public enum LikeTypeEnum {
     CONTENT(1),
-    COMMENT(2),
-    ANSWER(3);/*精选回答*/
+    COMMENT(2);
+    /*已被解答的问题*/
     private Integer type;
 
     public static boolean isExist(Integer type) {
-        for (CommentTypeEnum commentTypeEnum : CommentTypeEnum.values()) {
-            if (commentTypeEnum.getType() == type) {
+        for (LikeTypeEnum likeTypeEnum : LikeTypeEnum.values()) {
+            if (likeTypeEnum.getType() == type) {
                 return true;
             }
         }
@@ -23,7 +23,7 @@ public enum CommentTypeEnum {
         return type;
     }
 
-    CommentTypeEnum(Integer type) {
+    LikeTypeEnum(Integer type) {
         this.type = type;
     }
 }

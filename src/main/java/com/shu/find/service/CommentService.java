@@ -9,6 +9,7 @@ import com.shu.find.exception.CustomizeException;
 import com.shu.find.mapper.*;
 import com.shu.find.model.*;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +39,7 @@ public class CommentService {
     @Resource
     private NotificationMapper notificationMapper;
 
+    //添加评论
     //    Transactional:将整个方法体设为同一个事物
     @Transactional
     public void insert(Comment comment, User commentator) {
@@ -81,6 +83,7 @@ public class CommentService {
         }
     }
 
+    //创建通知
     private void createNotify(Comment comment, Integer receiver, String notifierName, String outerTitle, NotificationTypeEnum notificationType, Integer outerId) {
         //接收者是自己，不创建通知
         if (receiver == comment.getCommentator()) {
@@ -101,12 +104,13 @@ public class CommentService {
         notificationMapper.insert(notification);
     }
 
+    //展示在内容页的评论
     public List<CommentDTO> listByTargetId(Integer id, CommentTypeEnum type) {
         CommentExample commentExample = new CommentExample();
         commentExample.createCriteria()
                 .andParentIdEqualTo(id)
-                //为问题回复
                 //ctrl+alt+P：Extracting parameter to listByQuestionId(Integer)抽参数;ctrl+F6修改参数类型
+                //为问题回复
                 .andTypeEqualTo(type.getType());
         //按时间倒序显示回复：
         commentExample.setOrderByClause("gmt_create desc");

@@ -64,5 +64,12 @@ public class CollectionService {
                 .andUserIdEqualTo(collection.getUserId())
                 .andQuestionIdEqualTo(collection.getQuestionId());
         collectionMapper.deleteByExample(collectionExample);
+        //减少问题的收藏数
+        Content content = contentMapper.selectByPrimaryKey(collection.getQuestionId());
+        if (content == null) {
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
+        content.setCollCount(-1);
+        questionExtMapper.incCollection(content);
     }
 }

@@ -23,4 +23,13 @@
         comment_count = comment_count+#{commentCount,jdbcType=INTEGER}
         where id=#{id}
     </update>
+    <update id="incLike" parameterType="com.shu.find.model.Comment">
+        <!--
+         5.2:更新点赞数
+        -->
+        update comment
+        set
+        like_count = like_count+#{likeCount,jdbcType=INTEGER}
+        where id=#{id}
+    </update>
 </mapper>

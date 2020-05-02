@@ -8,5 +8,7 @@ import com.shu.find.model.Comment;
  */
 public interface CommentExtMapper {
     int incComment(Comment comment);
+
+    int incLike(Comment comment);
 }
 

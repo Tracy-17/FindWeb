@@ -83,6 +83,7 @@ public class ContentService {
         return paginationDTO;
     }
 
+    //内容详情页
     public ContentDTO getById(Integer id) {
         Content content = contentMapper.selectByPrimaryKey(id);
         //异常处理
@@ -97,6 +98,7 @@ public class ContentService {
         return contentDTO;
     }
 
+    //添加、修改
     public void createOrUpdate(Content content) {
         if (content.getId() == null) {
             //创建提问
@@ -129,6 +131,7 @@ public class ContentService {
         }
     }
 
+    //增加浏览量
     public void incView(Integer id) {
     /*    Content Content = questionMapper.selectByPrimaryKey(id);
         Content updateQuestion = new Content();
@@ -142,6 +145,7 @@ public class ContentService {
         contentExtMapper.incView(content);
     }
 
+    //相关问题
     public List<ContentDTO> selectRelated(ContentDTO queryDTO) {
         if (StringUtils.isBlank(queryDTO.getTag())) {
             return new ArrayList<>();

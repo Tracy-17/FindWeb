@@ -3,11 +3,9 @@ package com.shu.find.controller;
 import com.shu.find.dto.CommentDTO;
 import com.shu.find.dto.ContentDTO;
 import com.shu.find.enums.CommentTypeEnum;
+import com.shu.find.enums.LikeTypeEnum;
 import com.shu.find.model.User;
-import com.shu.find.service.CollectionService;
-import com.shu.find.service.CommentService;
-import com.shu.find.service.FollowService;
-import com.shu.find.service.ContentService;
+import com.shu.find.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +30,8 @@ public class ContentController {
     private CollectionService collectionService;
     @Autowired
     private FollowService followService;
+    @Autowired
+    private LikeService likeService;
 
     @GetMapping("content/{id}")
     public String content(@PathVariable(name = "id") Integer id,
@@ -39,13 +39,19 @@ public class ContentController {
         ContentDTO contentDTO = contentService.getById(id);
         System.out.println(contentDTO.getUser().getName());
         List<ContentDTO> relatedQuestions = contentService.selectRelated(contentDTO);
-        List<CommentDTO> comments = commentService.listByTargetId(id, CommentTypeEnum.QUESTION);
+        List<CommentDTO> comments = commentService.listByTargetId(id, CommentTypeEnum.CONTENT);
         Boolean isInCollection=false;
         Boolean isFollowed=false;
+        Boolean isInLikeContent=false;
         User user = (User) request.getSession().getAttribute("user");
         if(user!=null){
             isInCollection=collectionService.isInCollection(user.getId(),id);
             isFollowed=followService.isFollowed(user.getId(),contentDTO.getCreator());
+            isInLikeContent=likeService.isInLike(user.getId(), LikeTypeEnum.CONTENT.getType(),contentDTO.getId());
+            //查询每一条评论的点赞状态
+            for(CommentDTO commentDTO:comments){
+                commentDTO.setIsInLike(likeService.isInLike(user.getId(),LikeTypeEnum.COMMENT.getType(),commentDTO.getId()));
+            }
         }
         //累加阅读数
         contentService.incView(id);
@@ -54,6 +60,7 @@ public class ContentController {
         model.addAttribute("relatedQuestions", relatedQuestions);
         model.addAttribute("isInCollection",isInCollection);
         model.addAttribute("isFollowed",isFollowed);
+        model.addAttribute("isInLikeContent",isInLikeContent);
         return "content";
     }
 }

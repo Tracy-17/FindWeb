@@ -29,7 +29,6 @@ public class FollowController {
     @RequestMapping(value = "/follow", method = RequestMethod.POST)
     public Object coll(@RequestBody Follow foll,
                        HttpServletRequest request) {
-
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             return ResultDTO.errorOf(CustomizeErrorCode.NO_LOGIN);
@@ -38,12 +37,10 @@ public class FollowController {
         follow.setFollower(foll.getFollower());
         follow.setUserId(user.getId());
         if (followService.isFollowed(user.getId(),foll.getFollower())) {
-
             followService.delete(follow);
         } else {
             followService.insert(follow);
         }
-
         return ResultDTO.okOf();
     }
 }

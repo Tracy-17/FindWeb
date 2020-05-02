@@ -15,9 +15,12 @@ public interface ContentExtMapper {
 
     int incCollection(Content record);
 
+    int incLike(Content record);
+
     List<Content> selectRelated(Content content);
 
     Integer countBySearch(String search);
 
     List<Content> selectBySearch(String search);
+
 }

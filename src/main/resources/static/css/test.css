@@ -1,9 +1,13 @@
+.true{
+    color:#ff9e85
+}
 .article{
     margin: 10px;
     background-color: #fdfdf
 }
-.body{
-    background-color: antiquewhite;
+.content-set{
+    float: right;
+    margin: 10px 0 0 10px;
 }
 .my-name{
     color: #fdfdfd;

@@ -52,15 +52,18 @@ public class FollowService {
         follower.setId(follow.getFollower());
         follower.setFansCount(1);
         userExtMapper.changeFans(follower);
-
         //创建通知
 //        createNotify(comment, dbComment.getCommentator(), commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_COMMENT, question.getId());
     }
     //取消关注
     @Transactional
     public void delete(Follow follow) {
-        follow.setGmtCreate(System.currentTimeMillis());
-        followMapper.insert(follow);
+        FollowExample followExample=new FollowExample();
+        //不知道为什么一直超时
+        followExample.createCriteria()
+                .andUserIdEqualTo(follow.getUserId())
+                .andFollowerEqualTo(follow.getFollower());
+        followMapper.deleteByExample(followExample);
         //减少我的关注数
         User my=new User();
         my.setId(follow.getUserId());

@@ -53,6 +53,15 @@
         coll_count = coll_count+#{collCount,jdbcType=INTEGER}
         where id=#{id}
     </update>
+    <update id="incLike" parameterType="com.shu.find.model.Content">
+        <!--
+         5.2:更新点赞数
+        -->
+        update content
+        set
+        like_count = like_count+#{likeCount,jdbcType=INTEGER}
+        where id=#{id}
+    </update>
     <!--  sql正则表达查找tag-->
     <select id="selectRelated" resultMap="BaseResultMap" parameterType="com.shu.find.model.Content">
         select * from content where id!=#{id} and tag regexp #{tag}

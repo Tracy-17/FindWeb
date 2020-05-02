@@ -25,7 +25,7 @@
     <show-object-properties value="false" />
     <loaded-nodes>
       <connection connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef">
-        <schema name="find" object-types="table, function, constraint, column, view, procedure, index, dataset trigger" />
+        <schema name="find" object-types="table, procedure, function, column, constraint, view, index, dataset trigger" />
       </connection>
     </loaded-nodes>
   </component>
@@ -71,7 +71,11 @@
         <condition column="id" operator="&gt;" value="0" active="true" />
       </filter>
     </filter-actions>
-    <filter-actions connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" dataset="find.mylike" active-filter-id="" />
+    <filter-actions connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" dataset="find.mylike" active-filter-id="5066e1cd-7c22-423d-a8e6-98f77da7136e">
+      <filter id="5066e1cd-7c22-423d-a8e6-98f77da7136e" name="0" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="id" operator="&gt;" value="0" active="true" />
+      </filter>
+    </filter-actions>
     <filter-actions connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" dataset="find.question" active-filter-id="f4535ed3-5211-4782-b8a8-4fe543c19956">
       <filter id="f4535ed3-5211-4782-b8a8-4fe543c19956" name="all" temporary="false" custom-name="true" type="basic" join-type="AND">
         <condition column="id" operator="&gt;" value="0" active="true" />

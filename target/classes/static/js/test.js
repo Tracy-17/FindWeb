@@ -1,13 +1,13 @@
-
 //关注
+//js要从第一行开始写！！！why？
 function follow(){
-     let creator = $("#creator").val();
+    var follower = $("#creator").val();
         $.ajax({
             type: "POST",
             url: "/follow",/*根目录的/collection而不是当前的question/collection*/
             contentType: "application/json",
             data: JSON.stringify({
-                "follower": creator
+                "follower": follower
             }),
             success: function (response) {
                 if (response.code == 200) {
@@ -20,9 +20,50 @@ function follow(){
             dataType: "json"
         });
 }
+//点赞
+function likeContent(e){
+    let contentId = e.getAttribute("data-id");
+    $.ajax({
+        type: "POST",
+        url: "/like/Content",/*根目录的/collection而不是当前的question/collection*/
+        contentType: "application/json",
+        data: JSON.stringify({
+            "contentId": contentId,
+        }),
+        success: function (response) {
+            if (response.code == 200) {
+                //提交问题后局部刷新
+            $("#likeContent").load(location.href + " #likeContent")
+            } else {
+                alert(response.message);
+            }
+        },
+        dataType: "json"
+        });
+}
+function likeComment(e){
+    let contentId = e.getAttribute("data-id");
+        $.ajax({
+            type: "POST",
+            url: "/like/Comment",/*根目录的/collection而不是当前的question/collection*/
+            contentType: "application/json",
+            data: JSON.stringify({
+                "contentId": contentId,
+            }),
+            success: function (response) {
+                if (response.code == 200) {
+                    //提交问题后局部刷新
+                $("#likeComment").load(location.href + " #likeComment")
+                } else {
+                    alert(response.message);
+                }
+            },
+            dataType: "json"
+            });
+}
 //收藏
-function coll(){
-    let contentId = $("#contentId").val();
+function coll(e){
+    var contentId = e.getAttribute("data-id");
     $.ajax({
         type: "POST",
         url: "/collection",/*根目录的/collection而不是当前的question/collection*/
