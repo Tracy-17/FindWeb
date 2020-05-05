@@ -16,16 +16,16 @@
       <scope value="GLOBAL" />
       <destination value="FILE" />
       <format value="EXCEL" />
-      <charset value="windows-31j" />
+      <charset value="GBK" />
     </export-instructions>
   </component>
   <component name="DBNavigator.Project.DatabaseBrowserManager">
-    <autoscroll-to-editor value="true" />
-    <autoscroll-from-editor value="true" />
+    <autoscroll-to-editor value="false" />
+    <autoscroll-from-editor value="false" />
     <show-object-properties value="false" />
     <loaded-nodes>
       <connection connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef">
-        <schema name="find" object-types="table, procedure, function, column, constraint, view, index, dataset trigger" />
+        <schema name="find" object-types="procedure, table, index, column, dataset trigger, function, view, constraint" />
       </connection>
     </loaded-nodes>
   </component>
@@ -113,7 +113,7 @@
           <config-type value="BASIC" />
           <database-version value="5.7" />
           <driver-source value="EXTERNAL" />
-          <driver-library value="D:\software\mysql-connector-java-8.0.17\mysql-connector-java-8.0.17.jar" />
+          <driver-library value="D:\mysql-connector-java-8.0.17\mysql-connector-java-8.0.17.jar" />
           <driver value="com.mysql.cj.jdbc.Driver" />
           <url-type value="DATABASE" />
           <host value="106.14.81.50" />
@@ -196,7 +196,7 @@
           <config-type value="BASIC" />
           <database-version value="9999.0" />
           <driver-source value="EXTERNAL" />
-          <driver-library value="D:\software\mysql-connector-java-8.0.17\mysql-connector-java-8.0.17.jar" />
+          <driver-library value="D:\mysql-connector-java-8.0.17\mysql-connector-java-8.0.17.jar" />
           <driver value="com.mysql.cj.jdbc.Driver" />
           <url-type value="DATABASE" />
           <host value="localhost" />

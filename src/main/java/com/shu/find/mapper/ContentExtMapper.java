@@ -21,6 +21,6 @@ public interface ContentExtMapper {
 
     Integer countBySearch(String search);
 
-    List<Content> selectBySearch(String search);
+    List<Content> selectBySearch(String search,String tag);
 
 }

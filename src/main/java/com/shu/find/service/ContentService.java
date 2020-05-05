@@ -33,7 +33,7 @@ public class ContentService {
     private UserMapper userMapper;
 
     //展示在首页的内容列表
-    public PaginationDTO<ContentDTO> list(String search,Integer type) {
+    public PaginationDTO<ContentDTO> list(String search, String tag, Integer type) {
         //查找：
         if (StringUtils.isNotBlank(search)) {
             String[] tags = StringUtils.split(search, " ");
@@ -41,7 +41,7 @@ public class ContentService {
             search = Arrays.stream(tags).collect(Collectors.joining("|"));
         }
         PaginationDTO<ContentDTO> paginationDTO = new PaginationDTO<>();
-        List<Content> contents = contentExtMapper.selectBySearch(search);
+        List<Content> contents = contentExtMapper.selectBySearch(search, tag);
         List<ContentDTO> contentDTOS = new ArrayList<>();
         for (Content content : contents) {
             User user = userMapper.selectByPrimaryKey(content.getCreator());
@@ -49,9 +49,9 @@ public class ContentService {
             //BeanUtils.copyProperties:对象之间属性的赋值
             BeanUtils.copyProperties(content, contentDTO);
             contentDTO.setUser(user);
-            if(search!=null){
+            if (search != null) {
                 contentDTOS.add(contentDTO);
-            }else if(contentDTO.getType()==type){
+            } else if (contentDTO.getType() == type) {
                 contentDTOS.add(contentDTO);
             }
         }

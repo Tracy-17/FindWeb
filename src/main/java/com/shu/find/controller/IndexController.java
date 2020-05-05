@@ -1,6 +1,8 @@
 package com.shu.find.controller;
 
+import com.shu.find.cache.HotTagCache;
 import com.shu.find.dto.PaginationDTO;
+import com.shu.find.enums.ContentTypeEnum;
 import com.shu.find.service.ContentService;
 import com.shu.find.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 /**
  * @Author ShiQi
@@ -22,28 +26,36 @@ public class IndexController {
     private ContentService contentService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private HotTagCache hotTagCache;
 
+    //主页（首页）
     @GetMapping("/index")
     public String index(Model model,
-                        @RequestParam(name = "search", required = false) String search
+                        @RequestParam(name = "search", required = false) String search,
+                        @RequestParam(name = "tag", required = false) String tag
     ) {
-
         //首页按照时间倒序展示问题列表
-        PaginationDTO pagination = contentService.list(search,0);
+        PaginationDTO pagination = contentService.list(search,tag,ContentTypeEnum.QUESTION.getType());
         model.addAttribute("pagination", pagination);
         model.addAttribute("search", search);
-
+        model.addAttribute("tag",tag);
         return "index";
     }
 
+    //文章
     @GetMapping("/article")
-    public String article(Model model,
-                        @RequestParam(name = "search", required = false) String search
-    ) {
-        PaginationDTO pagination = contentService.list(search,1);
+    public String article(Model model) {
+        PaginationDTO pagination = contentService.list(null,null, ContentTypeEnum.ARTICLE.getType());
         model.addAttribute("pagination", pagination);
-        model.addAttribute("search", search);
-
         return "article";
+    }
+
+    //热门
+    @GetMapping("/hot")
+    public String hot(Model model){
+        List<String> tags=hotTagCache.getHots();
+        model.addAttribute("tags",tags);
+        return "hot";
     }
 }

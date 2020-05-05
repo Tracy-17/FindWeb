@@ -27,10 +27,6 @@ public class FocusController {
     ) {
 
         //获取question数据
-        PaginationDTO pagination = contentService.list(search,0);
-        model.addAttribute("pagination", pagination);
-        model.addAttribute("search", search);
-
         return "focus";
     }
 }

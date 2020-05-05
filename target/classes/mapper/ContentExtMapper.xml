@@ -75,14 +75,20 @@
             <if test="search != null and search != ''">
                 and title regexp #{search}
             </if>
+            <if test="tag != null and tag != ''">
+                and tag regexp #{tag}
+            </if>
         </where>
     </select>
-    <!--  -->
+    <!-- 标签和标题查找 -->
     <select id="selectBySearch" resultMap="BaseResultMap" parameterType="com.shu.find.model.Content">
         select * from content
         <where>
             <if test="search != null and search != ''">
                 and title regexp #{search}
+            </if>
+            <if test="tag != null and tag != ''">
+                and tag regexp #{tag}
             </if>
         </where>
         order by gmt_create desc

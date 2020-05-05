@@ -13,11 +13,11 @@
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
 </head>
-<body>
+<body style="background-color: antiquewhite;color:#828282">
 <div th:insert="navigation::nav"></div>
-<div class="ordersearchDivCss" id="DivMain" style="width: 411px; height:731px" align="center">
+<div id="DivMain" align="center">
 
-<!--滑动广告-->
+    <!--滑动广告-->
     <div class="carousel slide" id="carousel-381844">
         <ol class="carousel-indicators">
             <li class="active" data-slide-to="0" data-target="#carousel-381844"></li>
@@ -51,29 +51,19 @@
 
 
     <form class="form-horizontal" action="/signUp" method="post">
-        <div class="form-group">
-            <div class="col-sm-10 form-inline">
-                <label for="inputEmail3" class="control-label">邮箱</label>
-                <input type="email" class="form-control signup" id="inputEmail3" placeholder="Email" name="account">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-10">
-                <label for="inputPassword3" class="col-sm-2 control-label form-inline">密码</label>
-                <input type="password" class="form-control signup" id="inputPassword3" placeholder="Password"
-                       name="password">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-10">
-                <label for="inputPassword3" class="col-sm-2 control-label form-inline">昵称</label>
-                <input type="text" class="form-control signup" name="name">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="control-group center">邮箱：
+                    <input type="email" class="form-control sign-up-input" placeholder="Email" name="account"></div>
+                <div class="control-group center">密码：
+                    <input type="password" class="form-control sign-up-input" placeholder="Password" name="password"></div>
+                <div class="control-group center">昵称：
+                    <input type="text" class="form-control sign-up-input" placeholder="取一个昵称吧" name="name"></div>
             </div>
         </div>
         <div class="form-group">
             <div class="form-group">
-                <label for="">简介</label>
+                <label>简介</label>
                 <textarea class="form-control" rows="3" name="bio" style="width:auto"></textarea>
             </div>
         </div>
@@ -84,7 +74,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-10">
-                <label for="inputPassword3" class="col-sm-2 control-label">头像</label>
+                <label class="col-sm-2 control-label">头像</label>
                 <input type="text" class="form-control" name="avatar">
             </div>
         </div>

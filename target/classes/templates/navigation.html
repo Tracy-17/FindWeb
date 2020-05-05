@@ -14,13 +14,16 @@
     <nav class="navbar navbar-default" role="navigation">
         <div class="col-xs-12" style="background-color: #ff9e85;color: #ff9e85;">
             <div th:if="${session.user==null}">
-                <a style="color: #fdfdfd;" class="navbar-brand" href="/index">Find</a>
+                <a class="navbar-brand" href="/index">
+                    <img src="images/logos/icon_write.png" style="margin: -15px 15px 0 0;height: inherit;">
+                </a>
             </div>
             <!--th:text="${session.user!=null?session.user.name:'你还没登录哦'}"-->
             <div th:if="${session.user!=null}">
-                <li class="dropdown" style="margin-bottom: -18px;">
-                    <a data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
-                       style="color: #fdfdfd;" class="navbar-brand" th:text="${session.user.getName()}">
+                <li class="dropdown">
+                    <a data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <img class="img-rounded" style="display: block;margin-top: -15px;"
+                             th:src="${session.user.avatar}" alt="${session.user.name}">
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="/info">个人资料</a></li>
@@ -31,9 +34,10 @@
                     </ul>
                 </li>
             </div>
-            <div>
+            <div style="margin-left: 60px;margin-top: -42px;">
                 <form class="form-horizontal" action="/index" method="get">
-                    <input type="text" placeholder="搜索你感兴趣的" name="search" class="search">
+                    <input type="text" th:if="${search!=null}" name="search" class="search" th:placeholder="${search}"/>
+                    <input type="text" placeholder="搜索你感兴趣的" name="search" class="search" th:if="${search==null}">
                     <button type="submit" class="btn btn-default">搜索</button>
                     <a href="/publish" th:if="${session.user!=null}">
                         <button type="button" class="btn btn-publish-index">

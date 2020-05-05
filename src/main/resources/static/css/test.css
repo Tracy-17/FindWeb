@@ -1,3 +1,14 @@
+.hr{
+    min-height: 1px;
+    padding: 0 15px 0 15px;
+}
+.tag-hot{
+    display: inline-block;
+    word-wrap: break-word;
+    margin: 0 8px 8px 0;
+    background-color: #93bece;
+    height: 20px;
+}
 .true{
     color:#ff9e85
 }
@@ -33,8 +44,14 @@
 .search{
     margin: 10px 10px 10px 10px;
 }
-.signup{
-    width: auto;
+.sign-up{
+    background-color: #ff9e85;
+    color: #fdfdfd;
+}
+.sign-up-input{
+    width: 60%;
+    display: initial;
+    margin-bottom: 10px
 }
 .nav-bottom{
     background-blend-mode: color-dodge;
@@ -64,13 +81,7 @@
 }
 .control-group{
     margin: 3px;
-    padding: 3px;
-}
-
-
-*{
-    margin: 0;
-    padding: 0;
+    padding: 0 3px 0 3px;
 }
 html,body{
     height: 100%;
@@ -100,22 +111,6 @@ html,body{
     left:0px;
     background: #333;
 }
-
-
-.ordersearchDivCss
-{
-    position: absolute;
-    z-index: 100;
-    display: block;
-    background-color: #6ec1df;
-}
-
-
-body {
-    background-color: white;
-}
-
-
 .btn-publish {
     float: right;
     margin-bottom: 15px;
@@ -166,7 +161,10 @@ body {
     padding-left: 12px;
 }
 .content-tag {
+    display: inline-block;
+    word-wrap: break-word;
     margin-right: 5px;
+    background-color: #93bece
 }
 
 .tag-tab {
@@ -199,7 +197,8 @@ body {
 }
 
 .test-menu {
-    margin-bottom: 15px;
+    float: right;
+    margin: 10px 0 0 10px;
     color: #999;
     font-size: 13px;
 }
