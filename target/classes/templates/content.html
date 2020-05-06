@@ -123,9 +123,9 @@
                         <div th:text="${comment.content}"></div>
                         <div class="menu">
                             <!--评论点赞-->
-                            <div id="likeComment" style="float:left">
+                            <div th:id="${comment.id}" style="float:left">
                                 <span class="glyphicon glyphicon-thumbs-up menu-icon"
-                                      th:if="${!comment.isInLike||session.user==null}"
+                                      th:if="${!comment.isInLike}"
                                       th:data-id="${comment.id}" onclick="likeComment(this)">
                                     <span th:text="${comment.likeCount}" style="margin-left: -8px;"></span></span>
                                 <span class="glyphicon glyphicon-thumbs-up menu-icon true" th:if="${comment.isInLike}"
@@ -173,7 +173,7 @@
                             <img class="media-object img-rounded" style="margin: 10px 0 0 0;"
                                  th:src="@{${session.user!=null?session.user.avatar:'/images/default-avatar.png'}}">
                         </a>
-                        <h6 class="media-heading">
+                        <h6 class="media-heading" style="margin-top: 5px;">
                         <span th:text="${session.user!=null?session.user.name:'你还没登录哦'}"></span>
                         </h6>
                     </div>

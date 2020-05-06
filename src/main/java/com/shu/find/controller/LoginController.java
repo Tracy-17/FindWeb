@@ -1,6 +1,10 @@
 package com.shu.find.controller;
 
+import com.shu.find.dto.PaginationDTO;
+import com.shu.find.enums.ContentTypeEnum;
+import com.shu.find.model.Content;
 import com.shu.find.model.User;
+import com.shu.find.service.ContentService;
 import com.shu.find.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +24,8 @@ import java.util.UUID;
  */
 @Controller
 public class LoginController {
-
+    @Autowired
+    private ContentService contentService;
     @Autowired
     private UserService userService;
 
@@ -33,19 +38,22 @@ public class LoginController {
                           HttpServletRequest request) {
         User user = new User();
         user.setAccount(account);
-        if(!userService.isExist(account)){
+        //首页展示内容：
+        PaginationDTO pagination = contentService.list(null, null, ContentTypeEnum.QUESTION.getType());
+        model.addAttribute("pagination", pagination);
+        if (!userService.isExist(account)) {
             //找不到该用户
             model.addAttribute("error", "该用户不存在！");
             return "index";
         }
-        User dbUser=userService.getByAccount(account);
+        User dbUser = userService.getByAccount(account);
         if (dbUser.getPassword().equals(password)) {
             //登录成功，写cookie和session
             String token = UUID.randomUUID().toString();//javaJDK提供的一个自动生成主键的方法:
             user.setToken(token);
             userService.Update(user);
             // 写cookie和session
-            request.getSession().setAttribute("user",user);
+            request.getSession().setAttribute("user", user);
             response.addCookie(new Cookie("token", token));
 //            CookieUtils.set(response, CookieUtils.TOKEN,token,-1);
             return "redirect:/index";
@@ -54,8 +62,8 @@ public class LoginController {
             model.addAttribute("error", "用户名或密码错误");
             return "index";
         }
-
     }
+
     @GetMapping("/logout")
     public String logout(HttpServletRequest request,
                          HttpServletResponse response) {

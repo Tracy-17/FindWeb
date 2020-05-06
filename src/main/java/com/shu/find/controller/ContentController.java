@@ -43,6 +43,9 @@ public class ContentController {
         Boolean isInCollection=false;
         Boolean isFollowed=false;
         Boolean isInLikeContent=false;
+        for(CommentDTO commentDTO:comments){
+            commentDTO.setIsInLike(false);
+        }
         User user = (User) request.getSession().getAttribute("user");
         if(user!=null){
             isInCollection=collectionService.isInCollection(user.getId(),id);

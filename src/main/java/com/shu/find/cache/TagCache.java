@@ -28,9 +28,14 @@ public class TagCache {
         drama.setCategoryName("电视剧");
         drama.setTags(Arrays.asList("古装", "武侠", "奇幻", "都市"));
 
+        TagDTO tutorial=new TagDTO();
+        tutorial.setCategoryName("教程");
+        tutorial.setTags(Arrays.asList("动画","漫画","游戏","小说","音乐","电视剧","电影","图片识别","语音识别","视频对比"));
+
         tagDTOS.add(animation);
         tagDTOS.add(comic);
         tagDTOS.add(drama);
+        tagDTOS.add(tutorial);
         return tagDTOS;
     }
 

@@ -10,6 +10,7 @@ import com.shu.find.mapper.UserMapper;
 import com.shu.find.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -31,6 +32,8 @@ public class ContentService {
     private ContentExtMapper contentExtMapper;
     @Resource
     private UserMapper userMapper;
+    @Autowired
+    private CollectionService collectionService;
 
     //展示在首页的内容列表
     public PaginationDTO<ContentDTO> list(String search, String tag, Integer type) {
@@ -69,6 +72,27 @@ public class ContentService {
         example.createCriteria()
                 .andCreatorEqualTo(userId);
         List<Content> contents = contentMapper.selectByExample(example);
+        List<ContentDTO> contentDTOS = new ArrayList<>();
+        for (Content Content : contents) {
+            User user = userMapper.selectByPrimaryKey(Content.getCreator());
+            ContentDTO contentDTO = new ContentDTO();
+            //BeanUtils.copyProperties:对象之间属性的赋值
+            BeanUtils.copyProperties(Content, contentDTO);
+            contentDTO.setUser(user);
+            contentDTOS.add(contentDTO);
+        }
+        paginationDTO.setData(contentDTOS);
+
+        return paginationDTO;
+    }
+    //我的收藏
+    public PaginationDTO<ContentDTO> listMyCollection(Integer userId) {
+        List<Integer> contentIds = collectionService.findCollByUserId(userId);
+        List<Content> contents=new ArrayList<>();
+        for(Integer contentId:contentIds){
+            contents.add(contentMapper.selectByPrimaryKey(contentId));
+        }
+        PaginationDTO<ContentDTO> paginationDTO = new PaginationDTO<ContentDTO>();
         List<ContentDTO> contentDTOS = new ArrayList<>();
         for (Content Content : contents) {
             User user = userMapper.selectByPrimaryKey(Content.getCreator());

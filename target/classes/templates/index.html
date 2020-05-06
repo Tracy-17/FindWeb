@@ -27,10 +27,10 @@
 <div th:insert="navigation::nav"></div>
 <div class="container-fluid main">
     <div class="row">
-        <h2><span class="glyphicon glyphicon-list" aria-hidden="true"
+        <h3><span class="glyphicon glyphicon-list" aria-hidden="true"
                   style="margin-right: 12px;top: 3px;"></span>
             <span th:text="${tag!=null?tag:'发现'}"/>
-        </h2>
+        </h3>
         <hr>
         <div class="media" th:each="ContentDTO : ${pagination.data}">
             <div class="media-left">

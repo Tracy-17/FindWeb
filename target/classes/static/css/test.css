@@ -65,6 +65,7 @@
 }
 .msg-danger{
     padding: 3px 3px;
+    margin-bottom: 0px;
 }
 .fix-bottom{
     margin: auto;

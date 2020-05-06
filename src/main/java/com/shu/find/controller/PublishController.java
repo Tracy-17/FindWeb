@@ -2,6 +2,7 @@ package com.shu.find.controller;
 
 import com.shu.find.cache.TagCache;
 import com.shu.find.dto.ContentDTO;
+import com.shu.find.enums.ContentTypeEnum;
 import com.shu.find.model.Content;
 import com.shu.find.model.User;
 import com.shu.find.service.ContentService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -61,21 +63,24 @@ public class PublishController {
         model.addAttribute("tags", TagCache.get());
         //逻辑校验（建议写在前端）
         if (title == null || title == "") {
-            model.addAttribute("error", "标题不能为空！");
+            model.addAttribute("error", "标题不能为空");
             return "publish";
         }
         if (description == null || description == "") {
-            model.addAttribute("error", "问题描述不能为空！");
+            model.addAttribute("error", "问题描述不能为空");
             return "publish";
         }
         if (tag == null || tag == "") {
-            model.addAttribute("error", "标签不能为空！");
+            model.addAttribute("error", "标签不能为空");
             return "publish";
+        }
+        if(tag.length()>24){
+            model.addAttribute("error","Tag太长啦");
         }
 
         String invalid = TagCache.filterInvalid(tag);
         if (StringUtils.isNotBlank(invalid)) {
-            model.addAttribute("error", "输入非法标签：" + invalid);
+            model.addAttribute("error", "输入了不存在的标签：" + invalid);
             return "publish";
         }
         //获取当前页面用户信息
@@ -83,7 +88,7 @@ public class PublishController {
         User user = (User) request.getSession().getAttribute("user");
         //未登录跳转：
         if (user == null) {
-            model.addAttribute("error", "用户未登录");
+            model.addAttribute("error", "醒醒！！你还没登录呀！");
             return "/publish";
         }
         //提问数据进库
@@ -93,9 +98,9 @@ public class PublishController {
         content.setTag(tag);
         content.setId(id);
         if(isArticle!=null){
-            content.setType(1);
+            content.setType(ContentTypeEnum.ARTICLE.getType());
         }else{
-            content.setType(0);
+            content.setType(ContentTypeEnum.QUESTION.getType());
         }
         content.setCreator(user.getId());
 

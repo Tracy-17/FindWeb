@@ -22,19 +22,20 @@
             <div th:if="${session.user!=null}">
                 <li class="dropdown">
                     <a data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <img class="img-rounded" style="display: block;margin-top: -15px;"
+                        <img class="img-rounded" style="display: block;margin: 6px 3px 0px 0px;width: 40px;float: left;"
                              th:src="${session.user.avatar}" alt="${session.user.name}">
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="/info">个人资料</a></li>
-                        <li><a href="/profile/questions">我的发布</a></li>
-                        <li><a href="/profile/collections">我的收藏</a></li>
+                        <li><a href="/profile/questions">发布</a></li>
+                        <li><a href="/profile/collections">收藏</a></li>
+                        <li><a href="/profile/replies">通知</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="/logout">退出登录</a></li>
                     </ul>
                 </li>
             </div>
-            <div style="margin-left: 60px;margin-top: -42px;">
+            <div style="margin-top: -16px;" th:if="${session.user!=null}">
                 <form class="form-horizontal" action="/index" method="get">
                     <input type="text" th:if="${search!=null}" name="search" class="search" th:placeholder="${search}"/>
                     <input type="text" placeholder="搜索你感兴趣的" name="search" class="search" th:if="${search==null}">

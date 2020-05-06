@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,17 +28,25 @@ public class CollectionService {
     @Resource
     private ContentExtMapper questionExtMapper;
 
-
-    //查询是否已被收藏
-    public boolean isInCollection(Integer userId,Integer contentId) {
+    //查询此人的所有收藏
+    public List<Integer> findCollByUserId(Integer userId){
         CollectionExample collectionExample = new CollectionExample();
-        //查找此人的所有收藏
         collectionExample.createCriteria()
                 .andUserIdEqualTo(userId);
         List<Collection> collections = collectionMapper.selectByExample(collectionExample);
+        List<Integer> myColl=new ArrayList<>();
+        for(Collection collection:collections){
+            myColl.add(collection.getQuestionId());
+        }
+        return myColl;
+    }
+    //查询是否已被收藏
+    public boolean isInCollection(Integer userId,Integer contentId) {
+        //查找此人的所有收藏
+        List<Integer> myColl=findCollByUserId(userId);
         //遍历
-        for (Collection col : collections) {
-            if (contentId == col.getQuestionId()) {
+        for (Integer coll:myColl) {
+            if (contentId == coll) {
                 return true;
             }
         }

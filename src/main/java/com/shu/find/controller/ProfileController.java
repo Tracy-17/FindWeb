@@ -41,7 +41,7 @@ public class ProfileController {
         }
         if ("questions".equals(action)) {
             model.addAttribute("section", "questions");
-            model.addAttribute("sectionName", "我的问题");
+            model.addAttribute("sectionName", "我的发布");
             PaginationDTO paginationDTO = contentService.list(user.getId());
             model.addAttribute("pagination", paginationDTO);
         } else if ("replies".equals(action)) {
@@ -49,10 +49,12 @@ public class ProfileController {
             model.addAttribute("section", "replies");
             model.addAttribute("pagination", paginationDTO);
             model.addAttribute("sectionName", "最新回复");
-        }else if ("articles".equals(action)){
-
+        }else if ("collections".equals(action)){
+            model.addAttribute("section", "collections");
+            model.addAttribute("sectionName", "我的收藏");
+            PaginationDTO paginationDTO = contentService.listMyCollection(user.getId());
+            model.addAttribute("pagination", paginationDTO);
         }
-
         return "profile";
     }
     @GetMapping("/info")

@@ -20,11 +20,11 @@
             <div class="article well" th:each="ContentDTO : ${pagination.data}">
                 <div class="media">
                     <div class="media-body">
-                        <h1><a th:href="@{'/content/'+${ContentDTO.id}}" th:text="${ContentDTO.title}"></a>
+                        <h3><a th:href="@{'/content/'+${ContentDTO.id}}" th:text="${ContentDTO.title}"></a>
                             <button type="button" class="btn btn-comment">
                                 <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                                 收藏量：<span class="badge" th:text="${ContentDTO.collCount}"></span></button>
-                        </h1>
+                        </h3>
                         <p class="lead">
                             <span th:text="${ContentDTO.description}" class="description"></span><br></p>
                         <span class="text-desc">

@@ -43,6 +43,14 @@
             </div>
         </div>
     </form>
+    <div style="margin: 63px 60px;">
+        <button type="button" class="btn">
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+            关注数：<span class="badge" th:text="${user.followCount}"></span></button>
+        <button type="button" class="btn">
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+            粉丝数：<span class="badge" th:text="${user.fansCount}"></span></button>
+    </div>
 </div>
 </body>
 <!--底栏-->

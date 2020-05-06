@@ -25,7 +25,7 @@
     <show-object-properties value="false" />
     <loaded-nodes>
       <connection connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef">
-        <schema name="find" object-types="procedure, table, index, column, dataset trigger, function, view, constraint" />
+        <schema name="find" object-types="constraint, index, view, function, column, dataset trigger, procedure, table" />
       </connection>
     </loaded-nodes>
   </component>
@@ -604,7 +604,7 @@
     <operation-settings>
       <transactions>
         <uncommitted-changes>
-          <on-project-close value="ASK" />
+          <on-project-close value="ROLLBACK" />
           <on-disconnect value="ASK" />
           <on-autocommit-toggle value="ASK" />
         </uncommitted-changes>

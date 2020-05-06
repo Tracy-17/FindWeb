@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.shu</groupId>
     <artifactId>find</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>find</version>
     <name>find</name>
     <description>web for FIND app</description>
 

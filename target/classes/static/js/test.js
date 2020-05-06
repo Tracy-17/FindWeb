@@ -43,6 +43,8 @@ function likeContent(e){
 }
 function likeComment(e){
     let contentId = e.getAttribute("data-id");
+    var likeId = $("contentId").val();
+    console.log(likeId);
         $.ajax({
             type: "POST",
             url: "/like/Comment",/*根目录的/collection而不是当前的question/collection*/
