@@ -25,6 +25,7 @@
                         <img class="img-rounded" style="display: block;margin: 6px 3px 0px 0px;width: 40px;float: left;"
                              th:src="${session.user.avatar}" alt="${session.user.name}">
                     </a>
+                    <span class="badge notification" th:if="${session.unreadCount>0}" th:text="${session.unreadCount}"></span>
                     <ul class="dropdown-menu">
                         <li><a href="/info">个人资料</a></li>
                         <li><a href="/profile/questions">发布</a></li>

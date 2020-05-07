@@ -1,10 +1,12 @@
 package com.shu.find.service;
 
+import com.shu.find.enums.NotificationStatusEnum;
+import com.shu.find.enums.NotificationTypeEnum;
 import com.shu.find.mapper.FollowMapper;
+import com.shu.find.mapper.NotificationMapper;
 import com.shu.find.mapper.UserExtMapper;
-import com.shu.find.model.Follow;
-import com.shu.find.model.FollowExample;
-import com.shu.find.model.User;
+import com.shu.find.mapper.UserMapper;
+import com.shu.find.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,10 @@ public class FollowService {
     private FollowMapper followMapper;
     @Autowired
     private UserExtMapper userExtMapper;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private NotificationMapper notificationMapper;
 
     //查询是否已被关注
     public boolean isFollowed(Integer userId,Integer follower) {
@@ -53,7 +59,20 @@ public class FollowService {
         follower.setFansCount(1);
         userExtMapper.changeFans(follower);
         //创建通知
-//        createNotify(comment, dbComment.getCommentator(), commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_COMMENT, question.getId());
+        String name=userMapper.selectByPrimaryKey(my.getId()).getName();
+        createNotify(my.getId(),name,follower.getId());
+    }
+    //创建通知
+    private void createNotify(Integer notifier,String notifierName, Integer receiver) {
+        Notification notification = new Notification();
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setType(NotificationTypeEnum.FOLLOWED.getType());
+        //关注消息不给提示，只在列表显示
+        notification.setStatus(NotificationStatusEnum.READ.getStatus());
+        notification.setNotifier(notifier);
+        notification.setReceiver(receiver);
+        notification.setNotifierName(notifierName);
+        notificationMapper.insert(notification);
     }
     //取消关注
     @Transactional

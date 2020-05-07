@@ -56,6 +56,7 @@ create table comment
 );
 
 /*通知*/
+drop table notification;
 create table notification
 (
 	id int auto_increment
@@ -63,8 +64,8 @@ create table notification
 	notifier int not null comment '通知者',
 	notifier_name varchar(16) null comment '通知者昵称',
 	outer_id int null,
-	outer_title varchar(50) not null comment '缓存相关问题的题目',
-	receiver int null comment '接收通知的人',
+	outer_title varchar(50) null comment '缓存相关问题的题目',
+	receiver int not null comment '接收通知的人',
 	type int null comment '回复的是1：问题or2：评论',
 	status int default 0 null comment '状态1：已读or2：未读',
 	gmt_create bigint null

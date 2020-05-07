@@ -8,14 +8,14 @@ import lombok.Data;
  */
 @Data
 public class NotificationDTO {
-    private Long id;
+    private Integer id;
     private Long gmtCreate;
     private Integer type;
     private Integer status;
-    private Long notifier;
+    private Integer notifier;
     private String notifierName;
     //展示在提醒页面的元素
     private String outerTitle;
-    private Long outerId;
+    private Integer outerId;
     private String typeName;
 }

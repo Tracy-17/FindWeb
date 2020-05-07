@@ -30,7 +30,7 @@ public class SessionInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Cookie[] cookies = request.getCookies();
-        if (cookies != null && cookies.length != 0)//???这里不加{}也可以验证吗？
+        if (cookies != null && cookies.length != 0)
             for (Cookie cookie : cookies) {
                 if ((cookie.getName()).equals("token")) {
                     String token = cookie.getValue();
@@ -41,8 +41,12 @@ public class SessionInterceptor implements HandlerInterceptor {
                     if (users.size() != 0) {
                         //写入session
                         request.getSession().setAttribute("user", users.get(0));
-//                        int unreadCount = notificationService.unreadCount(users.get(0).getId());
-//                        request.getSession().setAttribute("unreadCount", unreadCount);
+                        Integer unreadCount = notificationService.unreadCount(users.get(0).getId());
+                        Boolean isExist=false;
+                        if(unreadCount>0) {
+                            isExist=true;
+                        }
+                        request.getSession().setAttribute("unreadCount", unreadCount);
                     }
                     break;//命中结束循环
                 }

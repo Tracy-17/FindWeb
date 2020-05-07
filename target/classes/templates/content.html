@@ -123,14 +123,15 @@
                         <div th:text="${comment.content}"></div>
                         <div class="menu">
                             <!--评论点赞-->
-                            <div th:id="${comment.id}" style="float:left">
-                                <span class="glyphicon glyphicon-thumbs-up menu-icon"
-                                      th:if="${!comment.isInLike}"
+                            <div style="float:left">
+                                <span th:class="${comment.isInLike?'glyphicon glyphicon-thumbs-up menu-icon true':'glyphicon glyphicon-thumbs-up menu-icon'}"
+                                      th:data-id="${comment.id}" onclick="likeComment(this)" th:id="${'likeComment-'+comment.id}">
+                                    <span th:text="${comment.likeCount}" style="margin-left: -8px;"></span>
+                                </span>
+                                <!--<span class="glyphicon glyphicon-thumbs-up menu-icon true" th:if="${comment.isInLike}"
                                       th:data-id="${comment.id}" onclick="likeComment(this)">
-                                    <span th:text="${comment.likeCount}" style="margin-left: -8px;"></span></span>
-                                <span class="glyphicon glyphicon-thumbs-up menu-icon true" th:if="${comment.isInLike}"
-                                      th:data-id="${comment.id}" onclick="likeComment(this)">
-                                    <span th:text="${comment.likeCount}" style="margin-left: -8px;"></span></span>
+                                    <span th:text="${comment.likeCount}" style="margin-left: -8px;"></span>
+                                </span>-->
                             </div>
                             <!--点击这里的时候，显示二级评论，往comment-body-id元素追加标签-->
                             <div style="float:left">

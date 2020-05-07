@@ -25,7 +25,7 @@
     <show-object-properties value="false" />
     <loaded-nodes>
       <connection connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef">
-        <schema name="find" object-types="constraint, index, view, function, column, dataset trigger, procedure, table" />
+        <schema name="find" object-types="constraint, function, dataset trigger, view, table, procedure, index, column" />
       </connection>
     </loaded-nodes>
   </component>
@@ -38,7 +38,11 @@
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" object-ref="schemas/find/tables/user" />
+      <object connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" object-ref="schemas/find/tables/notification" />
+      <object connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" object-ref="schemas/find/tables/follow" />
+    </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" />
@@ -63,6 +67,11 @@
     </filter-actions>
     <filter-actions connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" dataset="find.follow" active-filter-id="EMPTY_FILTER">
       <filter id="719888bf-6c34-4129-9ba0-ef893b11f577" name="0" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="id" operator="&gt;" value="0" active="true" />
+      </filter>
+    </filter-actions>
+    <filter-actions connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" dataset="find.notification" active-filter-id="baa113e8-52cd-4f2b-b73c-617b599cb10e">
+      <filter id="baa113e8-52cd-4f2b-b73c-617b599cb10e" name="0" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="id" operator="&gt;" value="0" active="true" />
       </filter>
     </filter-actions>

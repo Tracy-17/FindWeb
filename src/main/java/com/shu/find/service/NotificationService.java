@@ -27,13 +27,13 @@ public class NotificationService {
     @Resource
     private NotificationMapper notificationMapper;
 
+    //展示通知列表
     public PaginationDTO list(Integer userId) {
         PaginationDTO<NotificationDTO> paginationDTO = new PaginationDTO<>();
         NotificationExample notificationExample = new NotificationExample();
         notificationExample.createCriteria()
                 .andReceiverEqualTo(userId)
                 .andStatusEqualTo(NotificationStatusEnum.UNREAD.getStatus());
-
         NotificationExample example = new NotificationExample();
         example.createCriteria()
                 .andReceiverEqualTo(userId);
@@ -52,7 +52,6 @@ public class NotificationService {
         List<User> users = userMapper.selectByExample(userExample);
         Map<Long, User> userMap = users.stream().collect(Collectors.toMap(u -> u.getId(), u -> u));*/
 
-
         List<NotificationDTO> notificationDTOS = new ArrayList<>();
         for (Notification notification : notifications) {
             NotificationDTO notificationDTO = new NotificationDTO();
@@ -65,7 +64,7 @@ public class NotificationService {
         return paginationDTO;
     }
 
-    public int unreadCount(Integer userId) {
+    public Integer unreadCount(Integer userId) {
         NotificationExample notificationExample = new NotificationExample();
         notificationExample.createCriteria()
                 .andReceiverEqualTo(userId)

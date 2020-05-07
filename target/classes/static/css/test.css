@@ -1,3 +1,8 @@
+.notification{
+    padding: 1px 4px;
+    background-color: tomato;
+    margin: -58px -24px -51px -28px;
+}
 .hr{
     min-height: 1px;
     padding: 0 15px 0 15px;

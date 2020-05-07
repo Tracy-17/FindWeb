@@ -43,8 +43,7 @@ function likeContent(e){
 }
 function likeComment(e){
     let contentId = e.getAttribute("data-id");
-    var likeId = $("contentId").val();
-    console.log(likeId);
+    let likeId = $("#likeComment-" + contentId).attr("id");
         $.ajax({
             type: "POST",
             url: "/like/Comment",/*根目录的/collection而不是当前的question/collection*/
@@ -54,8 +53,10 @@ function likeComment(e){
             }),
             success: function (response) {
                 if (response.code == 200) {
-                    //提交问题后局部刷新
-                $("#likeComment").load(location.href + " #likeComment")
+                    //提交问题后局部刷新（待优化）
+//               $(likeId).load(location.href+$(likeId));
+                /*$("#likeComment").load(location.href + " #likeComment")*/
+                document.location.reload();
                 } else {
                     alert(response.message);
                 }
@@ -90,7 +91,6 @@ function post() {
     let contentId = $("#content_id").val();
     //jquery获取textarea的值
     let content = $("#comment_content").val();
-
     addComment(contentId, 1, content);
 }
 //添加回复方法
@@ -118,7 +118,7 @@ function addComment(targetId, type, content) {
                 //未登录
                 let isAccepted = confirm(response.message);
                 if (isAccepted) {
-                 window.open("http://localhost:8080/");
+                 window.open("http://localhost:8080/index");
                  //设置自动登录成功后自动关掉登录页，并回到评论页
                  window.localStorage.setItem("closable", true);
                 }

@@ -26,17 +26,17 @@ import java.util.stream.Collectors;
  */
 @Service
 public class CommentService {
-    @Resource
+    @Autowired
     private CommentMapper commentMapper;
-    @Resource
+    @Autowired
     private ContentMapper contentMapper;
-    @Resource
+    @Autowired
     private ContentExtMapper contentExtMapper;
-    @Resource
+    @Autowired
     private UserMapper userMapper;
-    @Resource
+    @Autowired
     private CommentExtMapper commentExtMapper;
-    @Resource
+    @Autowired
     private NotificationMapper notificationMapper;
 
     //添加评论
