@@ -4,6 +4,7 @@ import com.shu.find.dto.CommentDTO;
 import com.shu.find.dto.ContentDTO;
 import com.shu.find.enums.CommentTypeEnum;
 import com.shu.find.enums.LikeTypeEnum;
+import com.shu.find.model.Comment;
 import com.shu.find.model.User;
 import com.shu.find.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,11 @@ public class ContentController {
         Boolean isInCollection=false;
         Boolean isFollowed=false;
         Boolean isInLikeContent=false;
+        //同时显示优质评论
+        List<CommentDTO> choseComment=commentService.listByTargetId(id,CommentTypeEnum.ANSWER);
+        if(choseComment!=null){
+            comments.addAll(0,choseComment);
+        }
         for(CommentDTO commentDTO:comments){
             commentDTO.setIsInLike(false);
         }
@@ -54,6 +60,7 @@ public class ContentController {
             //查询每一条评论的点赞状态
             for(CommentDTO commentDTO:comments){
                 commentDTO.setIsInLike(likeService.isInLike(user.getId(),LikeTypeEnum.COMMENT.getType(),commentDTO.getId()));
+                commentDTO.setIsChose(commentDTO.getType()==CommentTypeEnum.ANSWER.getType()?true:false);
             }
         }
         //累加阅读数

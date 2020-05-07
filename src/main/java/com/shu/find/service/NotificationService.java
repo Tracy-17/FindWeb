@@ -7,6 +7,7 @@ import com.shu.find.enums.NotificationTypeEnum;
 import com.shu.find.exception.CustomizeErrorCode;
 import com.shu.find.exception.CustomizeException;
 import com.shu.find.mapper.NotificationMapper;
+import com.shu.find.model.Comment;
 import com.shu.find.model.Notification;
 import com.shu.find.model.NotificationExample;
 import com.shu.find.model.User;

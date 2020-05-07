@@ -8,6 +8,7 @@ public enum CommentTypeEnum {
     CONTENT(1),
     COMMENT(2),
     ANSWER(3);/*精选回答*/
+
     private Integer type;
 
     public static boolean isExist(Integer type) {

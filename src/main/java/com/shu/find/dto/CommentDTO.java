@@ -30,5 +30,6 @@ public class CommentDTO {
     * 前端传的dataType为json，参数值true或false。后端，注意是重点！变量类型如果是boolean，那转换后的值永远为false。
 改为Boolean问题解决。*/
     private Boolean isInLike;
+    private Boolean isChose;
 
 }

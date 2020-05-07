@@ -15,7 +15,8 @@
         <div class="col-xs-12" style="background-color: #ff9e85;color: #ff9e85;">
             <div th:if="${session.user==null}">
                 <a class="navbar-brand" href="/index">
-                    <img src="images/logos/icon_write.png" style="margin: -15px 15px 0 0;height: inherit;">
+                    <!--src前面没有/时content界面显示失败-->
+                    <img src="/images/logos/icon_write.png" style="margin: -15px 15px 0 0;height: inherit;" alt="Find">
                 </a>
             </div>
             <!--th:text="${session.user!=null?session.user.name:'你还没登录哦'}"-->

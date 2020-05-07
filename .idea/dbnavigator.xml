@@ -39,9 +39,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files>
-      <object connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" object-ref="schemas/find/tables/user" />
       <object connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" object-ref="schemas/find/tables/notification" />
-      <object connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" object-ref="schemas/find/tables/follow" />
     </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">

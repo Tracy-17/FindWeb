@@ -57,7 +57,9 @@ function likeComment(e){
 //               $(likeId).load(location.href+$(likeId));
                 /*$("#likeComment").load(location.href + " #likeComment")*/
                 //刷新页面并回到当前位置
-                document.location.reload();
+//                document.location.reload();
+                //刷新评论区
+                $("#comment").load(location.href + " #comment")
                 } else {
                     alert(response.message);
                 }
@@ -84,6 +86,29 @@ function coll(e){
             }
         },
         dataType: "json"
+        });
+}
+//设置为精选回复
+function chose(e){
+    var commentId = e.getAttribute("data-id");
+    let contentId = $("#content_id").val();
+        $.ajax({
+            type: "POST",
+            url: "/chose",/*根目录的/collection而不是当前的question/collection*/
+            contentType: "application/json",
+            data: JSON.stringify({
+                "commentId": commentId,
+                "contentId": contentId
+            }),
+            success: function (response) {
+                if (response.code == 200) {
+                    //提交问题后刷新评论区
+                    $("#comment").load(location.href + " #comment")
+                } else {
+                    alert(response.message);
+                }
+            },
+            dataType: "json"
         });
 }
 //提交回复

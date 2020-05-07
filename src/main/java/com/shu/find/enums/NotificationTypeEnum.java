@@ -7,7 +7,8 @@ package com.shu.find.enums;
 public enum NotificationTypeEnum {
     REPLY_QUESTION(1, "评论了你的内容"),
     REPLY_COMMENT(2, "回复了你的评论"),
-    FOLLOWED(3,"关注了你");
+    FOLLOWED(3,"关注了你"),
+    CHOSE(4,"将你的评论设置为精选回答。立即查看：");
     private int type;
     private String name;
 

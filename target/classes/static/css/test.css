@@ -136,7 +136,12 @@ html,body{
     margin-bottom: 10px;
     margin-top: 16px;
 }
-
+.btn-chose{
+    float: right;
+    background-color: aliceblue;
+    padding:0;
+    font-size: 20px;
+}
 .media-object {
     width: 40px;
     height: 40px;

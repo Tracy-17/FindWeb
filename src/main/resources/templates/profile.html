@@ -81,7 +81,7 @@
                     <div class="media-body">
                         <p class="media-heading">
                             <span th:text="${notification.notifierName+' '+notification.typeName+' '}"></span>
-                        <div th:if="${notification.type==1||notification.type==2}">
+                        <div th:if="${notification.type==1||notification.type==2||notification.type==4}">
                             <a th:href="@{'/notification/'+${notification.id}}"
                                th:text="${notification.outerTitle}"></a>
                             <span th:class="${(notification.status==0)?'label label-danger':'label'}"

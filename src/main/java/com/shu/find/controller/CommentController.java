@@ -1,5 +1,6 @@
 package com.shu.find.controller;
 
+import com.shu.find.dto.CommentChoseDTO;
 import com.shu.find.dto.CommentCreateDTO;
 import com.shu.find.dto.CommentDTO;
 import com.shu.find.dto.ResultDTO;
@@ -25,6 +26,7 @@ public class CommentController {
     @Resource
     private CommentService commentService;
 
+    //发布评论
     //  @ResponseBody：将对象自动序列化成json发送到前端
     @ResponseBody
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
@@ -54,6 +56,21 @@ public class CommentController {
         comment.setCommentator(user.getId());
         commentService.insert(comment, user);
 
+        return ResultDTO.okOf();
+    }
+
+    //更改评论状态
+    @ResponseBody
+    @RequestMapping(value = "/chose", method = RequestMethod.POST)
+    public Object coll(@RequestBody CommentChoseDTO commentChoseDTO,
+                       HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return ResultDTO.errorOf(CustomizeErrorCode.NO_LOGIN);
+        }
+        commentChoseDTO.setCreatorName(user.getName());
+        commentChoseDTO.setCreatorId(user.getId());
+        commentService.updateChose(commentChoseDTO);
         return ResultDTO.okOf();
     }
 

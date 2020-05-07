@@ -1,5 +1,6 @@
 package com.shu.find.service;
 
+import com.shu.find.dto.CommentChoseDTO;
 import com.shu.find.dto.CommentDTO;
 import com.shu.find.enums.CommentTypeEnum;
 import com.shu.find.enums.NotificationStatusEnum;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +68,7 @@ public class CommentService {
             parentComment.setCommentCount(1);
             commentExtMapper.incComment(parentComment);
             //创建通知
-            createNotify(comment, dbComment.getCommentator(), commentator.getName(), content.getTitle(), NotificationTypeEnum.REPLY_COMMENT, content.getId());
+            createNotify(comment, dbComment.getCommentator(), commentator.getName(), content.getTitle(), NotificationTypeEnum.REPLY_COMMENT.getType(), content.getId(),0);
         } else {
             //回复问题
             Content content = contentMapper.selectByPrimaryKey(comment.getParentId());
@@ -79,29 +79,8 @@ public class CommentService {
             content.setCommentCount(1);
             contentExtMapper.incComment(content);
             //创建通知
-            createNotify(comment, content.getCreator(), commentator.getName(), content.getTitle(), NotificationTypeEnum.REPLY_QUESTION, content.getId());
+            createNotify(comment, content.getCreator(), commentator.getName(), content.getTitle(), NotificationTypeEnum.REPLY_QUESTION.getType(), content.getId(),0);
         }
-    }
-
-    //创建通知
-    private void createNotify(Comment comment, Integer receiver, String notifierName, String outerTitle, NotificationTypeEnum notificationType, Integer outerId) {
-        //接收者是自己，不创建通知
-        if (receiver == comment.getCommentator()) {
-            return;
-        }
-        Notification notification = new Notification();
-        notification.setGmtCreate(System.currentTimeMillis());
-        notification.setType(notificationType.getType());
-        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
-
-        notification.setOuterId(outerId);
-        notification.setNotifier(comment.getCommentator());
-        notification.setReceiver(receiver);
-        //状态：0：未读，1：已读
-        notification.setStatus(0);
-        notification.setNotifierName(notifierName);
-        notification.setOuterTitle(outerTitle);
-        notificationMapper.insert(notification);
     }
 
     //展示在内容页的评论
@@ -144,5 +123,45 @@ public class CommentService {
         }).collect(Collectors.toList());
 
         return commentDTOS;
+    }
+
+    //更改评论状态
+    @Transactional
+    public void updateChose(CommentChoseDTO commentChoseDTO) {
+        Comment comment = commentMapper.selectByPrimaryKey(commentChoseDTO.getCommentId());
+        Content content = contentMapper.selectByPrimaryKey(commentChoseDTO.getContentId());
+        if(comment.getType()==CommentTypeEnum.CONTENT.getType()) {
+            comment.setType(CommentTypeEnum.ANSWER.getType());
+            //给评论者的通知
+            createNotify(comment, comment.getCommentator(), commentChoseDTO.getCreatorName(), content.getTitle(), NotificationTypeEnum.CHOSE.getType(), content.getId(),commentChoseDTO.getCreatorId());
+        }else if(comment.getType()==CommentTypeEnum.ANSWER.getType()){
+            comment.setType(CommentTypeEnum.CONTENT.getType());
+        }
+        commentMapper.updateByPrimaryKey(comment);
+    }
+
+    //创建通知
+    private void createNotify(Comment comment, Integer receiver, String notifierName, String outerTitle, Integer notificationType, Integer outerId,Integer contentCreatorId) {
+        //type1、2接收者是自己，不创建通知
+        if (receiver == comment.getCommentator()&&contentCreatorId==0) {
+            return;
+        }
+        Notification notification = new Notification();
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setType(notificationType);
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+
+        notification.setOuterId(outerId);
+        if(contentCreatorId==0){
+            notification.setNotifier(comment.getCommentator());
+        }else{
+            notification.setNotifier(contentCreatorId);
+        }
+        notification.setReceiver(receiver);
+        //状态：0：未读，1：已读
+        notification.setStatus(0);
+        notification.setNotifierName(notifierName);
+        notification.setOuterTitle(outerTitle);
+        notificationMapper.insert(notification);
     }
 }
