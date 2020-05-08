@@ -51,7 +51,7 @@ public class LoginController {
             //登录成功，写cookie和session
             String token = UUID.randomUUID().toString();//javaJDK提供的一个自动生成主键的方法:
             user.setToken(token);
-            userService.Update(user);
+            userService.update(user);
             // 写cookie和session
             request.getSession().setAttribute("user", user);
             response.addCookie(new Cookie("token", token));
@@ -68,7 +68,8 @@ public class LoginController {
     public String logout(HttpServletRequest request,
                          HttpServletResponse response) {
         //清除缓存数据
-        request.getSession().removeAttribute("user");
+//        request.getSession().removeAttribute("user");
+        request.setAttribute("user",null);
         Cookie cookie = new Cookie("token", null);
         cookie.setMaxAge(0);
 //        deleteNewCookie.setPath("/");设置本cookie的存放路径（本项目不需要）

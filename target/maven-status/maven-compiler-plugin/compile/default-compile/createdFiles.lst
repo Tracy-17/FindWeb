@@ -2,8 +2,8 @@ com\shu\find\enums\NotificationTypeEnum.class
 com\shu\find\dto\ResultDTO.class
 com\shu\find\model\CommentExample$Criterion.class
 com\shu\find\mapper\ContentMapper.class
-com\shu\find\cache\HotTagCache.class
 com\shu\find\model\FollowExample$Criteria.class
+com\shu\find\cache\HotCatch.class
 com\shu\find\mapper\UserExtMapper.class
 com\shu\find\service\ContentService.class
 com\shu\find\model\CollectionExample$Criteria.class
@@ -14,7 +14,6 @@ com\shu\find\model\CollectionExample$GeneratedCriteria.class
 com\shu\find\FindApplication.class
 com\shu\find\enums\ContentTypeEnum.class
 com\shu\find\dto\ContentDTO.class
-com\shu\find\schedule\HotTagTasks.class
 com\shu\find\controller\IndexController.class
 com\shu\find\model\Comment.class
 com\shu\find\model\FollowExample.class
@@ -24,10 +23,15 @@ com\shu\find\dto\HotTagDTO.class
 com\shu\find\model\MylikeExample.class
 com\shu\find\model\UserExample.class
 com\shu\find\model\UserExample$Criterion.class
+com\shu\find\service\MyfileService.class
 com\shu\find\model\CollectionExample.class
 com\shu\find\model\ContentExample$Criterion.class
+com\shu\find\dto\CommentChoseDTO.class
 com\shu\find\dto\PaginationDTO.class
 com\shu\find\mapper\FollowMapper.class
+com\shu\find\model\MyfileExample.class
+com\shu\find\mapper\MyfileMapper.class
+com\shu\find\model\MyfileExample$Criterion.class
 com\shu\find\controller\SignUpController.class
 com\shu\find\model\CommentExample.class
 com\shu\find\model\UserExample$GeneratedCriteria.class
@@ -37,6 +41,7 @@ com\shu\find\controller\ProfileController.class
 com\shu\find\exception\CustomizeException.class
 com\shu\find\model\FollowExample$Criterion.class
 com\shu\find\model\ContentExample$Criteria.class
+com\shu\find\model\MyfileExample$Criteria.class
 com\shu\find\mapper\NotificationMapper.class
 com\shu\find\model\CommentExample$GeneratedCriteria.class
 com\shu\find\service\NotificationService.class
@@ -48,6 +53,7 @@ com\shu\find\mapper\CommentMapper.class
 com\shu\find\mapper\CommentExtMapper.class
 com\shu\find\model\ContentExample.class
 com\shu\find\model\MylikeExample$GeneratedCriteria.class
+com\shu\find\controller\NotificationController.class
 com\shu\find\interceptor\SessionInterceptor.class
 com\shu\find\enums\NotificationStatusEnum.class
 com\shu\find\mapper\CollectionMapper.class
@@ -62,7 +68,7 @@ com\shu\find\model\Follow.class
 com\shu\find\controller\FileController.class
 com\shu\find\cache\TagCache.class
 com\shu\find\controller\PublishController.class
-com\shu\find\controller\FocusController.class
+com\shu\find\model\MyfileExample$GeneratedCriteria.class
 com\shu\find\model\UserExample$Criteria.class
 com\shu\find\dto\NotificationDTO.class
 com\shu\find\controller\ContentController.class
@@ -84,5 +90,7 @@ com\shu\find\controller\LikeController.class
 com\shu\find\controller\FollowController.class
 com\shu\find\service\FollowService.class
 com\shu\find\controller\CustomizeErrorController.class
+com\shu\find\model\Myfile.class
 com\shu\find\model\Mylike.class
 com\shu\find\mapper\ContentExtMapper.class
+com\shu\find\schedule\HotTasks.class

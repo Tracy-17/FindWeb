@@ -10,9 +10,14 @@
     </parent>
     <groupId>com.shu</groupId>
     <artifactId>find</artifactId>
-    <version>find</version>
+    <version>0508</version>
     <name>find</name>
     <description>web for FIND app</description>
+    <!--打包-->
+    <packaging>war</packaging>
+    <!--简单描述下war包与jar包的区别：
+.war：包含可以部署在任何servlet/jsp容器上的Web应用程序。war文件包含有jsp、html、JavaScript，以及构成Web应用程序的其他资源。
+.jar：包含lib、class、properties等文件。-->
 
     <properties>
         <java.version>1.8</java.version>
@@ -23,7 +28,21 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <!-- 移除嵌入式tomcat插件 -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!--        来自https://spring.io/guides/gs/serving-web-content/  ：（enable auto import）-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

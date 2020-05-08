@@ -4,11 +4,14 @@ import com.shu.find.dto.PaginationDTO;
 import com.shu.find.model.User;
 import com.shu.find.service.NotificationService;
 import com.shu.find.service.ContentService;
+import com.shu.find.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,6 +31,8 @@ public class ProfileController {
     private ContentService contentService;
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/profile/{action}")//访问profile+动态页面时调到此处
     public String profile(HttpServletRequest request,
@@ -68,5 +73,17 @@ public class ProfileController {
         }
         model.addAttribute("user",user);
         return "info";
+    }
+    @PostMapping("/info")
+    public String changeBio(@RequestParam(name = "bio") String bio,
+                            HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("user");
+        //未登录跳转：
+        if (user == null) {
+            return "redirect:/index";
+        }
+        user.setBio(bio);
+        userService.update(user);
+        return "redirect:/info";
     }
 }

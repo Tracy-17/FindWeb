@@ -5,20 +5,19 @@
     <title>注册</title>
     <!--自适应屏幕尺寸-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="css/bootstrap.css"/>
-    <link rel="stylesheet" href="css/bootstrap-theme.css"/>
-    <link rel="stylesheet" href="css/test.css"/>
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/bootstrap.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{css/bootstrap-theme.css}"/>
+    <link rel="stylesheet" th:href="@{css/test.css}"/>
+    <script th:src="@{js/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}" type="application/javascript"></script>
 </head>
-<body style="background-color: #ff9e85;color:#fdfdfd">
+<body>
 <div th:insert="navigation::nav"></div>
 <div id="DivMain" align="center">
 
     <!--滑动广告-->
-    <div class="carousel slide" id="carousel-381844" style="margin-top: -21px;">
+    <!--<div class="carousel slide" id="carousel-381844" style="margin-top: -21px;">
         <ol class="carousel-indicators">
             <li class="active" data-slide-to="0" data-target="#carousel-381844"></li>
             <li data-slide-to="1" data-target="#carousel-381844" class=""></li>
@@ -47,8 +46,8 @@
         <a data-slide="prev" href="#carousel-381844" class="left carousel-control">‹</a> <a data-slide="next"
                                                                                             href="#carousel-381844"
                                                                                             class="right carousel-control">›</a>
-    </div>
-    <form class="form-horizontal" action="/signUp" method="post">
+    </div>-->
+    <form class="form-horizontal" th:action="@{/signUp}" method="post">
         <div class="row-fluid">
             <div class="span12">
                 <div class="control-group center">邮箱：
@@ -66,23 +65,21 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="inputfile">文件输入</label>
-            <input type="file" id="inputfile">
-            <p class="help-block">这里是块级帮助文本的实例。</p>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-10">
-                <label class="col-sm-2 control-label">头像</label>
-                <input type="text" class="form-control" name="avatar">
-            </div>
-        </div>
-
-        <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-default">注册</button>
             </div>
         </div>
     </form>
+
+    <div class="form-group">
+    <label for="inputfile">文件输入</label>
+    <form th:action="@{uploadFile}" method="post" enctype="multipart/form-data">
+        <p><input type="file" name="fileName" id="inputfile"/></p>
+        <p><input type="submit" value="上传头像"/></p>
+    </form>
+
+        <p class="help-block">这里是块级帮助文本的实例。</p>
+</div>
 
 
     <!--错误信息-->

@@ -1,10 +1,8 @@
-//关注
-//js要从第一行开始写！！！why？
 function follow(){
     var follower = $("#creator").val();
         $.ajax({
             type: "POST",
-            url: "/follow",/*根目录的/collection而不是当前的question/collection*/
+            url: "/find/follow",/*根目录的/collection而不是当前的question/collection*/
             contentType: "application/json",
             data: JSON.stringify({
                 "follower": follower
@@ -25,7 +23,7 @@ function likeContent(e){
     let contentId = e.getAttribute("data-id");
     $.ajax({
         type: "POST",
-        url: "/like/Content",/*根目录的/collection而不是当前的question/collection*/
+        url: "/find/like/Content",/*根目录的/collection而不是当前的question/collection*/
         contentType: "application/json",
         data: JSON.stringify({
             "contentId": contentId,
@@ -46,7 +44,7 @@ function likeComment(e){
     let likeId = $("#likeComment-" + contentId).attr("id");
         $.ajax({
             type: "POST",
-            url: "/like/Comment",/*根目录的/collection而不是当前的question/collection*/
+            url: "/find/like/Comment",/*根目录的/collection而不是当前的question/collection*/
             contentType: "application/json",
             data: JSON.stringify({
                 "contentId": contentId,
@@ -72,7 +70,7 @@ function coll(e){
     var contentId = e.getAttribute("data-id");
     $.ajax({
         type: "POST",
-        url: "/collection",/*根目录的/collection而不是当前的question/collection*/
+        url: "/find/collection",/*根目录的/collection而不是当前的question/collection*/
         contentType: "application/json",
         data: JSON.stringify({
             "questionId": contentId
@@ -94,7 +92,7 @@ function chose(e){
     let contentId = $("#content_id").val();
         $.ajax({
             type: "POST",
-            url: "/chose",/*根目录的/collection而不是当前的question/collection*/
+            url: "/find/chose",/*根目录的/collection而不是当前的question/collection*/
             contentType: "application/json",
             data: JSON.stringify({
                 "commentId": commentId,
@@ -128,7 +126,7 @@ function addComment(targetId, type, content) {
     }
     $.ajax({
         type: "POST",
-        url: "/comment",
+        url: "/find/comment",
         contentType: "application/json",
         data: JSON.stringify({
             "parentId": targetId,
@@ -184,8 +182,8 @@ function collapseComments(e) {
             //设置评论展开状态
             e.setAttribute("data-collapse", "in");
         } else {
-            //获取请求
-            $.getJSON("/comment/" + id, function (data) {
+            //获取请求???????????????????????
+            $.getJSON("/find/comment/" + id, function (data) {
                 //循环(reverse()改变元素顺序，抵消prepend的影响
                 $.each(data.data.reverse(), function (index, comment) {
                     let mediaLeftElement = $("<div/>", {

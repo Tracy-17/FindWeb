@@ -103,8 +103,16 @@ create table follow
 	constraint follow_pk
 		primary key (id)
 );
-
-
+/*文件*/
+create table myfile
+(
+    id int auto_increment,
+	url varchar(600) null ,
+	name varchar(600) null,
+	path varchar(600) null,
+	constraint file_pk
+		primary key (id)
+);
 
 
 

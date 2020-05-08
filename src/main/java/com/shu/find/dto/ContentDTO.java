@@ -1,7 +1,9 @@
 package com.shu.find.dto;
 
+import com.shu.find.model.Content;
 import com.shu.find.model.User;
 import lombok.Data;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Author:ShiQi
@@ -9,7 +11,7 @@ import lombok.Data;
  * 展示给前端专用
  */
 @Data
-public class ContentDTO {
+public class ContentDTO implements Comparable{
     private Integer id;
     private String title;
     private String description;
@@ -24,4 +26,14 @@ public class ContentDTO {
     private Integer collCount;
     //需要展示给前端用户信息，但不存储进数据库
     private User user;
+
+    //热门问题展示
+    private Content content;
+    private Integer priority;
+    @Override
+    public int compareTo(@NotNull Object o) {
+       /* 插入的最新元素>=当前元素时，替换掉当前元素的位置；
+        不是>=时，寻找其父级元素进行比较替换*/
+        return this.getPriority()-((ContentDTO)o).getPriority();
+    }
 }

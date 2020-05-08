@@ -1,8 +1,9 @@
 package com.shu.find.controller;
 
-import com.shu.find.cache.HotTagCache;
+import com.shu.find.cache.HotCatch;
 import com.shu.find.dto.PaginationDTO;
 import com.shu.find.enums.ContentTypeEnum;
+import com.shu.find.model.Content;
 import com.shu.find.service.ContentService;
 import com.shu.find.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class IndexController {
     @Autowired
     private UserService userService;
     @Autowired
-    private HotTagCache hotTagCache;
+    private HotCatch hotCatch;
 
     //主页（首页）
     @GetMapping("/index")
@@ -54,8 +55,16 @@ public class IndexController {
     //热门
     @GetMapping("/hot")
     public String hot(Model model){
-        List<String> tags=hotTagCache.getHots();
+        List<Content> contents=hotCatch.getHotContents();
+        model.addAttribute("contents", contents);
+        List<String> tags= hotCatch.getHotTags();
         model.addAttribute("tags",tags);
         return "hot";
+    }
+
+    //关注
+    @GetMapping("/focus")
+    public String focus(){
+        return "focus";
     }
 }

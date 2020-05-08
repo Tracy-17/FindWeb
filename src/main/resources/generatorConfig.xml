@@ -71,7 +71,8 @@
 <!--                <table tableName="comment" domainObjectName="Comment"/>-->
 <!--                <table tableName="notification" domainObjectName="Notification"/>-->
 <!--                <table tableName="mylike" domainObjectName="Mylike"/>-->
-                <table tableName="follow" domainObjectName="Follow"/>
+<!--                <table tableName="follow" domainObjectName="Follow"/>-->
+                <table tableName="myfile" domainObjectName="Myfile"/>
 <!--                <table tableName="collection" domainObjectName="Collection"/>-->
     </context>
 </generatorConfiguration>

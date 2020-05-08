@@ -58,7 +58,7 @@ public class UserService {
     }
 
     //重新登录时
-    public void Update(User user) {
+    public void update(User user) {
         User dbUser = userMapper.selectByPrimaryKey(findIdByAccount(user.getAccount()));
         user.setGmtModify(nowTime);
         UserExample example = new UserExample();

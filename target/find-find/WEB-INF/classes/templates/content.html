@@ -1,0 +1,202 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${content.title}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--    profile/questions需要找源自根目录的样式，需要在前面加/-->
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.css"/>
+    <link rel="stylesheet" href="/css/test.css">
+    <link rel="stylesheet" href="/css/editormd.preview.min.css">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/moment.js" type="application/javascript"></script>
+    <script src="/js/test.js" type="application/javascript"></script>
+    <script src="/js/editormd.min.js" type="application/javascript"></script>
+    <script src="/js/lib/marked.min.js"></script>
+    <script src="/js/lib/prettify.min.js"></script>
+</head>
+<body>
+<!--引入导航栏：-->
+<div th:insert="navigation::nav"></div>
+<!---------------------------------导航栏结束----------------------------->
+<div class="container-fluid main profile">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <!--                icon标签 icon名-->
+            <div class="media">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object img-rounded" th:if="${content.user.avatar!=null}"
+                             th:src="@{${content.user.avatar}}" style="margin-top: 12px;">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="content-title">
+                        <span th:text="${content.title}"></span>
+                    </h4>
+                </div>
+                <!--关注-->
+                <div class="media-right" id="follow" th:if="${session.user!=null&&session.user.id!=content.creator}">
+                    <input type="hidden" id="creator" th:value="${content.creator}"/>
+                    <button type="button" th:class="${isFollowed?'btn btn-follow true':'btn btn-follow'}"
+                            onclick="follow()" th:text="${isFollowed?'取消关注':'+ 关注'}"></button>
+                </div>
+            </div>
+            <span class="text-desc">
+                作者：<span th:text="${content.user.name}"></span>
+                 | <span th:text="${#dates.format(content.gmtCreate,'MM-dd HH:mm')}"></span>
+                 | 阅读：<span th:text="${content.viewCount}"></span>
+                 | 收藏：<span th:text="${content.collCount}"></span>
+                 | 点赞：<span th:text="${content.likeCount}"></span>
+            </span>
+            <hr>
+            <!--描述内容-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="content-view">
+                <textarea style="display:none;" th:text="${content.description}"></textarea>
+            </div><!--按照原格式展示-->
+            <script type="text/javascript">
+                    $(function () {
+                        editormd.markdownToHTML("content-view", {});
+                    });
+            </script>
+            <!--标签（以，或,分开展示）-->
+            <hr class="hr">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <span class="label content-tag" th:each="tag:${content.tag.split('，|\,')}">
+                            <span class="glyphicon glyphicon-tags"></span>
+                            <span class="label content-tag-text" th:text="${tag}"></span>
+                        </span>
+            </div>
+            <!--内容编辑、收藏、点赞-->
+            <hr>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${session.user!=null}">
+                <!--            添加逻辑：创作者不是我，看不到编辑标签：-->
+                <a th:href="@{'/publish/'+${content.id}}" class="test-menu"
+                   th:if="${session.user!=null && session.user.id==content.creator}">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>编辑</a>
+                <!--收藏-->
+                <div th:if="${session.user.id!=content.creator}" id="collection" class="content-set">
+                    <span th:class="${isInCollection?'glyphicon glyphicon-star true':'glyphicon glyphicon-star-empty'}"
+                          th:text="${isInCollection?'取消收藏':'收藏'}" th:data-id="${content.id}"
+                          onclick="coll(this)"></span>
+                </div>
+                <!--内容点赞-->
+                <div id="likeContent" class="content-set">
+                    <span th:class="${isInLikeContent?'glyphicon glyphicon-heart menu-icon true':'glyphicon glyphicon-heart menu-icon'}"
+                          th:data-id="${content.id}" onclick="likeContent(this)">
+                        <span th:text="${content.likeCount}"></span></span>
+                </div>
+            </div>
+            <!--相关问题-->
+            <hr class="hr">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h5>相关问题</h5>
+                <ul class="content-related">
+                    <li th:each="related:${relatedQuestions}">
+                        <a th:href="@{'/content/'+${related.id}}" th:text="${related.title}"></a>
+                    </li>
+                </ul>
+            </div>
+            <hr class="hr">
+        </div>
+        <!--            显示回复-->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="comment">
+            <h5>
+                <span th:text="${content.commentCount}"></span>个回复
+            </h5>
+            <hr class="hr comment-sp">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comments" th:each="comment : ${comments}">
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-rounded" th:if="${comment.user.avatar!=null}"
+                                 th:src="@{${comment.user.avatar}}">
+                        </a>
+                    </div>
+                    <div class="media-body" th:id="'comment-body-'+${comment.id}">
+                        <h6 class="media-heading">
+                            <span th:text="${comment.user.name}"></span>
+                        </h6>
+                        <!--回复内容：-->
+                        <div th:text="${comment.content}"></div>
+                        <div class="menu">
+                            <!--评论点赞-->
+                            <div style="float:left">
+                                <span th:class="${comment.isInLike?'glyphicon glyphicon-thumbs-up menu-icon true':'glyphicon glyphicon-thumbs-up menu-icon'}"
+                                      th:data-id="${comment.id}" onclick="likeComment(this)" th:id="${'likeComment-'+comment.id}">
+                                    <span th:text="${comment.likeCount}" style="margin-left: -8px;"></span>
+                                </span>
+                                <!--<span class="glyphicon glyphicon-thumbs-up menu-icon true" th:if="${comment.isInLike}"
+                                      th:data-id="${comment.id}" onclick="likeComment(this)">
+                                    <span th:text="${comment.likeCount}" style="margin-left: -8px;"></span>
+                                </span>-->
+                            </div>
+                            <!--点击这里的时候，显示二级评论，往comment-body-id元素追加标签-->
+                            <div style="float:left">
+                                <span th:data-id="${comment.id}" onclick="collapseComments(this)" class="comment-icon">
+                                <span class="glyphicon glyphicon-comment"></span>
+                                <span th:text="${comment.commentCount}"></span></span>
+                            </div>
+                            <div style="float-right">
+                                <span th:text="${#dates.format(comment.gmtCreate,'yyyy-MM-dd')}"
+                                      class="pull-right"></span>
+                            </div>
+                        </div>
+                        <!--二级评论：-->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse sub-comments"
+                             th:id="'comment-'+${comment.id}">
+                            <!--collapse in：展示-->
+                            <!--                            js-->
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <input type="text" class="form-control" placeholder="回复一下~"
+                                       th:id="${'input-'+comment.id}">
+                                <button type="button" class="btn btn-success pull-right comment"
+                                        onclick="comment2(this)" th:data-id="${comment.id}">回复
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--将某评论设置为精选评论-->
+                    <div class="media-right" th:if="${session.user!=null&&session.user.id==content.creator&&session.user.id!=comment.user.id}">
+                        <button type="button" th:class="${comment.isChose?'btn btn-chose true':'btn btn-chose'}"
+                                onclick="chose(this)" th:data-id="${comment.id}">✔</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h4>
+                提交回复
+            </h4>
+            <hr class="hr comment-sp">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="comment_section">
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-rounded" style="margin: 10px 0 0 0;"
+                                 th:src="@{${session.user!=null?session.user.avatar:'/images/default-avatar.png'}}">
+                        </a>
+                        <h6 class="media-heading" style="margin-top: 5px;">
+                        <span th:text="${session.user!=null?session.user.name:'你还没登录哦'}"></span>
+                        </h6>
+                    </div>
+                    <div class="media-body">
+                        <input type="hidden" id="content_id" th:value="${content.id}"/>
+                        <!--            评论框-->
+                        <textarea class="form-control comment" rows="3" id="comment_content"></textarea>
+                        <button type="button" class="btn btn-success btn-comment" onclick="post()">回复</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div style="height:30px"></div>
+<div th:insert="~{footer::foot}"></div>
+</body>
+</html>
