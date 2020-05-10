@@ -61,7 +61,7 @@
     <li class="dropdown" th:if="${session.user==null}">
         <div class="row-fluid">
             <div class="span12">
-                <form class="form-horizontal" action="/login" method="post">
+                <form class="form-horizontal" th:action="@{/login}" method="post">
                     <div class="control-group center">
                         <input id="email" type="text" placeholder="邮箱" name="account" class="input-my"/>
                         <input id="inputPassword" type="password" placeholder="密码" name="password"

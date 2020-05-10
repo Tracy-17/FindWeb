@@ -28,7 +28,6 @@ public class ContentDTO implements Comparable{
     private User user;
 
     //热门问题展示
-    private Content content;
     private Integer priority;
     @Override
     public int compareTo(@NotNull Object o) {

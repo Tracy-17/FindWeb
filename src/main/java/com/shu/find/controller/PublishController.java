@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Author ShiQi
@@ -55,6 +56,7 @@ public class PublishController {
             @RequestParam(value = "id", required = false) Integer id,
             @RequestParam(value = "isArticle", required = false) Boolean isArticle,
             HttpServletRequest request,
+            HttpServletResponse response,
             //model可以把数据推送到前端页面
             Model model) {
         model.addAttribute("title", title);

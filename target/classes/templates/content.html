@@ -38,10 +38,11 @@
                     </h4>
                 </div>
                 <!--关注-->
-                <div class="media-right" id="follow" th:if="${session.user!=null&&session.user.id!=content.creator}">
-                    <input type="hidden" id="creator" th:value="${content.creator}"/>
-                    <button type="button" th:class="${isFollowed?'btn btn-follow true':'btn btn-follow'}"
-                            onclick="follow()" th:text="${isFollowed?'取消关注':'+ 关注'}"></button>
+                <div class="media-right" id="ranking" th:if="${session.user!=null&&session.user.id!=content.creator}">
+                    <button th:class="${isFollowed?'btn btn-follow true':'btn btn-follow'}"
+                            type="button" th:if="${session.user!=null}">
+                    <span onclick="follow(this)" th:data-id="${content.creator}"
+                          th:text="${isFollowed?'取消关注':'+ 关注'}"></span></button>
                 </div>
             </div>
             <span class="text-desc">
@@ -128,10 +129,6 @@
                                       th:data-id="${comment.id}" onclick="likeComment(this)" th:id="${'likeComment-'+comment.id}">
                                     <span th:text="${comment.likeCount}" style="margin-left: -8px;"></span>
                                 </span>
-                                <!--<span class="glyphicon glyphicon-thumbs-up menu-icon true" th:if="${comment.isInLike}"
-                                      th:data-id="${comment.id}" onclick="likeComment(this)">
-                                    <span th:text="${comment.likeCount}" style="margin-left: -8px;"></span>
-                                </span>-->
                             </div>
                             <!--点击这里的时候，显示二级评论，往comment-body-id元素追加标签-->
                             <div style="float:left">
@@ -161,7 +158,11 @@
                     <!--将某评论设置为精选评论-->
                     <div class="media-right" th:if="${session.user!=null&&session.user.id==content.creator&&session.user.id!=comment.user.id}">
                         <button type="button" th:class="${comment.isChose?'btn btn-chose true':'btn btn-chose'}"
-                                onclick="chose(this)" th:data-id="${comment.id}">✔</button>
+                                onclick="chose(this)" th:data-id="${comment.id}">✔ 认证</button>
+                    </div>
+                    <!--其他用户可以看到“认证”标志-->
+                    <div class="media-right" th:if="${session.user==null||session.user.id!=content.creator}">
+                        <button type="button" th:if="${comment.isChose}" class="btn btn-chose true">✔ 认证</button>
                     </div>
                 </div>
             </div>
@@ -171,7 +172,6 @@
             <h4>
                 提交回复
             </h4>
-            <hr class="hr comment-sp">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="comment_section">
                 <div class="media">
                     <div class="media-left">

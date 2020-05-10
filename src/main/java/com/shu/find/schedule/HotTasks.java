@@ -2,8 +2,8 @@ package com.shu.find.schedule;
 
 import com.shu.find.cache.HotCatch;
 import com.shu.find.mapper.ContentMapper;
-import com.shu.find.model.Content;
-import com.shu.find.model.ContentExample;
+import com.shu.find.mapper.UserMapper;
+import com.shu.find.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +25,12 @@ import java.util.*;
 public class HotTasks {
 
     @Autowired
+    private HotCatch hotCatch;
+    @Autowired
     private ContentMapper contentMapper;
     @Autowired
-    private HotCatch hotCatch;
+    private UserMapper userMapper;
+
     //连接配置文件:
     @Value("${fixedRate}")
     private Object fixedRate;
@@ -41,19 +44,42 @@ public class HotTasks {
     private Integer collection;
     @Value("${tag.content}")
     private Integer contentCount;
+
     @Value("${content.minPriority}")
     private Integer minPriority;
+    @Value("${content.time}")
+    private Long timeBefore;
+    @Value("${content.view}")
+    private Integer contentView;
+    @Value("${content.like}")
+    private Integer contentLike;
+    @Value("${content.comment}")
+    private Integer contentComment;
+    @Value("${content.collection}")
+    private Integer contentCollection;
+
+
+    @Value("${user.chose}")
+    private Integer userChose;
+    @Value("${user.like}")
+    private Integer userLike;
+
+    Integer offset = 0;
+    Integer limit = 20;
+    RowBounds rowBounds = new RowBounds(offset, limit);
+    long nowTime = System.currentTimeMillis();
 
     //？？？为什么不能连配置文件？
     @Scheduled(fixedRate = 600000)//1min运行一次
 //    @Scheduled(cron="0 0 5 * * *")//每天凌晨5点执行
     public void hotTagSchedule() {
-        int offset = 0;
-        int limit = 20;
         List<Content> list = new ArrayList<>();
         Map<String, Integer> tagMap = new HashMap<>();
         while (offset == 0 || list.size() == limit) {
-            list = contentMapper.selectByExampleWithBLOBs(new ContentExample(), new RowBounds(offset, limit));
+            /*0510 tag全没了。。。*/
+            /*ContentExample contentExample = new ContentExample();
+            contentExample.createCriteria().andGmtCreateBetween(nowTime - sevenDaysAgo, nowTime);*/
+            list = contentMapper.selectByExampleWithBLOBs(new ContentExample(), rowBounds);
             for (Content content : list) {
                 //是用中文逗号分开的。。。
                 String[] tags = StringUtils.split(content.getTag(), "，");
@@ -82,22 +108,18 @@ public class HotTasks {
 
     @Scheduled(fixedRate = 600000)//1min运行一次
     public void hotContentSchedule() {
-        int offset = 0;
-        int limit = 20;
         List<Content> list = new ArrayList<>();
         Map<Content, Integer> contentMap = new HashMap<>();
         while (offset == 0 || list.size() == limit) {
             ContentExample contentExample = new ContentExample();
-            long nowTime = System.currentTimeMillis();
-            long sevenDaysAgo = 7 * 24 * 60 * 60 * 1000;
-            contentExample.createCriteria().andGmtCreateBetween(nowTime - sevenDaysAgo, nowTime);
-            list = contentMapper.selectByExampleWithBLOBs(contentExample, new RowBounds(offset, limit));
+            contentExample.createCriteria().andGmtCreateBetween(nowTime - timeBefore, nowTime);
+            list = contentMapper.selectByExampleWithBLOBs(contentExample, rowBounds);
             for (Content content : list) {
                 //优先级=1*浏览量+3*点赞数+5*回复数*7*收藏数
-                Integer priority=content.getViewCount() * view + content.getLikeCount() * like + content.getCommentCount() * comment
-                        + content.getCollCount() * collection;
+                Integer priority = content.getViewCount() * contentView + content.getLikeCount() * contentLike
+                        + content.getCommentCount() * contentComment + content.getCollCount() * contentCollection;
                 //优先级筛选
-                if(priority>minPriority) {
+                if (priority > minPriority) {
                     contentMap.put(content, priority);
                 }
             }
@@ -105,5 +127,29 @@ public class HotTasks {
         }
         hotCatch.updateHotContents(contentMap);
 //        log.info("The time is now{}", new Date());
+    }
+
+    @Scheduled(fixedRate = 400000)//40s运行一次
+    public void hotUserSchedule() {
+        List<User> users=new ArrayList<>();
+        Map<User,Integer> userMap=new HashMap<>();
+        while (offset == 0 || users.size() == limit) {
+            UserExample userExample = new UserExample();
+            //仅限近期登陆过的用户
+            userExample.createCriteria().andGmtModifyBetween(nowTime - timeBefore, nowTime);
+            users = userMapper.selectByExample(userExample);
+            for (User user : users) {
+                //优先级=91*被选中数+9*点赞数
+                Integer priority = user.getChoseCount()*userChose+user.getLikeCount()*userLike;
+                userMap.put(user,priority);
+            }
+            offset += limit;
+        }
+       /*  userMap.forEach(
+                (k, v) -> {
+                    System.out.print(k.getName() + " " + v + ",");
+                }
+        );*/
+        hotCatch.updateHotUsers(userMap);
     }
 }

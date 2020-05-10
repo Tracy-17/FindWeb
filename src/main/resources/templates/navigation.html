@@ -14,7 +14,7 @@
     <nav class="navbar navbar-default" role="navigation">
         <div class="col-xs-12" style="background-color: #ff9e85;color: #ff9e85;">
             <div th:if="${session.user==null}">
-                <a class="navbar-brand" href="/index">
+                <a class="navbar-brand" th:href="@{/index}">
                     <!--src前面没有/时content界面显示失败-->
                     <img th:src="@{/images/logos/icon_write.png}" style="margin: -15px 15px 0 0;height: inherit;" alt="Find">
                 </a>
@@ -31,7 +31,10 @@
                         <li><a th:href="@{/info}">个人资料</a></li>
                         <li><a th:href="@{/profile/questions}">发布</a></li>
                         <li><a th:href="@{/profile/collections}">收藏</a></li>
-                        <li><a th:href="@{/profile/replies}">通知</a></li>
+                        <li><a th:href="@{/profile/replies}">通知
+                            <span class="badge notification" th:if="${session.unreadCount>0}" th:text="${session.unreadCount}"
+                                  style="margin-left: 0px;"></span>
+                        </a></li>
                         <li role="separator" class="divider"></li>
                         <li><a th:href="@{/logout}">退出登录</a></li>
                     </ul>

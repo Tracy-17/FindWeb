@@ -2,8 +2,11 @@ package com.shu.find.cache;
 
 import com.shu.find.dto.ContentDTO;
 import com.shu.find.dto.HotTagDTO;
+import com.shu.find.dto.UserDTO;
 import com.shu.find.model.Content;
+import com.shu.find.model.User;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -18,20 +21,25 @@ import java.util.*;
 @Data
 public class HotCatch {
     private List<String> hotTags = new ArrayList<>();
-    private List<Content> hotContents =new ArrayList<>();
+    private List<ContentDTO> hotContents = new ArrayList<>();
+    private List<UserDTO> hotUsers = new ArrayList<>();
 
     //连接配置文件:
-    @Value("${tag.maxTag}")
-    private Integer max;
+    @Value("${tag.max}")
+    private Integer tagMax;
+    @Value("${content.max}")
+    private Integer contentMax;
+    @Value("${user.max}")
+    private Integer userMax;
 
-    //排序
+    //热门tag
     public void updateHotTags(Map<String, Integer> tags) {
-        PriorityQueue<HotTagDTO> priorityQueue = new PriorityQueue<>(max);
+        PriorityQueue<HotTagDTO> priorityQueue = new PriorityQueue<>(tagMax);
         tags.forEach((name, priority) -> {
             HotTagDTO hotTagDTO = new HotTagDTO();
             hotTagDTO.setName(name);
             hotTagDTO.setPriority(priority);
-            if (priorityQueue.size() < max) {
+            if (priorityQueue.size() < tagMax) {
                 priorityQueue.add(hotTagDTO);
             } else {
                 //最小元素：
@@ -50,15 +58,17 @@ public class HotCatch {
             poll = priorityQueue.poll();
         }
         //每次循环重新赋值
-        hotTags =sortedTags;
+        hotTags = sortedTags;
     }
-    public void updateHotContents(Map<Content, Integer> tags) {
-        PriorityQueue<ContentDTO> priorityQueue = new PriorityQueue<>(max);
-        tags.forEach((content, priority) -> {
+
+    //热门内容
+    public void updateHotContents(Map<Content, Integer> contents) {
+        PriorityQueue<ContentDTO> priorityQueue = new PriorityQueue<>(contentMax);
+        contents.forEach((content, priority) -> {
             ContentDTO contentDTO = new ContentDTO();
-            contentDTO.setContent(content);
+            BeanUtils.copyProperties(content,contentDTO);
             contentDTO.setPriority(priority);
-            if (priorityQueue.size() < max) {
+            if (priorityQueue.size() < contentMax) {
                 priorityQueue.add(contentDTO);
             } else {
                 //最小元素：
@@ -70,13 +80,42 @@ public class HotCatch {
                 }
             }
         });
-        List<Content> sortedContents = new ArrayList<>();
+        List<ContentDTO> sortedContents = new ArrayList<>();
         ContentDTO poll = priorityQueue.poll();
         while (poll != null) {
-            sortedContents.add(0, poll.getContent());
+            sortedContents.add(0, poll);
             poll = priorityQueue.poll();
         }
         //每次循环重新赋值
-        hotContents =sortedContents;
+        hotContents = sortedContents;
+    }
+
+    //热门用户
+    public void updateHotUsers(Map<User, Integer> users) {
+        PriorityQueue<UserDTO> priorityQueue = new PriorityQueue<>(userMax);
+        users.forEach((user, priority) -> {
+            UserDTO userDTO = new UserDTO();
+            BeanUtils.copyProperties(user, userDTO);
+            userDTO.setPriority(priority);
+            if (priorityQueue.size() < userMax) {
+                priorityQueue.add(userDTO);
+            } else {
+                //最小元素：
+                UserDTO minHot = priorityQueue.peek();
+                if (userDTO.compareTo(minHot) > 0) {
+                    //当前热度>最小元素热度
+                    priorityQueue.poll();//取出最小值
+                    priorityQueue.add(userDTO);
+                }
+            }
+        });
+        List<UserDTO> sortedUsers = new ArrayList<>();
+        UserDTO poll = priorityQueue.poll();
+        while (poll != null) {
+            sortedUsers.add(0, poll);
+            poll = priorityQueue.poll();
+        }
+        //每次循环重新赋值
+        hotUsers = sortedUsers;
     }
 }

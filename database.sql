@@ -17,6 +17,8 @@ create table user
 	constraint user_id_uindex
 		unique (id)
 );
+alter table user add like_count int default 0 comment '总计获赞数';
+alter table user add chose_count int default 0 comment '总计优质回答数';
 
 alter table user
 	add primary key (account);
@@ -111,6 +113,19 @@ create table myfile
 	name varchar(600) null,
 	path varchar(600) null,
 	constraint file_pk
+		primary key (id)
+);
+/*精选回答*/
+drop table choice;
+create table choice
+(
+	id int auto_increment,
+	user_id int null comment '评论者',
+	question_id int null,
+	comment_id int null,
+	like_count int 0 comment '缓存点赞数',
+	gmt_create bigint null,
+	constraint choice_pk
 		primary key (id)
 );
 

@@ -2,10 +2,12 @@ package com.shu.find.controller;
 
 import com.shu.find.cache.TagCache;
 import com.shu.find.dto.ResultDTO;
+import com.shu.find.exception.CustomizeErrorCode;
 import com.shu.find.model.Myfile;
 import com.shu.find.model.User;
 import com.shu.find.service.UserService;
 import com.shu.find.service.MyfileService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -96,14 +98,13 @@ public class SignUpController {
 
     private String url;
     @ResponseBody
-    @RequestMapping(value = "/uploadFile", produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/uploadAvatar", produces = "application/json;charset=UTF-8")
     public Object uploadFile(@RequestParam("fileName") MultipartFile file,
                              Model model,
                              HttpServletRequest request) {
         //判断文件是否为空
         if (file.isEmpty()) {
-            model.addAttribute("error", "上传文件不可为空！");
-            return "/signUp";
+            return ResultDTO.errorOf(CustomizeErrorCode.FILE_IS_EMPTY);
         }
         // 获取文件名
 //        String fileName = ;
@@ -118,9 +119,7 @@ public class SignUpController {
         //创建文件路径
         File dest = new File(path);
         //判断文件是否已经存在
-        if (dest.exists()) {
-            return "文件已经存在";
-        }
+//        if (dest.exists()) { return "文件已经存在"; }
         //判断文件父目录是否存在
         if (!dest.getParentFile().exists()) {
             dest.getParentFile().mkdir();
@@ -137,12 +136,12 @@ public class SignUpController {
             myfile.setUrl(url);
             myfileService.insertUrl(myfile);
         } catch (IOException e) {
-            return "上传失败";
+            return ResultDTO.errorOf(CustomizeErrorCode.IO_EXCEPTION);
         }
         System.out.println("上传成功,文件url==" + url);
         //写入session
         request.getSession().setAttribute("avatar", url);
-        return ResultDTO.okOf();
+        return "上传成功，请返回上一页继续填写注册信息";
     }
     //查询
     /*@RequestMapping("/chaxun")

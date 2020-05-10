@@ -25,7 +25,7 @@
     <show-object-properties value="false" />
     <loaded-nodes>
       <connection connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef">
-        <schema name="find" object-types="index, constraint, function, procedure, column, dataset trigger, table, view" />
+        <schema name="find" object-types="dataset trigger, view, procedure, function, column, table, constraint, index" />
       </connection>
     </loaded-nodes>
   </component>
@@ -56,6 +56,11 @@
       </filter>
     </filter-actions>
     <filter-actions connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" dataset="find.like" active-filter-id="" />
+    <filter-actions connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" dataset="find.choice" active-filter-id="3e614931-95a1-4004-8c35-b1675ef5a3b2">
+      <filter id="3e614931-95a1-4004-8c35-b1675ef5a3b2" name="0" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="id" operator="&gt;" value="0" active="true" />
+      </filter>
+    </filter-actions>
     <filter-actions connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" dataset="find.comment" active-filter-id="ced300b9-0405-440c-a48c-95e5c57b3850">
       <filter id="ced300b9-0405-440c-a48c-95e5c57b3850" name="0" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="id" operator="&gt;" value="0" active="true" />
@@ -73,6 +78,11 @@
     </filter-actions>
     <filter-actions connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" dataset="find.content" active-filter-id="9ef0af03-c8b8-4a5d-a42c-be7bcc00758f">
       <filter id="9ef0af03-c8b8-4a5d-a42c-be7bcc00758f" name="0" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="id" operator="&gt;" value="0" active="true" />
+      </filter>
+    </filter-actions>
+    <filter-actions connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" dataset="find.myfile" active-filter-id="5cd816bf-23ba-45aa-b14c-a9a29444d544">
+      <filter id="5cd816bf-23ba-45aa-b14c-a9a29444d544" name="0" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="id" operator="&gt;" value="0" active="true" />
       </filter>
     </filter-actions>

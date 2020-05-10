@@ -823,6 +823,126 @@ public class UserExample {
             addCriterion("gmt_modify not between", value1, value2, "gmtModify");
             return (Criteria) this;
         }
+
+        public Criteria andLikeCountIsNull() {
+            addCriterion("like_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeCountIsNotNull() {
+            addCriterion("like_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeCountEqualTo(Integer value) {
+            addCriterion("like_count =", value, "likeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeCountNotEqualTo(Integer value) {
+            addCriterion("like_count <>", value, "likeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeCountGreaterThan(Integer value) {
+            addCriterion("like_count >", value, "likeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("like_count >=", value, "likeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeCountLessThan(Integer value) {
+            addCriterion("like_count <", value, "likeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeCountLessThanOrEqualTo(Integer value) {
+            addCriterion("like_count <=", value, "likeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeCountIn(List<Integer> values) {
+            addCriterion("like_count in", values, "likeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeCountNotIn(List<Integer> values) {
+            addCriterion("like_count not in", values, "likeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeCountBetween(Integer value1, Integer value2) {
+            addCriterion("like_count between", value1, value2, "likeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("like_count not between", value1, value2, "likeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andChoseCountIsNull() {
+            addCriterion("chose_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChoseCountIsNotNull() {
+            addCriterion("chose_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChoseCountEqualTo(Integer value) {
+            addCriterion("chose_count =", value, "choseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andChoseCountNotEqualTo(Integer value) {
+            addCriterion("chose_count <>", value, "choseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andChoseCountGreaterThan(Integer value) {
+            addCriterion("chose_count >", value, "choseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andChoseCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("chose_count >=", value, "choseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andChoseCountLessThan(Integer value) {
+            addCriterion("chose_count <", value, "choseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andChoseCountLessThanOrEqualTo(Integer value) {
+            addCriterion("chose_count <=", value, "choseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andChoseCountIn(List<Integer> values) {
+            addCriterion("chose_count in", values, "choseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andChoseCountNotIn(List<Integer> values) {
+            addCriterion("chose_count not in", values, "choseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andChoseCountBetween(Integer value1, Integer value2) {
+            addCriterion("chose_count between", value1, value2, "choseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andChoseCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("chose_count not between", value1, value2, "choseCount");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

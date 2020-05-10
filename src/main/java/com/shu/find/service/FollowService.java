@@ -93,5 +93,10 @@ public class FollowService {
         follower.setId(follow.getFollower());
         follower.setFansCount(-1);
         userExtMapper.changeFans(follower);
+        //删除此条通知
+        NotificationExample notificationExample=new NotificationExample();
+        notificationExample.createCriteria().andNotifierEqualTo(follow.getUserId())
+                .andReceiverEqualTo(follow.getFollower());
+        notificationMapper.deleteByExample(notificationExample);
     }
 }

@@ -2,7 +2,6 @@ package com.shu.find.controller;
 
 import com.shu.find.dto.PaginationDTO;
 import com.shu.find.enums.ContentTypeEnum;
-import com.shu.find.model.Content;
 import com.shu.find.model.User;
 import com.shu.find.service.ContentService;
 import com.shu.find.service.UserService;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.UUID;
 
 /**
@@ -66,15 +66,17 @@ public class LoginController {
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request,
-                         HttpServletResponse response) {
+                         HttpServletResponse response,
+                         Model model) {
         //清除缓存数据
-//        request.getSession().removeAttribute("user");
-        request.setAttribute("user",null);
+    //    更换tomcat后失效
+        request.getSession().removeAttribute("user");
         Cookie cookie = new Cookie("token", null);
         cookie.setMaxAge(0);
-//        deleteNewCookie.setPath("/");设置本cookie的存放路径（本项目不需要）
+        //        deleteNewCookie.setPath("/");设置本cookie的存放路径（本项目不需要）
         response.addCookie(cookie);
-        return "redirect:/index";
+        PaginationDTO pagination = contentService.list(null,null, ContentTypeEnum.QUESTION.getType());
+        model.addAttribute("pagination", pagination);
+        return "index";
     }
-
 }

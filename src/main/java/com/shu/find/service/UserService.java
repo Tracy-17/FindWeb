@@ -3,9 +3,9 @@ package com.shu.find.service;
 import com.shu.find.mapper.UserMapper;
 import com.shu.find.model.User;
 import com.shu.find.model.UserExample;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class UserService {
 
-    @Resource
+    @Autowired
     private UserMapper userMapper;
 
     //根据account查找id
@@ -52,6 +52,8 @@ public class UserService {
     public void create(User user) {
         user.setFansCount(0);
         user.setFollowCount(0);
+        user.setChoseCount(0);
+        user.setLikeCount(0);
         user.setGmtCreate(nowTime);
         user.setGmtModify(nowTime);
         userMapper.insert(user);
@@ -60,7 +62,7 @@ public class UserService {
     //重新登录时
     public void update(User user) {
         User dbUser = userMapper.selectByPrimaryKey(findIdByAccount(user.getAccount()));
-        user.setGmtModify(nowTime);
+        dbUser.setGmtModify(nowTime);
         UserExample example = new UserExample();
         example.createCriteria()
                 .andAccountEqualTo(dbUser.getAccount());

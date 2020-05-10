@@ -35,10 +35,13 @@ public class CommentService {
     @Autowired
     private UserMapper userMapper;
     @Autowired
+    private UserExtMapper userExtMapper;
+    @Autowired
     private CommentExtMapper commentExtMapper;
     @Autowired
     private NotificationMapper notificationMapper;
 
+    Long now=System.currentTimeMillis();
     //添加评论
     //    Transactional:将整个方法体设为同一个事物
     @Transactional
@@ -125,18 +128,25 @@ public class CommentService {
         return commentDTOS;
     }
 
-    //更改评论状态
+    //更改评论状态(被选为优质回答)
     @Transactional
     public void updateChose(CommentChoseDTO commentChoseDTO) {
         Comment comment = commentMapper.selectByPrimaryKey(commentChoseDTO.getCommentId());
         Content content = contentMapper.selectByPrimaryKey(commentChoseDTO.getContentId());
+        User user=new User();
+        user.setId(comment.getCommentator());
         if(comment.getType()==CommentTypeEnum.CONTENT.getType()) {
             comment.setType(CommentTypeEnum.ANSWER.getType());
+            //更新评论者的被优选次数
+            user.setChoseCount(1);
             //给评论者的通知
             createNotify(comment, comment.getCommentator(), commentChoseDTO.getCreatorName(), content.getTitle(), NotificationTypeEnum.CHOSE.getType(), content.getId(),commentChoseDTO.getCreatorId());
         }else if(comment.getType()==CommentTypeEnum.ANSWER.getType()){
             comment.setType(CommentTypeEnum.CONTENT.getType());
+            //更新评论者的被优选次数
+            user.setChoseCount(-1);
         }
+        userExtMapper.changeChoseCount(user);
         commentMapper.updateByPrimaryKey(comment);
     }
 
@@ -147,7 +157,7 @@ public class CommentService {
             return;
         }
         Notification notification = new Notification();
-        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setGmtCreate(now);
         notification.setType(notificationType);
         notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
 

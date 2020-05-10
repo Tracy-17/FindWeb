@@ -15,7 +15,9 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     CONTENT_IS_EMPTY(2007, "输入内容不能为空"),
     READ_NOTIFICATION_FAIL(2008, "非法操作"),
     NOTIFICATION_NOT_FOUND(2009, "消息不见啦~~~"),
-    FOLLOW_DONT_EXIST(2010,"这条关注不存在");
+    FOLLOW_DONT_EXIST(2010,"这条关注不存在"),
+    FILE_IS_EMPTY(2011,"上传文件不能为空"),
+    IO_EXCEPTION(2012,"不可抗力因素导致文件上传失败");
 
 
     @Override

@@ -12,9 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @Data
 public class CommentDTO {
-    @Autowired
-    LikeService likeService;
-
+  /*  @Autowired
+    LikeService likeService;*/
     private Integer id;
     private Integer parentId;
     private Integer type;

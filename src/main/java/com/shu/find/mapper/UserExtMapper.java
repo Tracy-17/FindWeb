@@ -10,4 +10,6 @@ import com.shu.find.model.User;
 public interface UserExtMapper {
     int changeFollow(User record);
     int changeFans(User record);
+    int changeChoseCount(User record);
+    int changeLikeCount(User record);
 }

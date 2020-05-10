@@ -28,7 +28,8 @@ public class LikeService {
     private CommentMapper commentMapper;
     @Autowired
     private CommentExtMapper commentExtMapper;
-
+    @Autowired
+    private UserExtMapper userExtMapper;
 
     //查询是否已被点赞
     public boolean isInLike(Integer userId, Integer type, Integer id) {
@@ -44,6 +45,8 @@ public class LikeService {
         }
         return false;
     }
+
+    User user=new User();
     //点赞
     @Transactional
     public void insert(Mylike mylike) {
@@ -57,6 +60,8 @@ public class LikeService {
             }
             content.setLikeCount(1);
             contentExtMapper.incLike(content);
+            //增加user的被赞数
+            user.setId(content.getCreator());
         }else if(mylike.getType()==LikeTypeEnum.COMMENT.getType()){
             //增加评论的点赞数
             Comment comment =commentMapper.selectByPrimaryKey(mylike.getContentId());
@@ -65,7 +70,10 @@ public class LikeService {
             }
             comment.setLikeCount(1);
             commentExtMapper.incLike(comment);
+            user.setId(comment.getCommentator());
         }
+        user.setLikeCount(1);
+        userExtMapper.changeLikeCount(user);
     }
     //取消赞
     @Transactional
@@ -84,6 +92,8 @@ public class LikeService {
             }
             content.setLikeCount(-1);
             contentExtMapper.incLike(content);
+            //减少user的被赞数
+            user.setId(content.getCreator());
         }else if(mylike.getType()==LikeTypeEnum.COMMENT.getType()){
             //减少评论的点赞数
             Comment comment =commentMapper.selectByPrimaryKey(mylike.getContentId());
@@ -92,6 +102,9 @@ public class LikeService {
             }
             comment.setLikeCount(-1);
             commentExtMapper.incLike(comment);
+            user.setId(comment.getCommentator());
         }
+        user.setLikeCount(-1);
+        userExtMapper.changeLikeCount(user);
     }
 }

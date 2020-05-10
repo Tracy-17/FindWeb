@@ -12,6 +12,7 @@ F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\service
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\enums\NotificationStatusEnum.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\exception\CustomizeException.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\model\CommentExample.java
+F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\dto\UserDTO.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\service\ContentService.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\controller\FollowController.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\enums\ContentTypeEnum.java
@@ -26,6 +27,7 @@ F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\control
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\mapper\CollectionMapper.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\service\CollectionService.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\model\NotificationExample.java
+F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\AppConfig.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\mapper\MylikeMapper.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\cache\HotCatch.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\mapper\ContentMapper.java
@@ -49,7 +51,6 @@ F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\control
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\dto\CommentDTO.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\mapper\FollowMapper.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\model\Myfile.java
-F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\dto\FileDTO.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\mapper\MyfileMapper.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\dto\PaginationDTO.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\controller\NotificationController.java
@@ -68,5 +69,6 @@ F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\control
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\service\MyfileService.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\controller\IndexController.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\controller\FileController.java
+F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\config\AppConfig.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\controller\CustomizeErrorController.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\model\Follow.java

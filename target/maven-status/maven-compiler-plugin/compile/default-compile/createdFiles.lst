@@ -67,6 +67,7 @@ com\shu\find\controller\LoginController.class
 com\shu\find\model\Follow.class
 com\shu\find\controller\FileController.class
 com\shu\find\cache\TagCache.class
+com\shu\find\dto\UserDTO.class
 com\shu\find\controller\PublishController.class
 com\shu\find\model\MyfileExample$GeneratedCriteria.class
 com\shu\find\model\UserExample$Criteria.class
@@ -77,11 +78,11 @@ com\shu\find\exception\ICustomizeErrorCode.class
 com\shu\find\service\UserService.class
 com\shu\find\model\Content.class
 com\shu\find\model\ContentExample$GeneratedCriteria.class
-com\shu\find\dto\FileDTO.class
 com\shu\find\mapper\UserMapper.class
 com\shu\find\model\MylikeExample$Criteria.class
 com\shu\find\model\NotificationExample$GeneratedCriteria.class
 com\shu\find\model\MylikeExample$Criterion.class
+com\shu\find\config\AppConfig.class
 com\shu\find\service\CollectionService.class
 com\shu\find\mapper\MylikeMapper.class
 com\shu\find\model\Collection.class
@@ -89,6 +90,7 @@ com\shu\find\service\CommentService.class
 com\shu\find\controller\LikeController.class
 com\shu\find\controller\FollowController.class
 com\shu\find\service\FollowService.class
+com\shu\find\AppConfig.class
 com\shu\find\controller\CustomizeErrorController.class
 com\shu\find\model\Myfile.class
 com\shu\find\model\Mylike.class

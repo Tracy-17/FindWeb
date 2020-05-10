@@ -42,10 +42,6 @@ public class SessionInterceptor implements HandlerInterceptor {
                         //写入session
                         request.getSession().setAttribute("user", users.get(0));
                         Integer unreadCount = notificationService.unreadCount(users.get(0).getId());
-                        Boolean isExist=false;
-                        if(unreadCount>0) {
-                            isExist=true;
-                        }
                         request.getSession().setAttribute("unreadCount", unreadCount);
                     }
                     break;//命中结束循环

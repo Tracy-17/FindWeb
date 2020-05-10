@@ -21,16 +21,16 @@
 <!--引入导航栏：-->
 <div th:insert="navigation::nav"></div>
 <div class="container-fluid" id="XS">
-        <div class="row-fluid">
-            <div class="span6">
-                <img alt="140x140" th:if="${user.avatar!=null}" th:src="@{${user.avatar}}" style="width:30%"/>
-            </div>
-            <div class="span6">
-                <h1>
-                    <span th:text="${user.name}"></span>
-                </h1>
-            </div>
+    <div class="row-fluid">
+        <div class="span6">
+            <img alt="140x140" th:if="${user.avatar!=null}" th:src="@{${user.avatar}}" style="width:30%"/>
         </div>
+        <div class="span6">
+            <h1>
+                <span th:text="${user.name}"></span>
+            </h1>
+        </div>
+    </div>
     <form th:action="@{/info}" method="post" style="text-align: -webkit-center;">
         <div class="form-group">
             <div class="form-group">
@@ -43,18 +43,20 @@
             </div>
         </div>
     </form>
-    <div style="margin: 63px 60px;">
-        <button type="button" class="btn">
-            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-            关注数：<span class="badge" th:text="${user.followCount}"></span></button>
-        <button type="button" class="btn">
-            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-            粉丝数：<span class="badge" th:text="${user.fansCount}"></span></button>
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="center" style="margin: 63px 60px;">
+                <button type="button" class="btn">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>关注数：<span th:text="${user.followCount}"></span></button>
+                <button type="button" class="btn">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>粉丝数：<span th:text="${user.fansCount}"></span></button>
+            </div>
+        </div>
     </div>
-<!--    查询文件-->
-   <!-- <form action="chaxun" >
-        <p><input type="submit" value="查询视频"/></p>
-    </form>-->
+    <!--    查询文件-->
+    <!-- <form action="chaxun" >
+         <p><input type="submit" value="查询视频"/></p>
+     </form>-->
     <!--显示文件列表-->
     <!--<div><ul><li th:each="Shipin:${Shipins}"><p>ID:<span th:text="${Shipin.id}"></span></p>
                 <p>视频url======<span th:text="${Shipin.url}"></span></p></li></ul></div>-->

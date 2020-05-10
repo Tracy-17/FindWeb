@@ -14,6 +14,8 @@
       <arg column="fans_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="gmt_create" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="gmt_modify" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="like_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="chose_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
     </constructor>
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -76,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, account, password, token, name, avatar, bio, follow_count, fans_count, gmt_create, 
-    gmt_modify
+    gmt_modify, like_count, chose_count
   </sql>
   <select id="selectByExample" parameterType="com.shu.find.model.UserExample" resultMap="BaseResultMap">
     select
@@ -112,11 +114,13 @@
     insert into user (id, account, password, 
       token, name, avatar, 
       bio, follow_count, fans_count, 
-      gmt_create, gmt_modify)
+      gmt_create, gmt_modify, like_count, 
+      chose_count)
     values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{token,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
       #{bio,jdbcType=VARCHAR}, #{followCount,jdbcType=INTEGER}, #{fansCount,jdbcType=INTEGER}, 
-      #{gmtCreate,jdbcType=BIGINT}, #{gmtModify,jdbcType=BIGINT})
+      #{gmtCreate,jdbcType=BIGINT}, #{gmtModify,jdbcType=BIGINT}, #{likeCount,jdbcType=INTEGER}, 
+      #{choseCount,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.shu.find.model.User">
     insert into user
@@ -154,6 +158,12 @@
       <if test="gmtModify != null">
         gmt_modify,
       </if>
+      <if test="likeCount != null">
+        like_count,
+      </if>
+      <if test="choseCount != null">
+        chose_count,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -188,6 +198,12 @@
       </if>
       <if test="gmtModify != null">
         #{gmtModify,jdbcType=BIGINT},
+      </if>
+      <if test="likeCount != null">
+        #{likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="choseCount != null">
+        #{choseCount,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -233,6 +249,12 @@
       <if test="record.gmtModify != null">
         gmt_modify = #{record.gmtModify,jdbcType=BIGINT},
       </if>
+      <if test="record.likeCount != null">
+        like_count = #{record.likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.choseCount != null">
+        chose_count = #{record.choseCount,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -250,7 +272,9 @@
       follow_count = #{record.followCount,jdbcType=INTEGER},
       fans_count = #{record.fansCount,jdbcType=INTEGER},
       gmt_create = #{record.gmtCreate,jdbcType=BIGINT},
-      gmt_modify = #{record.gmtModify,jdbcType=BIGINT}
+      gmt_modify = #{record.gmtModify,jdbcType=BIGINT},
+      like_count = #{record.likeCount,jdbcType=INTEGER},
+      chose_count = #{record.choseCount,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -288,6 +312,12 @@
       <if test="gmtModify != null">
         gmt_modify = #{gmtModify,jdbcType=BIGINT},
       </if>
+      <if test="likeCount != null">
+        like_count = #{likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="choseCount != null">
+        chose_count = #{choseCount,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -302,7 +332,9 @@
       follow_count = #{followCount,jdbcType=INTEGER},
       fans_count = #{fansCount,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=BIGINT},
-      gmt_modify = #{gmtModify,jdbcType=BIGINT}
+      gmt_modify = #{gmtModify,jdbcType=BIGINT},
+      like_count = #{likeCount,jdbcType=INTEGER},
+      chose_count = #{choseCount,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

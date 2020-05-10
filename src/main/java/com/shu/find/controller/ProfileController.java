@@ -53,7 +53,7 @@ public class ProfileController {
             PaginationDTO paginationDTO = notificationService.list(user.getId());
             model.addAttribute("section", "replies");
             model.addAttribute("pagination", paginationDTO);
-            model.addAttribute("sectionName", "最新回复");
+            model.addAttribute("sectionName", "我的消息");
         }else if ("collections".equals(action)){
             model.addAttribute("section", "collections");
             model.addAttribute("sectionName", "我的收藏");

@@ -23,7 +23,11 @@ public class User {
 
     private Long gmtModify;
 
-    public User(Integer id, String account, String password, String token, String name, String avatar, String bio, Integer followCount, Integer fansCount, Long gmtCreate, Long gmtModify) {
+    private Integer likeCount;
+
+    private Integer choseCount;
+
+    public User(Integer id, String account, String password, String token, String name, String avatar, String bio, Integer followCount, Integer fansCount, Long gmtCreate, Long gmtModify, Integer likeCount, Integer choseCount) {
         this.id = id;
         this.account = account;
         this.password = password;
@@ -35,6 +39,8 @@ public class User {
         this.fansCount = fansCount;
         this.gmtCreate = gmtCreate;
         this.gmtModify = gmtModify;
+        this.likeCount = likeCount;
+        this.choseCount = choseCount;
     }
 
     public User() {
@@ -127,5 +133,21 @@ public class User {
 
     public void setGmtModify(Long gmtModify) {
         this.gmtModify = gmtModify;
+    }
+
+    public Integer getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(Integer likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public Integer getChoseCount() {
+        return choseCount;
+    }
+
+    public void setChoseCount(Integer choseCount) {
+        this.choseCount = choseCount;
     }
 }

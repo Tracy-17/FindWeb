@@ -1,7 +1,7 @@
 .notification{
     padding: 1px 4px;
     background-color: tomato;
-    margin: -58px -24px -51px -28px;
+    margin: -58px -24px -54px -28px;
 }
 .hr{
     min-height: 1px;
@@ -12,6 +12,15 @@
     word-wrap: break-word;
     margin: 0 8px 8px 0;
     background-color: #93bece;
+    height: 20px;
+}
+.content-hot{
+    float: right;
+    background-color: transparent;
+    color: #ff9e85;
+    display: inline-block;
+    word-wrap: break-word;
+    margin: 0 8px 8px 0;
     height: 20px;
 }
 .true{
@@ -138,9 +147,9 @@ html,body{
 }
 .btn-chose{
     float: right;
-    background-color: aliceblue;
+    background-color: transparent;
     padding:0;
-    font-size: 20px;
+    font-size: 15px;
 }
 .media-object {
     width: 40px;
@@ -196,7 +205,7 @@ html,body{
 }
 
 .content-tag-text {
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .content-related {

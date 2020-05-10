@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>发布</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-theme.css}"/>
+    <link rel="stylesheet" th:href="@{/css/test.css}"/>
+    <link rel="stylesheet" th:href="@{/css/editormd.min.css}"/>
+    <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}" type="application/javascript"></script>
+    <script th:src="@{/js/test.js}" type="application/javascript"></script>
+    <script th:src="@{/js/editormd.min.js}" type="application/javascript"></script>
+</head>
+<body>
+<!--引入导航栏：-->
+<div th:insert="navigation::nav"></div>
+<!--发起问题-->
+<div class="container-fluid main">
+    <div class="row">
+        <div class="">
+            <!--                icon标签 icon名-->
+            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发布内容</h2>
+            <hr>
+            <form th:action="@{/publish}" method="post">
+                <!--                hidden表示不会在页面显示但是会传数据到后台-->
+                <input type="hidden" name="id" th:value="${id}">
+                <div class="form-group">
+                    <label for="title" class="question-title-small">问题标题</label>
+                    <input type="text" class="form-control " th:value="${title}" id="title" name="title"
+                           autocomplete="off"
+                           placeholder="问题标题......">
+                </div>
+                <div class="form-group" id="question-editor">
+                    <label for="description">问题补充（必填，请参考右侧提示）</label>
+                    <!--                    textarea标签的保持显示需要text，input的用value-->
+                    <textarea name="description" id="description" th:text="${description}" style="display: none;"
+                              class="form-control" cols="30" rows="10"></textarea>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        let editor = editormd("question-editor", {
+                            width: "100%",
+                            height: 350,
+                            path: "/find/js/lib/",
+                            delay: 0,
+                            watch: false,        //实时预览
+                            placeholder: "请输入问题描述",
+                            emoji: true,
+                            imageUpload: true,
+                            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                            imageUploadURL: "/file/upload"
+                        });
+                    });
+                </script>
+                <div class="form-group">
+                    <label for="tag">添加标签</label><!--自动关掉提示-->
+                    <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag"
+                           autocomplete="off"
+                           placeholder="输入标签，以“，”隔开"
+                           onclick="showSelectTag()"/>
+                    <div id="select-tag" class="tag-tab"><!--标签库：-->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" th:each="selectCategory,selectCategoryStat: ${tags}"
+                                th:class="${selectCategoryStat.first ?'active':''}">
+                                <a th:href="${'#'+selectCategory.categoryName}" aria-controls="home" role="tab"
+                                   data-toggle="tab" th:text="${selectCategory.categoryName}"></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" th:id="${selectCategory.categoryName}"
+                                 th:each="selectCategory: ${tags}"
+                                 th:class="${selectCategoryStat.first ?'active tab-pane':'tab-pane'}">
+                                <span>
+                                    <span class="label label-info tag-info" th:each="selectTag:${selectCategory.tags}">
+                                        <span class="glyphicon glyphicon-tags tag-text" onclick="selectTag(this)"
+                                              th:data-tag="${selectTag}" th:text="${' '+selectTag}"></span>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid main">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="isArticle">是否发布文章
+                        </label>
+                    </div>
+                    <div class="row">
+                        <!--                        判断error有值后，显示标签-->
+                        <div class="alert alert-danger " th:if="${error!=null}"
+                             th:text="${error}"></div>
+                        <div class="">
+                            <button type="submit" class="btn btn-info btn-publish">发布</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr/>
+        <div class="">
+            <h4>提问说明</h4>
+            标题、详情和tag都必须填写完整哦╭(●｀∀´●)╯<br>
+            可以利用编辑栏对排版整改，让大家看得一目了然 (๑•̀ㅁ•́ฅ)<br>
+            添加tag，让更多人看到你的问题(๑•̀ㅂ•́)و✧<br>
+            支持发布文章，用你的技术帮助更多的小伙伴吧 o(>ω<)o<br>
+            对于标签库的扩充与完善有什么建议和想法，欢迎扫以下二维码添加站长QQ(๑乛◡乛๑)<br>
+            <img th:src="@{images/qq.png}" style="width:40%"/>
+        </div>
+    </div>
+</div>
+<!--<div th:insert="~{footer::foot}"></div>-->
+</body>
+</html>

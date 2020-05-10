@@ -17,28 +17,64 @@
     <script th:src="@{/js/lib/prettify.min.js}"></script>
 </head>
 <body>
-不好意思还没做！1551
-<div style="height:30px"></div>
-<!--底栏-->
-<div class="fix-bottom">
-<div class="row-fluid" th:if="${session.user!=null}">
-    <div class="span12">
-        <div class="center">
-            <a th:href="@{/index}">
-                <button class="btn nav-bottom " type="button">主页</button>
-            </a>
-            <a th:href="@{/hot}">
-                <button class="btn nav-bottom " type="button">热门</button>
-            </a>
-            <a th:href="@{/focus}">
-                <button class="btn nav-bottom nav-checked" type="button">关注</button>
-            </a>
-            <a th:href="@{/article}">
-                <button class="btn nav-bottom" type="button">文章</button>
-            </a>
+<!--引入导航栏：-->
+<div th:insert="navigation::nav"></div>
+<!--答题排行榜-->
+<div class="container-fluid" id="XS">
+    <div class="row-fluid">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="ranking">
+            <h3>答题排行榜</h3>
+            <hr>
+            <div class="media" th:each="hotUser : ${hotUsers}">
+                <div class="media-left">
+                    <a href="#"><img class="media-object img-rounded"
+                                     th:if="${hotUser.avatar!=null}"
+                                     th:src="@{${hotUser.avatar}}"></a></div>
+                <div class="media-body">
+                    <h4 class="media-heading"><span th:text="${hotUser.name}"></span></h4>
+                    <span th:text="${hotUser.bio}" class="description"></span><br>
+
+                </div>
+                <!--关注-->
+                <div class="media-right">
+                    <button th:class="${hotUser.isFollowed?'btn btn-follow true':'btn btn-follow'}"
+                            type="button" th:if="${session.user!=null}">
+                    <span onclick="follow(this)" th:data-id="${hotUser.id}"
+                          th:text="${hotUser.isFollowed?'取消关注':'+ 关注'}"></span></button>
+                </div>
+                <span class="text-desc">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                粉丝 ：<span th:text="${hotUser.fansCount}"></span>人 ·
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                优质回答 ：<span th:text="${hotUser.choseCount}"></span>次 ·
+                    <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                获赞 ：<span th:text="${hotUser.likeCount}"></span>次
+                 </span>
+            </div>
         </div>
     </div>
 </div>
+<div style="height:35px"></div>
+<!--底栏-->
+<div class="fix-bottom">
+    <div class="row-fluid" th:if="${session.user!=null}">
+        <div class="span12">
+            <div class="center">
+                <a th:href="@{/index}">
+                    <button class="btn nav-bottom " type="button">主页</button>
+                </a>
+                <a th:href="@{/hot}">
+                    <button class="btn nav-bottom " type="button">热门</button>
+                </a>
+                <a th:href="@{/focus}">
+                    <button class="btn nav-bottom nav-checked" type="button">关注</button>
+                </a>
+                <a th:href="@{/article}">
+                    <button class="btn nav-bottom" type="button">文章</button>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

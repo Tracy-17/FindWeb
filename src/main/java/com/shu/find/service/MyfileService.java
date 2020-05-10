@@ -20,10 +20,8 @@ public class MyfileService {
     private MyfileMapper myfileMapper;
 
     //插入
-    public int insertUrl(Myfile myfile){
-        int jieguo= myfileMapper.insert(myfile);
-        System.out.print("插入结果==="+jieguo+"\n");
-        return jieguo;
+    public void insertUrl(Myfile myfile){
+         myfileMapper.insert(myfile);
     }
     //查询
     public List<Myfile> selectFile(){
