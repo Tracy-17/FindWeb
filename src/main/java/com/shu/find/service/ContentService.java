@@ -9,8 +9,10 @@ import com.shu.find.mapper.ContentMapper;
 import com.shu.find.mapper.UserMapper;
 import com.shu.find.model.*;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -34,6 +36,11 @@ public class ContentService {
     private UserMapper userMapper;
     @Autowired
     private CollectionService collectionService;
+    @Value("${content.time}")
+    private Long timeBefore;
+    @Value("${focus.contentCapacity}")
+    private Integer contentCapacity;
+    private Long nowTime = System.currentTimeMillis();
 
     //展示在首页的内容列表
     public PaginationDTO<ContentDTO> list(String search, String tag, Integer type) {
@@ -62,37 +69,47 @@ public class ContentService {
         return paginationDTO;
     }
 
-    //展示在个人页的问题列表
-    public PaginationDTO<ContentDTO> list(Integer userId) {
-        PaginationDTO<ContentDTO> paginationDTO = new PaginationDTO<ContentDTO>();
+    //查询某人的发布
+    public List<ContentDTO> listByCreator(User creator) {
+        List<ContentDTO> contentDTOS = new ArrayList<>();
         ContentExample contentExample = new ContentExample();
         contentExample.createCriteria()
-                .andCreatorEqualTo(userId);
-        ContentExample example = new ContentExample();
-        example.createCriteria()
-                .andCreatorEqualTo(userId);
-        List<Content> contents = contentMapper.selectByExample(example);
-        List<ContentDTO> contentDTOS = new ArrayList<>();
+                .andCreatorEqualTo(creator.getId());
+        //倒序显示：
+        contentExample.setOrderByClause("gmt_create desc");
+        //不知原因，查出来没有description
+//        List<Content> contents = contentMapper.selectByExample(contentExample);
+        List<Content> contents = contentMapper.selectByExampleWithBLOBs(contentExample,new RowBounds(0,20));
         for (Content Content : contents) {
-            User user = userMapper.selectByPrimaryKey(Content.getCreator());
             ContentDTO contentDTO = new ContentDTO();
             //BeanUtils.copyProperties:对象之间属性的赋值
             BeanUtils.copyProperties(Content, contentDTO);
-            contentDTO.setUser(user);
+            contentDTO.setUser(creator);
             contentDTOS.add(contentDTO);
         }
-        paginationDTO.setData(contentDTOS);
+        return contentDTOS;
+    }
 
-        return paginationDTO;
+    //关注的人的发布（最近十条）
+    public List<ContentDTO> followContent(List<User> followers) {
+        List<ContentDTO> contentDTOS = new ArrayList<>(contentCapacity);
+        for (User follower : followers) {
+            List<ContentDTO> followerContents = listByCreator(follower);
+            for (ContentDTO content : followerContents) {
+                if (nowTime - content.getGmtCreate() < timeBefore) {
+                    contentDTOS.add(content);
+                }
+            }
+        }
+        return contentDTOS;
     }
     //我的收藏
-    public PaginationDTO<ContentDTO> listMyCollection(Integer userId) {
+    public List<ContentDTO> listMyCollection(Integer userId) {
         List<Integer> contentIds = collectionService.findCollByUserId(userId);
-        List<Content> contents=new ArrayList<>();
-        for(Integer contentId:contentIds){
+        List<Content> contents = new ArrayList<>();
+        for (Integer contentId : contentIds) {
             contents.add(contentMapper.selectByPrimaryKey(contentId));
         }
-        PaginationDTO<ContentDTO> paginationDTO = new PaginationDTO<ContentDTO>();
         List<ContentDTO> contentDTOS = new ArrayList<>();
         for (Content Content : contents) {
             User user = userMapper.selectByPrimaryKey(Content.getCreator());
@@ -102,9 +119,7 @@ public class ContentService {
             contentDTO.setUser(user);
             contentDTOS.add(contentDTO);
         }
-        paginationDTO.setData(contentDTOS);
-
-        return paginationDTO;
+        return contentDTOS;
     }
 
     //内容详情页
@@ -126,8 +141,8 @@ public class ContentService {
     public void createOrUpdate(Content content) {
         if (content.getId() == null) {
             //创建提问
-            content.setGmtCreate(System.currentTimeMillis());
-            content.setGmtModify(content.getGmtCreate());
+            content.setGmtCreate(nowTime);
+            content.setGmtModify(nowTime);
             content.setViewCount(0);
             content.setCommentCount(0);
             content.setLikeCount(0);
@@ -136,10 +151,9 @@ public class ContentService {
             contentMapper.insert(content);
         } else {
             //更新
-            content.setGmtModify(System.currentTimeMillis());
             Content updateContent = new Content();
 
-            updateContent.setGmtModify(System.currentTimeMillis());
+            updateContent.setGmtModify(nowTime);
             updateContent.setTitle(content.getTitle());
             updateContent.setDescription(content.getDescription());
             updateContent.setTag(content.getTag());

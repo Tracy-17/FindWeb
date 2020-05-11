@@ -30,14 +30,14 @@
     fans_count = fans_count+#{fansCount,jdbcType=INTEGER}
     where id=#{id}
   </update>
-  <update id="changeChose" parameterType="com.shu.find.model.User">
+  <update id="changeChoseCount" parameterType="com.shu.find.model.User">
     <!--5.10 更新优质回答数 -->
     update user
     set
     chose_count = chose_count+#{choseCount,jdbcType=INTEGER}
     where id=#{id}
   </update>
-  <update id="changeLike" parameterType="com.shu.find.model.User">
+  <update id="changeLikeCount" parameterType="com.shu.find.model.User">
     <!--5.10 更新获赞次数-->
     update user
     set

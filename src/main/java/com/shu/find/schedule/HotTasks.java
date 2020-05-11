@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.util.StringUtils;
@@ -70,6 +71,7 @@ public class HotTasks {
     long nowTime = System.currentTimeMillis();
 
     //？？？为什么不能连配置文件？
+    @Async
     @Scheduled(fixedRate = 600000)//1min运行一次
 //    @Scheduled(cron="0 0 5 * * *")//每天凌晨5点执行
     public void hotTagSchedule() {
@@ -105,7 +107,7 @@ public class HotTasks {
         hotCatch.updateHotTags(tagMap);
 //        log.info("The time is now{}", new Date());
     }
-
+    @Async
     @Scheduled(fixedRate = 600000)//1min运行一次
     public void hotContentSchedule() {
         List<Content> list = new ArrayList<>();
@@ -128,8 +130,8 @@ public class HotTasks {
         hotCatch.updateHotContents(contentMap);
 //        log.info("The time is now{}", new Date());
     }
-
-    @Scheduled(fixedRate = 400000)//40s运行一次
+    @Async
+    @Scheduled(fixedRate = 600000)//1min运行一次
     public void hotUserSchedule() {
         List<User> users=new ArrayList<>();
         Map<User,Integer> userMap=new HashMap<>();

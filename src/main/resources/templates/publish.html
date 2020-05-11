@@ -35,10 +35,11 @@
                 <div class="form-group" id="question-editor">
                     <label for="description">问题补充</label>
                     <!--                    textarea标签的保持显示需要text，input的用value-->
-                    <textarea name="description" id="description" th:text="${description}" style="display: none;"
+                    <textarea name="description" id="description" th:text="${description}"
                               class="form-control" cols="30" rows="10"></textarea>
                 </div>
-                <script type="text/javascript">
+                <!--暂停使用富文本编辑直到手机版bug解决（删除上述style="display: none;"）-->
+                <!--<script type="text/javascript">
                     $(function () {
                         let editor = editormd("question-editor", {
                             width: "100%",
@@ -51,7 +52,7 @@
                             toolbarIcons : "simple"
                         });
                     });
-                </script>
+                </script>-->
                 <div class="form-group">
                     <label for="tag">添加标签</label><!--自动关掉提示-->
                     <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag"

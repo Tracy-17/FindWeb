@@ -25,7 +25,7 @@
     <show-object-properties value="false" />
     <loaded-nodes>
       <connection connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef">
-        <schema name="find" object-types="dataset trigger, view, procedure, function, column, table, constraint, index" />
+        <schema name="find" object-types="function, dataset trigger, column, table, procedure, view, constraint, index" />
       </connection>
     </loaded-nodes>
   </component>

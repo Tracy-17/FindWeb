@@ -23,7 +23,7 @@ alter table user add chose_count int default 0 comment '总计优质回答数';
 alter table user
 	add primary key (account);
 
-/*问题*/
+/*问题或文章*/
 create table content
 (
 	id int auto_increment

@@ -126,6 +126,11 @@ html,body{
     left:0px;
     background: #333;
 }
+.btn-relation{
+    background: #ff9e85;
+    color: #fdfdfd;
+    margin:0 30px;
+}
 .btn-publish {
     float: right;
     margin-bottom: 15px;
@@ -145,6 +150,12 @@ html,body{
     margin-bottom: 10px;
     margin-top: 16px;
 }
+.btn-hot-follow{
+    float: right;
+    background: #fcf2d8;
+    color: #828282;
+}
+
 .btn-chose{
     float: right;
     background-color: transparent;
@@ -236,17 +247,8 @@ html,body{
 }
 
 .comments {
-    padding-bottom: 5px;
     margin-bottom: 15px;
     border-bottom: 1px solid #eeeeee;
-}
-
-.sub-comments {
-    border-radius: 5px;
-    margin-top: 10px;
-    border: 1px solid #eeeeee;
-    padding-top: 15px;
-    margin-bottom: 15px;
 }
 
 .menu {

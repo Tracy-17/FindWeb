@@ -20,48 +20,101 @@
 <body>
 <!--引入导航栏：-->
 <div th:insert="navigation::nav"></div>
-<div class="container-fluid" id="XS">
+<div class="container-fluid">
     <div class="row-fluid">
-        <div class="span6">
-            <img alt="140x140" th:if="${user.avatar!=null}" th:src="@{${user.avatar}}" style="width:30%"/>
-        </div>
-        <div class="span6">
-            <h1>
-                <span th:text="${user.name}"></span>
-            </h1>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <!--                icon标签 icon名-->
+            <h2><span th:text="${sectionName}"></span></h2>
+            <hr>
+            <!--个人资料-->
+            <div th:if="${section=='my'}" style="text-align: center;">
+                <img alt="140x140" th:if="${user.avatar!=null}" th:src="@{${user.avatar}}" style="width:30%"/>
+                <div class="span6">
+                    <h1>
+                        <span th:text="${user.name}"></span>
+                    </h1>
+                </div>
+                <form th:action="@{/changeBio}" method="post" style="text-align: -webkit-center;">
+                    <div class="form-group">
+                        <div class="form-group">
+                        <textarea class="form-control" th:text="${user.bio}" rows="3" name="bio"
+                                  style="width:80%"></textarea>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <button class="btn btn-small btn-info btn-publish" type="submit">修改简介</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="center" style="margin-top: 64px;">
+                    <a th:href="@{/info/followers}">
+                        <button type="button" class="btn btn-relation">关注数：<span th:text="${user.followCount}"></span>
+                        </button>
+                    </a>
+                    <a th:href="@{/info/fans}">
+                        <button type="button" class="btn btn-relation">粉丝数：<span th:text="${user.fansCount}"></span>
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <!--展示关注列表-->
+            <div th:if="${section=='followers'}">
+                <div class="media" th:each="follower : ${followers}">
+                    <div class="media-left">
+                        <a href="#"><img class="media-object img-rounded"
+                                         th:if="${follower.avatar!=null}"
+                                         th:src="@{${follower.avatar}}"></a></div>
+                    <div class="media-body">
+                        <h4 class="media-heading"><span th:text="${follower.name}"></span></h4>
+                        <span th:text="${follower.bio}" class="description"></span><br>
+
+                    </div>
+                    <span class="text-desc">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                粉丝 ：<span th:text="${follower.fansCount}"></span>人 ·
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                优质回答 ：<span th:text="${follower.choseCount}"></span>次 ·
+                    <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                获赞 ：<span th:text="${follower.likeCount}"></span>次
+                 </span>
+                </div>
+            </div>
+            <!--展示粉丝列表-->
+            <div th:if="${section=='fans'}">
+                <div class="media" th:each="fan : ${fans}">
+                    <div class="media-left">
+                        <a href="#"><img class="media-object img-rounded"
+                                         th:if="${fan.avatar!=null}"
+                                         th:src="@{${fan.avatar}}"></a></div>
+                    <div class="media-body">
+                        <h4 class="media-heading"><span th:text="${fan.name}"></span></h4>
+                        <span th:text="${fan.bio}" class="description"></span><br>
+
+                    </div>
+                    <span class="text-desc">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                粉丝 ：<span th:text="${fan.fansCount}"></span>人 ·
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                优质回答 ：<span th:text="${fan.choseCount}"></span>次 ·
+                    <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                获赞 ：<span th:text="${fan.likeCount}"></span>次
+                 </span>
+                </div>
+            </div>
+            <!--    查询文件-->
+            <!-- <form action="chaxun" >
+                 <p><input type="submit" value="查询视频"/></p>
+             </form>-->
+            <!--显示文件列表-->
+            <!--<div><ul><li th:each="Shipin:${Shipins}"><p>ID:<span th:text="${Shipin.id}"></span></p>
+                        <p>视频url======<span th:text="${Shipin.url}"></span></p></li></ul></div>-->
+
         </div>
     </div>
-    <form th:action="@{/info}" method="post" style="text-align: -webkit-center;">
-        <div class="form-group">
-            <div class="form-group">
-                <textarea class="form-control" th:text="${user.bio}" rows="3" name="bio" style="width:80%"></textarea>
-            </div>
-        </div>
-        <div class="row-fluid">
-            <div class="span12">
-                <button class="btn btn-small btn-info btn-publish" type="submit">修改简介</button>
-            </div>
-        </div>
-    </form>
-    <div class="row-fluid">
-        <div class="span12">
-            <div class="center" style="margin: 63px 60px;">
-                <button type="button" class="btn">
-                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>关注数：<span th:text="${user.followCount}"></span></button>
-                <button type="button" class="btn">
-                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>粉丝数：<span th:text="${user.fansCount}"></span></button>
-            </div>
-        </div>
-    </div>
-    <!--    查询文件-->
-    <!-- <form action="chaxun" >
-         <p><input type="submit" value="查询视频"/></p>
-     </form>-->
-    <!--显示文件列表-->
-    <!--<div><ul><li th:each="Shipin:${Shipins}"><p>ID:<span th:text="${Shipin.id}"></span></p>
-                <p>视频url======<span th:text="${Shipin.url}"></span></p></li></ul></div>-->
 </div>
-</body>
+<div style="height:35px"></div>
 <!--底栏-->
 <div th:insert="~{footer::foot}"></div>
+</body>
 </html>
