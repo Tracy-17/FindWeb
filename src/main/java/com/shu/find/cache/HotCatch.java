@@ -20,9 +20,9 @@ import java.util.*;
 @Component
 @Data
 public class HotCatch {
-    private List<String> hotTags = new ArrayList<>();
-    private List<ContentDTO> hotContents = new ArrayList<>();
-    private List<UserDTO> hotUsers = new ArrayList<>();
+    private List<String> hotTags;
+    private List<ContentDTO> hotContents;
+    private List<UserDTO> hotUsers;
 
     //连接配置文件:
     @Value("${tag.max}")

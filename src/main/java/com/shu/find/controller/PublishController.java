@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 /**
  * @Author ShiQi
@@ -108,6 +109,7 @@ public class PublishController {
 
         //存在风险：非法修改
         contentService.createOrUpdate(content);
+        System.out.println("用户 "+content.getCreator()+" 发布了内容："+content.getTitle()+";"+ new Date());
         return "redirect:/index";
     }
 }

@@ -20,24 +20,17 @@
 <body>
 <!--引入导航栏：-->
 <div th:insert="navigation::nav"></div>
+<div style="height:45px"></div>
 <!---------------------------------导航栏结束----------------------------->
-<div class="container-fluid main profile">
-    <div class="row">
-        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <!--                icon标签 icon名-->
             <h2><span th:text="${sectionName}"></span></h2>
             <hr>
             <!--我的发布-->
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section=='questions'}">
-                <!--无提问的页面展示需要修改-->
-                <div class="media" th:each="contentDTO : ${pagination.data}">
-                    <div class="media-left">
-                        <a href="#">
-                            <img class="media-object img-rounded"
-                                 th:if="${contentDTO.user.avatar!=null}"
-                                 th:src="@{${contentDTO.user.avatar}}">
-                        </a>
-                    </div>
+            <div th:if="${section=='contents'}">
+                <div class="media" th:each="contentDTO : ${contents}">
                     <div class="media-body">
                         <h4 class="media-heading">
                             <a th:href="@{'/content/'+${contentDTO.id}}" th:text="${contentDTO.title}"></a>
@@ -57,9 +50,8 @@
                 </div>
             </div>
             <!--我的收藏-->
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section=='collections'}">
-                <!--无提问的页面展示需要修改-->
-                <div class="media" th:each="contentDTO : ${pagination.data}">
+            <div th:if="${section=='collections'}">
+                <div class="media" th:each="contentDTO : ${contents}">
                     <div class="media-left">
                         <a href="#">
                             <img class="media-object img-rounded"
@@ -82,7 +74,7 @@
                 </div>
             </div>
             <!--展示回复-->
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section=='replies'}">
+            <div th:if="${section=='replies'}">
                 <div class="media" th:each="notification : ${pagination.data}">
                     <div class="media-body">
                         <p class="media-heading">
@@ -97,23 +89,7 @@
                     </div>
                 </div>
             </div>
-            <!--展示关注列表-->
-
         </div>
-        <!--<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            &lt;!&ndash;            下述css引用失败，目前不知道原因(.profile.section{}失败&ndash;&gt;
-            &lt;!&ndash;            <div class="list-group section" style="margin-top: 15px;">&ndash;&gt;
-            <div class="list-group profile-section">
-                &lt;!&ndash;            style="margin-top: 15px;"&ndash;&gt;
-                <a href="/profile/questions"
-                   th:class="${section=='questions'}?'active list-group-item':'list-group-item'">我的问题</a>
-                <a href="/profile/replies" th:class="${section=='replies'}?'active list-group-item':'list-group-item'">
-                    最新回复
-                    &lt;!&ndash;                    回复数：&ndash;&gt;
-                    <span class="badge" th:text="${session.unreadCount}"></span>
-                </a>
-            </div>
-        </div>-->
     </div>
 </div>
 <div style="height:35px"></div>

@@ -16,6 +16,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -56,6 +57,7 @@ public class LoginController {
             request.getSession().setAttribute("user", user);
             response.addCookie(new Cookie("token", token));
 //            CookieUtils.set(response, CookieUtils.TOKEN,token,-1);
+            System.out.println("用户 "+dbUser.getName()+" 登录, "+new Date());
             return "redirect:/index";
         } else {
             //登录失败

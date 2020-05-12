@@ -9,9 +9,9 @@
 <script th:src="@{js/bootstrap.min.js}" type="application/javascript"></script>
 <body>
 <!--导航：-->
-<div th:fragment="nav">
+<div th:fragment="nav" class="fixed-top">
     <!--        <img th:if="${session.user==null}" src="images/logos/find_icon.png" href="/index.html" height=auto>-->
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="col-xs-12" style="background-color: #ff9e85;color: #ff9e85;">
             <div th:if="${session.user==null}">
                 <a class="navbar-brand" th:href="@{/index}">

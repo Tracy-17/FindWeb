@@ -19,43 +19,45 @@
 <body>
 <!--引入导航栏：-->
 <div th:insert="navigation::nav"></div>
+<div style="height:50px"></div>
+<p class="help-block">定时任务可以跑，但是前台出不来（需要手动重开服务器），目前还没找到解决方式<br>
+为了让前台不空荡，目前热门话题的内容设成每天更新一次。（更新时间参考站长作息）</p>
 <!--热门话题-->
 <div class="container-fluid" id="XS">
     <div class="row-fluid">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h3>热门话题</h3>
-            <hr>
-            <div class="row-fluid">
+                <h3>热门话题</h3>
+                <hr>
+                <div class="row-fluid">
         <span class="label tag-hot" th:each="tag:${tags}">
              <a th:href="@{/index(search=${search},tag=${tag})}">
                  <span class="glyphicon glyphicon-tags" style="color: #fdfdfd;"></span>
             <span class="label content-tag-text" th:text="${tag}"></span>
         </a></span>
-            </div>
-            <hr>
-        </div>
-        <!--排行榜-->
-        <div id="ranking" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h3>答题排行榜</h3>
-            <hr>
-            <div class="media" th:each="hotUser : ${hotUsers}">
-                <div class="media-left">
-                    <a href="#"><img class="media-object img-rounded"
-                                     th:if="${hotUser.avatar!=null}"
-                                     th:src="@{${hotUser.avatar}}"></a></div>
-                <div class="media-body">
-                    <h4 class="media-heading"><span th:text="${hotUser.name}"></span></h4>
-                    <span th:text="${hotUser.bio}" class="description"></span><br>
-
                 </div>
-                <!--关注-->
-                <div class="media-right">
-                    <button th:class="${hotUser.isFollowed?'btn btn-hot-follow true':'btn btn-hot-follow'}"
-                            type="button" th:if="${session.user!=null&&session.user.id!=hotUser.id}">
+                <hr>
+            <!--排行榜-->
+            <div id="ranking">
+                <h3>答题排行榜</h3>
+                <hr>
+                <div class="media" th:each="hotUser : ${hotUsers}">
+                    <div class="media-left">
+                        <a href="#"><img class="media-object img-rounded"
+                                         th:if="${hotUser.avatar!=null}"
+                                         th:src="@{${hotUser.avatar}}"></a></div>
+                    <div class="media-body">
+                        <h4 class="media-heading"><span th:text="${hotUser.name}"></span></h4>
+                        <span th:text="${hotUser.bio}" class="description"></span><br>
+
+                    </div>
+                    <!--关注-->
+                    <div class="media-right">
+                        <button th:class="${hotUser.isFollowed?'btn btn-hot-follow true':'btn btn-hot-follow'}"
+                                type="button" th:if="${session.user!=null&&session.user.id!=hotUser.id}">
                     <span onclick="follow(this)" th:data-id="${hotUser.id}"
                           th:text="${hotUser.isFollowed?'取消关注':'+ 关注'}"></span></button>
-                </div>
-                <span class="text-desc">
+                    </div>
+                    <span class="text-desc">
                     <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                 粉丝 ：<span th:text="${hotUser.fansCount}"></span>人 ·
                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
@@ -63,31 +65,30 @@
                     <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
                 获赞 ：<span th:text="${hotUser.likeCount}"></span>次
                  </span>
-            </div>
-        </div>
-        <!--人气内容-->
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <hr>
-            <h3>人气内容</h3>
-            <hr>
-            <div class="media" th:each="ContentDTO : ${contents}">
-                <div class="media-body">
-                    <h4 class="media-heading">
-                        <a th:href="@{'/content/'+${ContentDTO.id}}" th:text="${ContentDTO.title}"></a>
-                        <span class="label content-hot">
+                </div>
+                <!--人气内容-->
+                    <hr>
+                    <h3>人气内容</h3>
+                    <hr>
+                    <div class="media" th:each="ContentDTO : ${contents}">
+                        <div class="media-body">
+                            <h4 class="media-heading">
+                                <a th:href="@{'/content/'+${ContentDTO.id}}" th:text="${ContentDTO.title}"></a>
+                                <span class="label content-hot">
                             <span class="glyphicon glyphicon-fire"></span>
                             <span class="label content-tag-text" th:text="${ContentDTO.priority}"
                                   style="color: #ff9e85;margin-left: -7px;"></span>
                         </span>
-                    </h4>
-                    <span th:text="${ContentDTO.description}" class="description"></span><br>
-                    <span class="text-desc">
+                            </h4>
+                            <span th:text="${ContentDTO.description}" class="description"></span><br>
+                            <span class="text-desc">
                        <span th:text="${ContentDTO.viewCount}"></span>次浏览 ·
                        <span th:text="${ContentDTO.commentCount}"></span> 个回复 ·
                        <span th:text="${ContentDTO.collCount}"></span>次收藏 ·
                        <span th:text="${#dates.format(ContentDTO.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
                 </span>
-                </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>

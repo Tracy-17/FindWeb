@@ -71,9 +71,10 @@ public class HotTasks {
     long nowTime = System.currentTimeMillis();
 
     //？？？为什么不能连配置文件？
+    //曲线救国，一天跑一次，手动更新
     @Async
-    @Scheduled(fixedRate = 600000)//1min运行一次
-//    @Scheduled(cron="0 0 5 * * *")//每天凌晨5点执行
+    @Scheduled(fixedRate = 86400000)
+//    @Scheduled(cron="0 0 13 ? * *")//每天13点执行
     public void hotTagSchedule() {
         List<Content> list = new ArrayList<>();
         Map<String, Integer> tagMap = new HashMap<>();
@@ -105,10 +106,11 @@ public class HotTasks {
                 }
         );*/
         hotCatch.updateHotTags(tagMap);
-//        log.info("The time is now{}", new Date());
+        log.info("热门标签 ", new Date());
+        System.out.println("热门标签 "+ new Date());
     }
     @Async
-    @Scheduled(fixedRate = 600000)//1min运行一次
+    @Scheduled(fixedRate = 86400000)
     public void hotContentSchedule() {
         List<Content> list = new ArrayList<>();
         Map<Content, Integer> contentMap = new HashMap<>();
@@ -128,10 +130,11 @@ public class HotTasks {
             offset += limit;
         }
         hotCatch.updateHotContents(contentMap);
-//        log.info("The time is now{}", new Date());
+        log.info("热门问题 ", new Date());
+        System.out.println("热门问题 "+ new Date());
     }
     @Async
-    @Scheduled(fixedRate = 600000)//1min运行一次
+    @Scheduled(fixedRate = 86400000)
     public void hotUserSchedule() {
         List<User> users=new ArrayList<>();
         Map<User,Integer> userMap=new HashMap<>();
@@ -153,5 +156,7 @@ public class HotTasks {
                 }
         );*/
         hotCatch.updateHotUsers(userMap);
+        log.info("活跃用户 ", new Date());
+        System.out.println("活跃用户 "+ new Date());
     }
 }

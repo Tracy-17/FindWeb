@@ -92,6 +92,7 @@ public class SignUpController {
                 user.setAvatar((String) request.getSession().getAttribute("avatar"));
             }
             userService.create(user);
+            System.out.println("新用户注册："+user.getName());
             return "redirect:/index";
         }
     }

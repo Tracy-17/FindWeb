@@ -86,6 +86,7 @@ com\shu\find\config\AppConfig.class
 com\shu\find\service\CollectionService.class
 com\shu\find\mapper\MylikeMapper.class
 com\shu\find\model\Collection.class
+com\shu\find\enums\MyRelationTypeEnum.class
 com\shu\find\service\CommentService.class
 com\shu\find\controller\LikeController.class
 com\shu\find\controller\FollowController.class

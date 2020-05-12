@@ -47,6 +47,7 @@ F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\control
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\mapper\UserExtMapper.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\schedule\HotTasks.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\model\Mylike.java
+F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\enums\MyRelationTypeEnum.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\controller\LikeController.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\dto\CommentDTO.java
 F:\File\computerscience\IdeaWorkSpace\FindWeb\src\main\java\com\shu\find\mapper\FollowMapper.java

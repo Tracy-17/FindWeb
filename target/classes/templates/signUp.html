@@ -14,6 +14,7 @@
 </head>
 <body>
 <div th:insert="navigation::nav"></div>
+<div style="height:45px"></div>
 <div id="DivMain" align="center">
 
     <!--滑动广告-->
@@ -48,14 +49,15 @@
                                                                                             class="right carousel-control">›</a>
     </div>-->
     <div class="form-group">
-    <label for="inputfile">文件输入</label>
+    <label for="inputfile"></label>
     <form th:action="@{uploadAvatar}" method="post" enctype="multipart/form-data">
         <p><input type="file" name="fileName" id="inputfile"/></p>
         <p><input type="submit" value="上传头像"/></p>
     </form>
-
-        <p class="help-block">先上传头像再继续吧~</p>
-
+        <p class="help-block">先上传头像再继续吧<br>
+            上传之后请自行手动返回，继续填写注册信息（前端不会写）<br>
+        由于数据库没有做加密（不会做）<br>
+            为防止泄露各位的个人隐私，建议各位帮忙测试的朋友邮箱随便写**@**.**，密码使用123</p>
     <form class="form-horizontal" th:action="@{/signUp}" method="post">
         <div class="row-fluid">
             <div class="span12">
