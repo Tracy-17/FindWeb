@@ -28,7 +28,7 @@
                     </a>
                     <span class="badge notification" th:if="${session.unreadCount>0}" th:text="${session.unreadCount}"></span>
                     <ul class="dropdown-menu">
-                        <li><a th:href="@{/info/my}">个人资料</a></li>
+                        <li><a th:href="@{'/info/'+${session.user.id}+'/my'}">个人资料</a></li>
                         <li><a th:href="@{/profile/contents}">发布</a></li>
                         <li><a th:href="@{/profile/collections}">收藏</a></li>
                         <li><a th:href="@{/profile/replies}">通知

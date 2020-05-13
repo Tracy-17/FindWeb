@@ -25,7 +25,7 @@
     <div class="row-fluid">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <!--                icon标签 icon名-->
-            <h2><span th:text="${sectionName}"></span></h2>
+            <h3><span th:text="${name}+'的'+${sectionName}"></span></h3>
             <hr>
             <!--个人资料-->
             <div th:if="${section=='my'}" style="text-align: center;">
@@ -44,18 +44,22 @@
                     </div>
                     <div class="row-fluid">
                         <div class="span12">
-                            <button class="btn btn-small btn-info btn-publish" type="submit">修改简介</button>
+                            <button th:if="${user.id==session.user.id}" class="btn btn-small btn-info btn-publish" type="submit">修改简介</button>
+                        </div>
+                        <!--关注-->
+                        <div id="ranking" th:if="${session.user!=null&&session.user.id!=user.id}">
+                            <button th:class="${user.isFollowed?'btn btn-follow true':'btn btn-follow'}" type="button">
+                            <span onclick="follow(this)" th:data-id="${user.id}"
+                                th:text="${user.isFollowed?'取消关注':'+ 关注'}"></span></button>
                         </div>
                     </div>
                 </form>
                 <div class="center" style="margin-top: 64px;">
-                    <a th:href="@{/info/followers}">
-                        <button type="button" class="btn btn-relation">关注数：<span th:text="${user.followCount}"></span>
-                        </button>
+                    <a th:href="@{'/info/'+${user.id}+'/followers'}">
+                        <button type="button" class="btn btn-relation">关注数：<span th:text="${user.followCount}"></span></button>
                     </a>
-                    <a th:href="@{/info/fans}">
-                        <button type="button" class="btn btn-relation">粉丝数：<span th:text="${user.fansCount}"></span>
-                        </button>
+                    <a th:href="@{'/info/'+${user.id}+'/fans'}">
+                        <button type="button" class="btn btn-relation">粉丝数：<span th:text="${user.fansCount}"></span></button>
                     </a>
                 </div>
             </div>
@@ -63,7 +67,7 @@
             <div th:if="${section=='followers'}">
                 <div class="media" th:each="follower : ${followers}">
                     <div class="media-left">
-                        <a href="#"><img class="media-object img-rounded"
+                        <a th:href="@{'/info/'+${follower.id}+'/my'}"><img class="media-object img-rounded"
                                          th:if="${follower.avatar!=null}"
                                          th:src="@{${follower.avatar}}"></a></div>
                     <div class="media-body">
@@ -85,7 +89,7 @@
             <div th:if="${section=='fans'}">
                 <div class="media" th:each="fan : ${fans}">
                     <div class="media-left">
-                        <a href="#"><img class="media-object img-rounded"
+                        <a th:href="@{'/info/'+${fan.id}+'/my'}"><img class="media-object img-rounded"
                                          th:if="${fan.avatar!=null}"
                                          th:src="@{${fan.avatar}}"></a></div>
                     <div class="media-body">

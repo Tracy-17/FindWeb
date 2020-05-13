@@ -41,9 +41,9 @@ public class ContentController {
         System.out.println(contentDTO.getUser().getName());
         List<ContentDTO> relatedQuestions = contentService.selectRelated(contentDTO);
         List<CommentDTO> comments = commentService.listByTargetId(id, CommentTypeEnum.CONTENT);
-        Boolean isInCollection=false;
-        Boolean isFollowed=false;
-        Boolean isInLikeContent=false;
+        boolean isInCollection=false;
+        boolean isFollowed=false;
+        boolean isInLikeContent=false;
         //同时显示优质评论
         List<CommentDTO> choseComment=commentService.listByTargetId(id,CommentTypeEnum.ANSWER);
         if(choseComment!=null){

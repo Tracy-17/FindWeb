@@ -11,6 +11,7 @@ import com.shu.find.service.FollowService;
 import com.shu.find.service.NotificationService;
 import com.shu.find.service.ContentService;
 import com.shu.find.service.UserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,7 +45,7 @@ public class ProfileController {
     private FollowService followService;
 
     private User user;
-    private List<ContentDTO> contents=null;
+    private List<ContentDTO> contents = null;
 
     @GetMapping("/profile/{action}")//访问profile+动态页面时调到此处
     public String profile(HttpServletRequest request,
@@ -75,30 +76,36 @@ public class ProfileController {
         return "profile";
     }
 
-    @GetMapping("/info/{action}")
+    @GetMapping("/info/{id}/{action}")
     public String info(HttpServletRequest request,
+                       @PathVariable(name = "id") Integer id,
                        @PathVariable(name = "action") String action,
                        Model model) {
         //获取当前页面用户信息
+        User infoUser = userService.getById(id);
+        model.addAttribute("name", infoUser.getName());
         //验证登录：
         user = (User) request.getSession().getAttribute("user");
         //未登录跳转：
         if (user == null) {
             return "redirect:/index";
         }
+        UserDTO infoUserDTO = new UserDTO();
+        BeanUtils.copyProperties(infoUser, infoUserDTO);
+        infoUserDTO.setIsFollowed(followService.isFollowed(user.getId(), id));
         if ("my".equals(action)) {
             model.addAttribute("section", "my");
             model.addAttribute("sectionName", "个人资料");
-            model.addAttribute("user", user);
-        }else if("followers".equals(action)){
+            model.addAttribute("user", infoUserDTO);
+        } else if ("followers".equals(action)) {
             model.addAttribute("section", "followers");
             model.addAttribute("sectionName", "关注列表");
-            List<User> followers = followService.myRelation(user.getId(), MyRelationTypeEnum.FOLLOW.getType());
+            List<User> followers = followService.myRelation(infoUser.getId(), MyRelationTypeEnum.FOLLOW.getType());
             model.addAttribute("followers", followers);
-        }else if("fans".equals(action)){
+        } else if ("fans".equals(action)) {
             model.addAttribute("section", "fans");
             model.addAttribute("sectionName", "粉丝列表");
-            List<User> fans = followService.myRelation(user.getId(),MyRelationTypeEnum.FAN.getType());
+            List<User> fans = followService.myRelation(infoUser.getId(), MyRelationTypeEnum.FAN.getType());
             model.addAttribute("fans", fans);
         }
         return "info";

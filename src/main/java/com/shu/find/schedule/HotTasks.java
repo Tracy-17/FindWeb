@@ -65,24 +65,27 @@ public class HotTasks {
     @Value("${user.like}")
     private Integer userLike;
 
-    Integer offset = 0;
-    Integer limit = 20;
-    RowBounds rowBounds = new RowBounds(offset, limit);
+    /*5.13:offset和limit提取后定时任务失效。原因待查
+    int offset = 0;
+    int limit = 20;
+    RowBounds rowBounds = new RowBounds(offset, limit);*/
     long nowTime = System.currentTimeMillis();
 
     //？？？为什么不能连配置文件？
-    //曲线救国，一天跑一次，手动更新
+    //有时会阻塞，但是也会跑的
     @Async
-    @Scheduled(fixedRate = 86400000)
+    @Scheduled(fixedRate = 6000)
 //    @Scheduled(cron="0 0 13 ? * *")//每天13点执行
     public void hotTagSchedule() {
+        int offset = 0;
+        int limit = 20;
         List<Content> list = new ArrayList<>();
         Map<String, Integer> tagMap = new HashMap<>();
         while (offset == 0 || list.size() == limit) {
-            /*0510 tag全没了。。。*/
-            /*ContentExample contentExample = new ContentExample();
+           /* 0510 tag全没了。。。
+            ContentExample contentExample = new ContentExample();
             contentExample.createCriteria().andGmtCreateBetween(nowTime - sevenDaysAgo, nowTime);*/
-            list = contentMapper.selectByExampleWithBLOBs(new ContentExample(), rowBounds);
+            list = contentMapper.selectByExampleWithBLOBs(new ContentExample(), new RowBounds(offset, limit));
             for (Content content : list) {
                 //是用中文逗号分开的。。。
                 String[] tags = StringUtils.split(content.getTag(), "，");
@@ -107,17 +110,19 @@ public class HotTasks {
         );*/
         hotCatch.updateHotTags(tagMap);
         log.info("热门标签 ", new Date());
-        System.out.println("热门标签 "+ new Date());
     }
+
     @Async
-    @Scheduled(fixedRate = 86400000)
+    @Scheduled(fixedRate = 60000)
     public void hotContentSchedule() {
+        int offset = 0;
+        int limit = 20;
         List<Content> list = new ArrayList<>();
         Map<Content, Integer> contentMap = new HashMap<>();
         while (offset == 0 || list.size() == limit) {
             ContentExample contentExample = new ContentExample();
             contentExample.createCriteria().andGmtCreateBetween(nowTime - timeBefore, nowTime);
-            list = contentMapper.selectByExampleWithBLOBs(contentExample, rowBounds);
+            list = contentMapper.selectByExampleWithBLOBs(contentExample, new RowBounds(offset, limit));
             for (Content content : list) {
                 //优先级=1*浏览量+3*点赞数+5*回复数*7*收藏数
                 Integer priority = content.getViewCount() * contentView + content.getLikeCount() * contentLike
@@ -129,15 +134,22 @@ public class HotTasks {
             }
             offset += limit;
         }
+        /*contentMap.forEach(
+                (k, v) -> {
+                    System.out.print(k.getTitle() + " " + v + ",");
+                }
+        );*/
         hotCatch.updateHotContents(contentMap);
         log.info("热门问题 ", new Date());
-        System.out.println("热门问题 "+ new Date());
     }
+
     @Async
-    @Scheduled(fixedRate = 86400000)
+    @Scheduled(fixedRate = 60000)
     public void hotUserSchedule() {
-        List<User> users=new ArrayList<>();
-        Map<User,Integer> userMap=new HashMap<>();
+        int offset = 0;
+        int limit = 20;
+        List<User> users = new ArrayList<>();
+        Map<User, Integer> userMap = new HashMap<>();
         while (offset == 0 || users.size() == limit) {
             UserExample userExample = new UserExample();
             //仅限近期登陆过的用户
@@ -145,18 +157,17 @@ public class HotTasks {
             users = userMapper.selectByExample(userExample);
             for (User user : users) {
                 //优先级=91*被选中数+9*点赞数
-                Integer priority = user.getChoseCount()*userChose+user.getLikeCount()*userLike;
-                userMap.put(user,priority);
+                Integer priority = user.getChoseCount() * userChose + user.getLikeCount() * userLike;
+                userMap.put(user, priority);
             }
             offset += limit;
         }
-       /*  userMap.forEach(
+        /*userMap.forEach(
                 (k, v) -> {
                     System.out.print(k.getName() + " " + v + ",");
                 }
         );*/
         hotCatch.updateHotUsers(userMap);
         log.info("活跃用户 ", new Date());
-        System.out.println("活跃用户 "+ new Date());
     }
 }

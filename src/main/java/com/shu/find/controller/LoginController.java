@@ -65,6 +65,25 @@ public class LoginController {
             return "index";
         }
     }
+    //为方便测试，注册后进入以下接口
+    @GetMapping("/login")
+    public String login(@RequestParam(name = "account") String account,
+                        Model model,
+                        HttpServletResponse response,
+                        HttpServletRequest request){
+        User user = new User();
+        user.setAccount(account);
+        //首页展示内容：
+        PaginationDTO pagination = contentService.list(null, null, ContentTypeEnum.QUESTION.getType());
+        model.addAttribute("pagination", pagination);
+        User dbUser = userService.getByAccount(account);
+        String token = UUID.randomUUID().toString();//javaJDK提供的一个自动生成主键的方法:
+        dbUser.setToken(token);
+        userService.update(dbUser);
+        request.getSession().setAttribute("user", user);
+        response.addCookie(new Cookie("token", token));
+        return "redirect:/index";
+    }
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request,

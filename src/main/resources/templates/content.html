@@ -26,7 +26,7 @@
         <!--                icon标签 icon名-->
         <div class="media">
             <div class="media-left">
-                <a href="#">
+                <a th:href="@{'/info/'+${content.creator}+'/my'}">
                     <img class="media-object img-rounded" th:if="${content.user.avatar!=null}"
                          th:src="@{${content.user.avatar}}" style="margin-top: 12px;">
                 </a>
@@ -107,7 +107,7 @@
             <div class="comments" th:each="comment : ${comments}">
                 <div class="media">
                     <div class="media-left">
-                        <a href="#">
+                        <a th:href="@{'/info/'+${comment.commentator}+'/my'}">
                             <img class="media-object img-rounded" th:if="${comment.user.avatar!=null}"
                                  th:src="@{${comment.user.avatar}}">
                         </a>

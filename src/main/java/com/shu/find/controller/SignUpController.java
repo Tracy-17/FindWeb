@@ -93,7 +93,9 @@ public class SignUpController {
             }
             userService.create(user);
             System.out.println("新用户注册："+user.getName());
-            return "redirect:/index";
+            //注册后自动登录：
+            return "redirect:/login?account="+account;
+//            return "redirect:/index";
         }
     }
 

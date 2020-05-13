@@ -20,8 +20,6 @@
 <!--引入导航栏：-->
 <div th:insert="navigation::nav"></div>
 <div style="height:50px"></div>
-<p class="help-block">定时任务可以跑，但是前台出不来（需要手动重开服务器），目前还没找到解决方式<br>
-为了让前台不空荡，目前热门话题的内容设成每天更新一次。（更新时间参考站长作息）</p>
 <!--热门话题-->
 <div class="container-fluid" id="XS">
     <div class="row-fluid">
@@ -42,7 +40,7 @@
                 <hr>
                 <div class="media" th:each="hotUser : ${hotUsers}">
                     <div class="media-left">
-                        <a href="#"><img class="media-object img-rounded"
+                        <a th:href="@{'/info/'+${hotUser.id}+'/my'}"><img class="media-object img-rounded"
                                          th:if="${hotUser.avatar!=null}"
                                          th:src="@{${hotUser.avatar}}"></a></div>
                     <div class="media-body">
