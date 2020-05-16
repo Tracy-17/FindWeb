@@ -41,7 +41,7 @@
                 <button th:class="${isFollowed?'btn btn-follow true':'btn btn-follow'}"
                         type="button" th:if="${session.user!=null}">
                     <span onclick="follow(this)" th:data-id="${content.creator}"
-                          th:text="${isFollowed?'取消关注':'+ 关注'}"></span></button>
+                          th:text="${isFollowed?'已关注':'+ 关注'}"></span></button>
             </div>
         </div>
         <span class="text-desc">
@@ -55,7 +55,8 @@
         <!--描述内容-->
         <div id="content-view">
             <textarea style="display:none;" th:text="${content.description}"></textarea>
-        </div><!--按照原格式展示-->
+        </div>
+        <!--按照原格式展示-->
         <script type="text/javascript">
                     $(function () {
                         editormd.markdownToHTML("content-view", {});
@@ -78,7 +79,7 @@
             <!--收藏-->
             <div th:if="${session.user.id!=content.creator}" id="collection" class="content-set">
                     <span th:class="${isInCollection?'glyphicon glyphicon-star true':'glyphicon glyphicon-star-empty'}"
-                          th:text="${isInCollection?'取消收藏':'收藏'}" th:data-id="${content.id}"
+                          th:text="${isInCollection?'已收藏':'收藏'}" th:data-id="${content.id}"
                           onclick="coll(this)"></span>
             </div>
             <!--内容点赞-->
@@ -173,7 +174,7 @@
                     <div class="media-left">
                         <a href="#">
                             <img class="media-object img-rounded" style="margin: 10px 0 0 0;"
-                                 th:src="@{${session.user!=null?session.user.avatar:'/images/default-avatar.png'}}">
+                                 th:src="@{${session.user!=null?session.user.avatar:'/images/logos/default-avatar.png'}}">
                         </a>
                         <h6 class="media-heading" style="margin-top: 5px;">
                             <span th:text="${session.user!=null?session.user.name:'你还没登录哦'}"></span>

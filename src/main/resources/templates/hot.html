@@ -53,7 +53,7 @@
                         <button th:class="${hotUser.isFollowed?'btn btn-hot-follow true':'btn btn-hot-follow'}"
                                 type="button" th:if="${session.user!=null&&session.user.id!=hotUser.id}">
                     <span onclick="follow(this)" th:data-id="${hotUser.id}"
-                          th:text="${hotUser.isFollowed?'取消关注':'+ 关注'}"></span></button>
+                          th:text="${hotUser.isFollowed?'已关注':'+ 关注'}"></span></button>
                     </div>
                     <span class="text-desc">
                     <span class="glyphicon glyphicon-user" aria-hidden="true"></span>

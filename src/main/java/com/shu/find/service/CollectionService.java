@@ -29,24 +29,21 @@ public class CollectionService {
     private ContentExtMapper questionExtMapper;
 
     //查询此人的所有收藏
-    public List<Integer> findCollByUserId(Integer userId){
+    public List<Collection> findCollByUserId(Integer userId){
         CollectionExample collectionExample = new CollectionExample();
         collectionExample.createCriteria()
                 .andUserIdEqualTo(userId);
+        collectionExample.setOrderByClause("gmt_create desc");
         List<Collection> collections = collectionMapper.selectByExample(collectionExample);
-        List<Integer> myColl=new ArrayList<>();
-        for(Collection collection:collections){
-            myColl.add(collection.getQuestionId());
-        }
-        return myColl;
+        return collections;
     }
     //查询是否已被收藏
     public boolean isInCollection(Integer userId,Integer contentId) {
         //查找此人的所有收藏
-        List<Integer> myColl=findCollByUserId(userId);
+        List<Collection> myColl=findCollByUserId(userId);
         //遍历
-        for (Integer coll:myColl) {
-            if (contentId == coll) {
+        for (Collection coll:myColl) {
+            if (contentId == coll.getQuestionId()) {
                 return true;
             }
         }

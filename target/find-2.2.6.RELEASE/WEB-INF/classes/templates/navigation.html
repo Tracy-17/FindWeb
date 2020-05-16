@@ -16,7 +16,7 @@
             <div th:if="${session.user==null}">
                 <a class="navbar-brand" th:href="@{/index}">
                     <!--src前面没有/时content界面显示失败-->
-                    <img th:src="@{/images/logos/icon_write.png}" style="margin: -15px 15px 0 0;height: inherit;" alt="Find">
+                    <img th:src="@{/images/logos/find-write.png}" style="margin: -15px 15px 0 -20px;height: inherit;" alt="Find">
                 </a>
             </div>
             <!--th:text="${session.user!=null?session.user.name:'你还没登录哦'}"-->

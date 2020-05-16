@@ -121,6 +121,6 @@ public class ProfileController {
         }
         user.setBio(bio);
         userService.update(user);
-        return "redirect:/info/my";
+        return "redirect:/info/"+user.getId()+"/my";
     }
 }

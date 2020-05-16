@@ -12,8 +12,7 @@
     <!-- 指定数据库驱动的jdbc驱动jar包的位置 -->
     <classPathEntry location="${spring.datasource.driverLocation}" />
     <!-- context 是逆向工程的主要配置信息 -->
-    <!-- id：起个名字 -->
-    <!-- targetRuntime：设置生成的文件适用于那个 mybatis 版本 -->
+    <!-- id：起个名字;targetRuntime：设置生成的文件适用于那个 mybatis 版本 -->
     <context id="default" targetRuntime="MyBatis3">
 
         <!--optional,旨在创建class时，对注释进行控制-->
@@ -66,7 +65,7 @@
             <!-- 针对 oracle 数据库的一个配置，是否把 schema 作为字包名 -->
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
-                <table tableName="user" domainObjectName="User"/>
+<!--                <table tableName="user" domainObjectName="User"/>-->
 <!--                <table tableName="content" domainObjectName="Content"/>-->
 <!--                <table tableName="comment" domainObjectName="Comment"/>-->
 <!--                <table tableName="notification" domainObjectName="Notification"/>-->

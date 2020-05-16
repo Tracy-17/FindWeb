@@ -66,8 +66,7 @@
     <select id="selectRelated" resultMap="BaseResultMap" parameterType="com.shu.find.model.Content">
         select * from content where id!=#{id} and tag regexp #{tag}
     </select>
-    <!--  search不为空时，搜索标题（返回值resultType可以写Integer类型？？？）
-    12.20：修改为resultType后，首页不展示description的问题竟然自动修复了。。。神奇
+    <!--  search不为空时，搜索标题
     添加and search != ''后，修复search为空的bug-->
     <select id="countBySearch" resultType="java.lang.Integer" parameterType="com.shu.find.model.Content">
         select count(*) from content

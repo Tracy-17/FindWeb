@@ -26,6 +26,8 @@ public class ContentDTO implements Comparable{
     private Integer collCount;
     //需要展示给前端用户信息，但不存储进数据库
     private User user;
+    //收藏时间：
+    private Long collTime;
 
     //热门问题展示
     private Integer priority;

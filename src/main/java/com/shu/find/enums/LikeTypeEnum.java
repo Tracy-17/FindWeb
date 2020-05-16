@@ -7,7 +7,6 @@ package com.shu.find.enums;
 public enum LikeTypeEnum {
     CONTENT(1),
     COMMENT(2);
-    /*已被解答的问题*/
     private Integer type;
 
     public static boolean isExist(Integer type) {

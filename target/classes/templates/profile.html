@@ -40,11 +40,11 @@
                             <span th:text="${contentDTO.viewCount}"></span>次浏览 ·
                             <span th:text="${contentDTO.commentCount}"></span> 个回复 ·
                             <span th:text="${contentDTO.collCount}"></span>次收藏 ·
-                            <span th:text="${#dates.format(contentDTO.gmtCreate,'yyyy-MM-dd HH:mm')}"></span> ·
-                        <a th:href="@{'/publish/'+${contentDTO.id}}" class="test-menu"
+                            <span th:text="${#dates.format(contentDTO.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
+                            <a th:href="@{'/publish/'+${contentDTO.id}}" class="test-menu"
                            th:if="${session.user!=null && session.user.id==contentDTO.creator}">
-                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"
-                              style="float: right;margin-bottom:4px;">编辑</span></a>
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"
+                              style="float: right;margin-top: -12px">编辑</span></a>
                     </span>
                     </div>
                 </div>
@@ -66,17 +66,15 @@
                         <span th:text="${contentDTO.description}" class="description"></span><br>
                         <span class="text-desc">
                             <span th:text="${contentDTO.viewCount}"></span>次浏览 ·
-                            <span th:text="${contentDTO.commentCount}"></span> 个回复 ·
-                            <span th:text="${contentDTO.collCount}"></span>次收藏 ·
-                            <span th:text="${#dates.format(contentDTO.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
+                            <span th:text="${contentDTO.commentCount}"></span> 个回复 · 收藏时间：
+                            <span th:text="${#dates.format(contentDTO.collTime,'yyyy-MM-dd HH:mm')}"></span>
                     </span>
                     </div>
                 </div>
             </div>
             <!--展示回复-->
             <div th:if="${section=='replies'}">
-                <div class="media" th:each="notification : ${pagination.data}">
-                    <div class="media-body">
+                <div th:each="notification : ${pagination.data}" style="margin-bottom: 15px;">
                         <p class="media-heading">
                             <span th:text="${notification.notifierName+' '+notification.typeName+' '}"></span>
                         <div th:if="${notification.type==1||notification.type==2||notification.type==4}">
@@ -84,9 +82,7 @@
                                th:text="${notification.outerTitle}"></a>
                             <span th:class="${(notification.status==0)?'label label-danger':'label'}"
                                   th:text="${(notification.status==0)?'未读':'已读'}"></span>
-                        </div>
-                        </p>
-                    </div>
+                        </div></p>
                 </div>
             </div>
         </div>

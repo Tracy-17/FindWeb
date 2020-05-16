@@ -7,6 +7,7 @@ import com.shu.find.model.Myfile;
 import com.shu.find.model.User;
 import com.shu.find.service.UserService;
 import com.shu.find.service.MyfileService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +28,7 @@ import java.util.List;
  * @Author ShiQi
  * @Date 2020/4/23 20:31
  */
+@Slf4j
 @Controller
 public class SignUpController {
     @Autowired
@@ -92,7 +94,7 @@ public class SignUpController {
                 user.setAvatar((String) request.getSession().getAttribute("avatar"));
             }
             userService.create(user);
-            System.out.println("新用户注册："+user.getName());
+            log.info("新用户注册："+user.getName());
             //注册后自动登录：
             return "redirect:/login?account="+account;
 //            return "redirect:/index";
@@ -103,7 +105,6 @@ public class SignUpController {
     @ResponseBody
     @RequestMapping(value = "/uploadAvatar", produces = "application/json;charset=UTF-8")
     public Object uploadFile(@RequestParam("fileName") MultipartFile file,
-                             Model model,
                              HttpServletRequest request) {
         //判断文件是否为空
         if (file.isEmpty()) {
@@ -118,7 +119,7 @@ public class SignUpController {
         String fileName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + suffix;
         String path = imagePath + fileName;
         //文件绝对路径
-        System.out.print("保存文件绝对路径" + path + "\n");
+        log.info("保存文件绝对路径" + path + "\n");
         //创建文件路径
         File dest = new File(path);
         //判断文件是否已经存在
@@ -130,7 +131,7 @@ public class SignUpController {
         try {
             //上传文件
             file.transferTo(dest); //保存文件
-            System.out.print("保存文件路径" + path + "\n");
+            log.info("保存文件路径" + path + "\n");
             //url="http://你自己的域名/项目名/images/"+fileName;//正式项目
             url = imageUrl + fileName;//本地运行项目
             Myfile myfile = new Myfile();
@@ -141,8 +142,15 @@ public class SignUpController {
         } catch (IOException e) {
             return ResultDTO.errorOf(CustomizeErrorCode.IO_EXCEPTION);
         }
-        System.out.println("上传成功,文件url==" + url);
-        //写入session
+        log.info("上传成功,文件url==" + url);
+        //如果是已经登陆的用户修改头像：
+        User user = (User) request.getSession().getAttribute("user");
+        if(user!=null){
+            user.setAvatar(url);
+            userService.update(user);
+            return "修改头像成功~";
+        }
+        //新注册用户
         request.getSession().setAttribute("avatar", url);
         return "上传成功，请返回上一页继续填写注册信息";
     }

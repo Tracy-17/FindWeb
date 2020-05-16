@@ -33,14 +33,10 @@ public class FollowController {
         if (user == null) {
             return ResultDTO.errorOf(CustomizeErrorCode.NO_LOGIN);
         }
-        Follow follow=new Follow();
+        Follow follow = new Follow();
         follow.setFollower(foll.getFollower());
         follow.setUserId(user.getId());
-        if (followService.isFollowed(user.getId(),foll.getFollower())) {
-            followService.delete(follow);
-        } else {
-            followService.insert(follow);
-        }
+        followService.update(follow);
         return ResultDTO.okOf();
     }
 }

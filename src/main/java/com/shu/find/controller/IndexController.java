@@ -48,19 +48,11 @@ public class IndexController {
                         @RequestParam(name = "tag", required = false) String tag
     ) {
         //首页按照时间倒序展示问题列表
-        pagination = contentService.list(search, tag, ContentTypeEnum.QUESTION.getType());
+        pagination = contentService.list(search, tag);
         model.addAttribute("pagination", pagination);
         model.addAttribute("search", search);
         model.addAttribute("tag", tag);
         return "index";
-    }
-
-    //文章
-    @GetMapping("/article")
-    public String article(Model model) {
-        pagination = contentService.list(null, null, ContentTypeEnum.ARTICLE.getType());
-        model.addAttribute("pagination", pagination);
-        return "article";
     }
 
     //热门
@@ -92,5 +84,13 @@ public class IndexController {
         contents=contentService.followContent(followService.myRelation(user.getId(), MyRelationTypeEnum.FOLLOW.getType()));
         model.addAttribute("contents",contents);
         return "focus";
+    }
+
+    //文章
+    @GetMapping("/article")
+    public String article(Model model) {
+        pagination = contentService.listArticle();
+        model.addAttribute("pagination", pagination);
+        return "article";
     }
 }

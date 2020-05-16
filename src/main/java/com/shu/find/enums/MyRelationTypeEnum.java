@@ -7,7 +7,6 @@ package com.shu.find.enums;
 public enum MyRelationTypeEnum {
     FOLLOW(1),
     FAN(2);
-    /*已被解答的问题*/
     private Integer type;
 
     public static boolean isExist(Integer type) {

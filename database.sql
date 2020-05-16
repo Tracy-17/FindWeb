@@ -68,7 +68,7 @@ create table notification
 	outer_id int null,
 	outer_title varchar(50) null comment '缓存相关问题的题目',
 	receiver int not null comment '接收通知的人',
-	type int null comment '回复的是1：问题or2：评论；3：关注；4：精选',
+	type int null comment '1:回复内容;2:回复评论;3:关注;4:精选',
 	status int default 0 null comment '状态1：已读or2：未读',
 	gmt_create bigint null
 );
@@ -113,19 +113,6 @@ create table myfile
 	name varchar(600) null,
 	path varchar(600) null,
 	constraint file_pk
-		primary key (id)
-);
-/*精选回答*/
-drop table choice;
-create table choice
-(
-	id int auto_increment,
-	user_id int null comment '评论者',
-	question_id int null,
-	comment_id int null,
-	like_count int 0 comment '缓存点赞数',
-	gmt_create bigint null,
-	constraint choice_pk
 		primary key (id)
 );
 

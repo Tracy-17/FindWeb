@@ -1,14 +1,10 @@
 package com.shu.find.service;
 
-import com.shu.find.dto.ContentDTO;
-import com.shu.find.dto.UserDTO;
 import com.shu.find.exception.CustomizeErrorCode;
 import com.shu.find.exception.CustomizeException;
 import com.shu.find.mapper.UserMapper;
-import com.shu.find.model.Content;
 import com.shu.find.model.User;
 import com.shu.find.model.UserExample;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -28,7 +28,7 @@ function likeContent(e){
     let contentId = e.getAttribute("data-id");
     $.ajax({
         type: "POST",
-        url: "/find/like/Content",/*根目录的/collection而不是当前的question/collection*/
+        url: "/find/like/Content",/*根目录的/collection而不是当前的content/collection*/
         contentType: "application/json",
         data: JSON.stringify({
             "contentId": contentId,
@@ -75,7 +75,7 @@ function coll(e){
     var contentId = e.getAttribute("data-id");
     $.ajax({
         type: "POST",
-        url: "/find/collection",/*根目录的/collection而不是当前的question/collection*/
+        url: "/find/collection",
         contentType: "application/json",
         data: JSON.stringify({
             "questionId": contentId
@@ -97,7 +97,7 @@ function chose(e){
     let contentId = $("#content_id").val();
         $.ajax({
             type: "POST",
-            url: "/find/chose",/*根目录的/collection而不是当前的question/collection*/
+            url: "/find/chose",
             contentType: "application/json",
             data: JSON.stringify({
                 "commentId": commentId,

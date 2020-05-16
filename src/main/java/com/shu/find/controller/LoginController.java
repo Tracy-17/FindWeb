@@ -5,6 +5,7 @@ import com.shu.find.enums.ContentTypeEnum;
 import com.shu.find.model.User;
 import com.shu.find.service.ContentService;
 import com.shu.find.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,7 @@ import java.util.UUID;
  * @Author ShiQi
  * @Date 2020/4/23 20:27
  */
+@Slf4j
 @Controller
 public class LoginController {
     @Autowired
@@ -40,7 +42,7 @@ public class LoginController {
         User user = new User();
         user.setAccount(account);
         //首页展示内容：
-        PaginationDTO pagination = contentService.list(null, null, ContentTypeEnum.QUESTION.getType());
+        PaginationDTO pagination = contentService.list(null, null);
         model.addAttribute("pagination", pagination);
         if (!userService.isExist(account)) {
             //找不到该用户
@@ -56,8 +58,7 @@ public class LoginController {
             // 写cookie和session
             request.getSession().setAttribute("user", user);
             response.addCookie(new Cookie("token", token));
-//            CookieUtils.set(response, CookieUtils.TOKEN,token,-1);
-            System.out.println("用户 "+dbUser.getName()+" 登录, "+new Date());
+            log.info("用户 "+dbUser.getName()+" 登录, "+new Date());
             return "redirect:/index";
         } else {
             //登录失败
@@ -74,7 +75,7 @@ public class LoginController {
         User user = new User();
         user.setAccount(account);
         //首页展示内容：
-        PaginationDTO pagination = contentService.list(null, null, ContentTypeEnum.QUESTION.getType());
+        PaginationDTO pagination = contentService.list(null, null);
         model.addAttribute("pagination", pagination);
         User dbUser = userService.getByAccount(account);
         String token = UUID.randomUUID().toString();//javaJDK提供的一个自动生成主键的方法:
@@ -96,7 +97,7 @@ public class LoginController {
         cookie.setMaxAge(0);
         //        deleteNewCookie.setPath("/");设置本cookie的存放路径（本项目不需要）
         response.addCookie(cookie);
-        PaginationDTO pagination = contentService.list(null,null, ContentTypeEnum.QUESTION.getType());
+        PaginationDTO pagination = contentService.list(null,null);
         model.addAttribute("pagination", pagination);
         return "index";
     }

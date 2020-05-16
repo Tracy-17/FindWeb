@@ -30,6 +30,9 @@
             <!--个人资料-->
             <div th:if="${section=='my'}" style="text-align: center;">
                 <img alt="140x140" th:if="${user.avatar!=null}" th:src="@{${user.avatar}}" style="width:30%"/>
+                <form th:action="@{/uploadAvatar}" method="post" enctype="multipart/form-data" th:if="${user.id==session.user.id}">
+                    <p><input type="file" name="fileName"/><input type="submit" value="修改头像"/></p>
+                </form>
                 <div class="span6">
                     <h1>
                         <span th:text="${user.name}"></span>
@@ -50,7 +53,7 @@
                         <div id="ranking" th:if="${session.user!=null&&session.user.id!=user.id}">
                             <button th:class="${user.isFollowed?'btn btn-follow true':'btn btn-follow'}" type="button">
                             <span onclick="follow(this)" th:data-id="${user.id}"
-                                th:text="${user.isFollowed?'取消关注':'+ 关注'}"></span></button>
+                                th:text="${user.isFollowed?'已关注':'+ 关注'}"></span></button>
                         </div>
                     </div>
                 </form>

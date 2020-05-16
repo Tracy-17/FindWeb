@@ -74,7 +74,7 @@ public class HotTasks {
     //？？？为什么不能连配置文件？
     //有时会阻塞，但是也会跑的
     @Async
-    @Scheduled(fixedRate = 6000)
+    @Scheduled(fixedRate = 60000)
 //    @Scheduled(cron="0 0 13 ? * *")//每天13点执行
     public void hotTagSchedule() {
         int offset = 0;
@@ -109,7 +109,7 @@ public class HotTasks {
                 }
         );*/
         hotCatch.updateHotTags(tagMap);
-        log.info("热门标签 ", new Date());
+        log.info("热门标签 "+ new Date());
     }
 
     @Async
@@ -121,10 +121,11 @@ public class HotTasks {
         Map<Content, Integer> contentMap = new HashMap<>();
         while (offset == 0 || list.size() == limit) {
             ContentExample contentExample = new ContentExample();
+            //限定发布一月内的人气内容
             contentExample.createCriteria().andGmtCreateBetween(nowTime - timeBefore, nowTime);
             list = contentMapper.selectByExampleWithBLOBs(contentExample, new RowBounds(offset, limit));
             for (Content content : list) {
-                //优先级=1*浏览量+3*点赞数+5*回复数*7*收藏数
+                //优先级算法
                 Integer priority = content.getViewCount() * contentView + content.getLikeCount() * contentLike
                         + content.getCommentCount() * contentComment + content.getCollCount() * contentCollection;
                 //优先级筛选
@@ -134,13 +135,8 @@ public class HotTasks {
             }
             offset += limit;
         }
-        /*contentMap.forEach(
-                (k, v) -> {
-                    System.out.print(k.getTitle() + " " + v + ",");
-                }
-        );*/
         hotCatch.updateHotContents(contentMap);
-        log.info("热门问题 ", new Date());
+        log.info("热门问题 "+ new Date());
     }
 
     @Async
@@ -168,6 +164,6 @@ public class HotTasks {
                 }
         );*/
         hotCatch.updateHotUsers(userMap);
-        log.info("活跃用户 ", new Date());
+        log.info("活跃用户 "+ new Date());
     }
 }

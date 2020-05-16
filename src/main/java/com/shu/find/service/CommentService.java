@@ -41,7 +41,8 @@ public class CommentService {
     @Autowired
     private NotificationMapper notificationMapper;
 
-    Long now=System.currentTimeMillis();
+    Long now = System.currentTimeMillis();
+
     //添加评论
     //    Transactional:将整个方法体设为同一个事物
     @Transactional
@@ -52,7 +53,6 @@ public class CommentService {
         if (comment.getType() == null || !CommentTypeEnum.isExist(comment.getType())) {
             throw new CustomizeException(CustomizeErrorCode.TYPE_PARAM_WRONG);
         }
-
         if (comment.getType() == CommentTypeEnum.COMMENT.getType()) {
             //回复评论
             Comment dbComment = commentMapper.selectByPrimaryKey(comment.getParentId());
@@ -71,7 +71,7 @@ public class CommentService {
             parentComment.setCommentCount(1);
             commentExtMapper.incComment(parentComment);
             //创建通知
-            createNotify(comment, dbComment.getCommentator(), commentator.getName(), content.getTitle(), NotificationTypeEnum.REPLY_COMMENT.getType(), content.getId(),0);
+            createNotify(dbComment.getCommentator(), comment.getCommentator(), NotificationTypeEnum.REPLY_COMMENT.getType(), commentator.getName(), content.getId(), content.getTitle());
         } else {
             //回复问题
             Content content = contentMapper.selectByPrimaryKey(comment.getParentId());
@@ -82,7 +82,7 @@ public class CommentService {
             content.setCommentCount(1);
             contentExtMapper.incComment(content);
             //创建通知
-            createNotify(comment, content.getCreator(), commentator.getName(), content.getTitle(), NotificationTypeEnum.REPLY_QUESTION.getType(), content.getId(),0);
+            createNotify(content.getCreator(), comment.getCommentator(), NotificationTypeEnum.REPLY_QUESTION.getType(), commentator.getName(), content.getId(), content.getTitle());
         }
     }
 
@@ -133,44 +133,54 @@ public class CommentService {
     public void updateChose(CommentChoseDTO commentChoseDTO) {
         Comment comment = commentMapper.selectByPrimaryKey(commentChoseDTO.getCommentId());
         Content content = contentMapper.selectByPrimaryKey(commentChoseDTO.getContentId());
-        User user=new User();
+        User user = new User();
         user.setId(comment.getCommentator());
-        if(comment.getType()==CommentTypeEnum.CONTENT.getType()) {
+        if (comment.getType() == CommentTypeEnum.CONTENT.getType()) {
+            //设为优质回答
             comment.setType(CommentTypeEnum.ANSWER.getType());
             //更新评论者的被优选次数
             user.setChoseCount(1);
-            //给评论者的通知
-            createNotify(comment, comment.getCommentator(), commentChoseDTO.getCreatorName(), content.getTitle(), NotificationTypeEnum.CHOSE.getType(), content.getId(),commentChoseDTO.getCreatorId());
-        }else if(comment.getType()==CommentTypeEnum.ANSWER.getType()){
+            //给评论者创建通知
+            //接收者id;创建者id;通知类型;创建者昵称（缓存）;相关内容id;相关内容标题（缓存）
+            createNotify(comment.getCommentator(), commentChoseDTO.getCreatorId(), NotificationTypeEnum.CHOSE.getType(), commentChoseDTO.getCreatorName(), content.getId(), content.getTitle());
+        } else if (comment.getType() == CommentTypeEnum.ANSWER.getType()) {
+            //取消优质回答（设为普通回答）
             comment.setType(CommentTypeEnum.CONTENT.getType());
             //更新评论者的被优选次数
             user.setChoseCount(-1);
+            //删除此条通知
+            NotificationExample notificationExample = new NotificationExample();
+            notificationExample.createCriteria().andNotifierEqualTo(content.getCreator())
+                    .andReceiverEqualTo(comment.getCommentator()).
+                    andTypeEqualTo(NotificationTypeEnum.CHOSE.getType());
+            notificationMapper.deleteByExample(notificationExample);
         }
         userExtMapper.changeChoseCount(user);
         commentMapper.updateByPrimaryKey(comment);
     }
 
-    //创建通知
-    private void createNotify(Comment comment, Integer receiver, String notifierName, String outerTitle, Integer notificationType, Integer outerId,Integer contentCreatorId) {
-        //type1、2接收者是自己，不创建通知
-        if (receiver == comment.getCommentator()&&contentCreatorId==0) {
+    /**
+     * 创建通知
+     * @param receiver         ：接收者id
+     * @param notifier         ：创建者id
+     * @param notificationType ：通知类型
+     * @param notifierName     ：创建者昵称（缓存）
+     * @param outerId          ：相关内容id
+     * @param outerTitle       ：相关内容标题（缓存）
+     */
+    private void createNotify(Integer receiver, Integer notifier, Integer notificationType, String notifierName, Integer outerId, String outerTitle) {
+        //如果接收者是自己，不创建通知
+        if (receiver == notifier) {
             return;
         }
         Notification notification = new Notification();
         notification.setGmtCreate(now);
+        notification.setReceiver(receiver);
+        notification.setNotifier(notifier);
         notification.setType(notificationType);
         notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
-
-        notification.setOuterId(outerId);
-        if(contentCreatorId==0){
-            notification.setNotifier(comment.getCommentator());
-        }else{
-            notification.setNotifier(contentCreatorId);
-        }
-        notification.setReceiver(receiver);
-        //状态：0：未读，1：已读
-        notification.setStatus(0);
         notification.setNotifierName(notifierName);
+        notification.setOuterId(outerId);
         notification.setOuterTitle(outerTitle);
         notificationMapper.insert(notification);
     }

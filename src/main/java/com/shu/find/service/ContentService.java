@@ -2,6 +2,7 @@ package com.shu.find.service;
 
 import com.shu.find.dto.ContentDTO;
 import com.shu.find.dto.PaginationDTO;
+import com.shu.find.enums.ContentTypeEnum;
 import com.shu.find.exception.CustomizeErrorCode;
 import com.shu.find.exception.CustomizeException;
 import com.shu.find.mapper.ContentExtMapper;
@@ -42,32 +43,45 @@ public class ContentService {
     private Integer contentCapacity;
     private Long nowTime = System.currentTimeMillis();
 
-    //展示在首页的内容列表
-    public PaginationDTO<ContentDTO> list(String search, String tag, Integer type) {
+    //展示在首页的内容列表（时间倒序）
+    public PaginationDTO<ContentDTO> list(String search, String tag) {
         //查找：
         if (StringUtils.isNotBlank(search)) {
             String[] tags = StringUtils.split(search, " ");
             //按空格拆分，拼上|，传递至数据库查找
             search = Arrays.stream(tags).collect(Collectors.joining("|"));
         }
+        return pageContent(contentExtMapper.selectBySearch(search, tag), ContentTypeEnum.QUESTION.getType());
+    }
+
+    //文章列表（近一月收藏最高排序）
+    public PaginationDTO<ContentDTO> listArticle() {
+        ContentExample contentExample = new ContentExample();
+        contentExample.createCriteria().andGmtCreateBetween(nowTime - timeBefore, nowTime);
+        //收藏排名
+        contentExample.setOrderByClause("coll_count desc");
+        //description又没了。。。
+        return pageContent(contentMapper.selectByExampleWithBLOBs(contentExample, new RowBounds(0, 20)), ContentTypeEnum.ARTICLE.getType());
+    }
+
+    //提取pagination
+    public PaginationDTO<ContentDTO> pageContent(List<Content> contents, Integer type) {
         PaginationDTO<ContentDTO> paginationDTO = new PaginationDTO<>();
-        List<Content> contents = contentExtMapper.selectBySearch(search, tag);
         List<ContentDTO> contentDTOS = new ArrayList<>();
         for (Content content : contents) {
-            User user = userMapper.selectByPrimaryKey(content.getCreator());
-            ContentDTO contentDTO = new ContentDTO();
-            //BeanUtils.copyProperties:对象之间属性的赋值
-            BeanUtils.copyProperties(content, contentDTO);
-            contentDTO.setUser(user);
-            if (search != null) {
-                contentDTOS.add(contentDTO);
-            } else if (contentDTO.getType() == type) {
+            if (content.getType() == type) {
+                User user = userMapper.selectByPrimaryKey(content.getCreator());
+                ContentDTO contentDTO = new ContentDTO();
+                //BeanUtils.copyProperties:对象之间属性的赋值
+                BeanUtils.copyProperties(content, contentDTO);
+                contentDTO.setUser(user);
                 contentDTOS.add(contentDTO);
             }
         }
         paginationDTO.setData(contentDTOS);
         return paginationDTO;
     }
+
 
     //查询某人的发布
     public List<ContentDTO> listByCreator(User creator) {
@@ -79,7 +93,7 @@ public class ContentService {
         contentExample.setOrderByClause("gmt_create desc");
         //不知原因，查出来没有description
 //        List<Content> contents = contentMapper.selectByExample(contentExample);
-        List<Content> contents = contentMapper.selectByExampleWithBLOBs(contentExample,new RowBounds(0,20));
+        List<Content> contents = contentMapper.selectByExampleWithBLOBs(contentExample, new RowBounds(0, 20));
         for (Content Content : contents) {
             ContentDTO contentDTO = new ContentDTO();
             //BeanUtils.copyProperties:对象之间属性的赋值
@@ -103,20 +117,19 @@ public class ContentService {
         }
         return contentDTOS;
     }
+
     //我的收藏
     public List<ContentDTO> listMyCollection(Integer userId) {
-        List<Integer> contentIds = collectionService.findCollByUserId(userId);
-        List<Content> contents = new ArrayList<>();
-        for (Integer contentId : contentIds) {
-            contents.add(contentMapper.selectByPrimaryKey(contentId));
-        }
+        List<Collection> collections = collectionService.findCollByUserId(userId);
         List<ContentDTO> contentDTOS = new ArrayList<>();
-        for (Content Content : contents) {
-            User user = userMapper.selectByPrimaryKey(Content.getCreator());
+        for (Collection collection : collections) {
+            Content content = contentMapper.selectByPrimaryKey(collection.getQuestionId());
+            User user = userMapper.selectByPrimaryKey(content.getCreator());
             ContentDTO contentDTO = new ContentDTO();
             //BeanUtils.copyProperties:对象之间属性的赋值
-            BeanUtils.copyProperties(Content, contentDTO);
+            BeanUtils.copyProperties(content, contentDTO);
             contentDTO.setUser(user);
+            contentDTO.setCollTime(collection.getGmtCreate());
             contentDTOS.add(contentDTO);
         }
         return contentDTOS;

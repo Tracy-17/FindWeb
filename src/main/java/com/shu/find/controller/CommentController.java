@@ -64,6 +64,7 @@ public class CommentController {
     @RequestMapping(value = "/chose", method = RequestMethod.POST)
     public Object coll(@RequestBody CommentChoseDTO commentChoseDTO,
                        HttpServletRequest request) {
+        //登录验证：
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             return ResultDTO.errorOf(CustomizeErrorCode.NO_LOGIN);
