@@ -3,6 +3,12 @@
     background-color: tomato;
     margin: -58px -24px -54px -28px;
 }
+.notification-time{
+    float: right;
+    color: lightslategrey;
+    font-size: 10px;
+    margin-top: -7px
+}
 .hr{
     min-height: 1px;
     padding: 0 15px 0 15px;
@@ -235,6 +241,7 @@ html,body{
 
 .jumbotron {
     margin: 50px;
+    background: transparent
 }
 
 .comment {

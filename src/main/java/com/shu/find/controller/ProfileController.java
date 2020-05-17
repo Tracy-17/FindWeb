@@ -4,6 +4,8 @@ import com.shu.find.dto.ContentDTO;
 import com.shu.find.dto.PaginationDTO;
 import com.shu.find.dto.UserDTO;
 import com.shu.find.enums.MyRelationTypeEnum;
+import com.shu.find.exception.CustomizeErrorCode;
+import com.shu.find.exception.CustomizeException;
 import com.shu.find.model.Content;
 import com.shu.find.model.Follow;
 import com.shu.find.model.User;
@@ -111,6 +113,7 @@ public class ProfileController {
         return "info";
     }
 
+    //修改简介
     @PostMapping("/changeBio")
     public String changeBio(@RequestParam(name = "bio") String bio,
                             HttpServletRequest request) {
@@ -122,5 +125,18 @@ public class ProfileController {
         user.setBio(bio);
         userService.update(user);
         return "redirect:/info/"+user.getId()+"/my";
+    }
+
+    //删除已发布内容
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable(name = "id") Integer id,
+                         Model model, HttpServletRequest request){
+        user = (User) request.getSession().getAttribute("user");
+        //未登录跳转：
+        if (user == null) {
+            return "redirect:/index";
+        }
+        contentService.deleteById(id,user.getId());
+        return "redirect:/profile/contents";
     }
 }

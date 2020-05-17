@@ -1,3 +1,4 @@
+//关注
 function follow(e){
      let follower = e.getAttribute("data-id");
             $.ajax({
@@ -9,11 +10,6 @@ function follow(e){
                 }),
                 success: function (response) {
                     if (response.code == 200) {
-                        //提交问题后局部刷新（待优化）
-    //               $(likeId).load(location.href+$(likeId));
-                    /*$("#likeComment").load(location.href + " #likeComment")*/
-                    //刷新页面并回到当前位置
-    //                document.location.reload();
                     //刷新排行榜
                     $("#ranking").load(location.href + " #ranking")
                     } else {

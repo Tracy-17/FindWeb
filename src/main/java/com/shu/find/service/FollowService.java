@@ -71,22 +71,6 @@ public class FollowService {
     @Transactional
     public void update(Follow follow) {
         if (isFollowed(follow.getUserId(), follow.getFollower())) {
-            follow.setGmtCreate(System.currentTimeMillis());
-            followMapper.insert(follow);
-            //增加我的关注数
-            User my = new User();
-            my.setId(follow.getUserId());
-            my.setFollowCount(1);
-            userExtMapper.changeFollow(my);
-            //增加被关注用户的粉丝数
-            User follower = new User();
-            follower.setId(follow.getFollower());
-            follower.setFansCount(1);
-            userExtMapper.changeFans(follower);
-            //创建通知
-            String name = userMapper.selectByPrimaryKey(my.getId()).getName();
-            createNotify(my.getId(), name, follower.getId());
-        } else {
             FollowExample followExample = new FollowExample();
             followExample.createCriteria()
                     .andUserIdEqualTo(follow.getUserId())
@@ -108,6 +92,22 @@ public class FollowService {
                     .andReceiverEqualTo(follow.getFollower())
                     .andTypeEqualTo(NotificationTypeEnum.FOLLOWED.getType());
             notificationMapper.deleteByExample(notificationExample);
+        } else {
+            follow.setGmtCreate(System.currentTimeMillis());
+            followMapper.insert(follow);
+            //增加我的关注数
+            User my = new User();
+            my.setId(follow.getUserId());
+            my.setFollowCount(1);
+            userExtMapper.changeFollow(my);
+            //增加被关注用户的粉丝数
+            User follower = new User();
+            follower.setId(follow.getFollower());
+            follower.setFansCount(1);
+            userExtMapper.changeFans(follower);
+            //创建通知
+            String name = userMapper.selectByPrimaryKey(my.getId()).getName();
+            createNotify(my.getId(), name, follower.getId());
         }
     }
     //创建通知

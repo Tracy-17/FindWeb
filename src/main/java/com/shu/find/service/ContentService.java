@@ -82,7 +82,6 @@ public class ContentService {
         return paginationDTO;
     }
 
-
     //查询某人的发布
     public List<ContentDTO> listByCreator(User creator) {
         List<ContentDTO> contentDTOS = new ArrayList<>();
@@ -216,5 +215,18 @@ public class ContentService {
         }).collect(Collectors.toList());
 
         return contentDTOS;
+    }
+
+    //删除内容
+    public void deleteById(Integer id,Integer userId) {
+        ContentDTO contentDTO=getById(id);
+        //设置操作权限
+        if(userId!=contentDTO.getCreator()){
+            throw new CustomizeException(CustomizeErrorCode.NO_PERMISSION);
+        }
+        int result=contentMapper.deleteByPrimaryKey(id);
+        if (result != 1) {
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
     }
 }

@@ -38,7 +38,6 @@ public class ContentController {
     public String content(@PathVariable(name = "id") Integer id,
                            Model model, HttpServletRequest request) {
         ContentDTO contentDTO = contentService.getById(id);
-        System.out.println(contentDTO.getUser().getName());
         List<ContentDTO> relatedQuestions = contentService.selectRelated(contentDTO);
         List<CommentDTO> comments = commentService.listByTargetId(id, CommentTypeEnum.CONTENT);
         boolean isInCollection=false;

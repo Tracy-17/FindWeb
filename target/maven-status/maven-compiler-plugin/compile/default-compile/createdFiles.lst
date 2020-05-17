@@ -50,6 +50,7 @@ com\shu\find\service\LikeService.class
 com\shu\find\controller\CollectionController.class
 com\shu\find\model\Notification.class
 com\shu\find\mapper\CommentMapper.class
+com\shu\find\exception\CustomizeExceptionHandler.class
 com\shu\find\mapper\CommentExtMapper.class
 com\shu\find\model\ContentExample.class
 com\shu\find\model\MylikeExample$GeneratedCriteria.class
@@ -82,7 +83,6 @@ com\shu\find\mapper\UserMapper.class
 com\shu\find\model\MylikeExample$Criteria.class
 com\shu\find\model\NotificationExample$GeneratedCriteria.class
 com\shu\find\model\MylikeExample$Criterion.class
-com\shu\find\config\AppConfig.class
 com\shu\find\service\CollectionService.class
 com\shu\find\mapper\MylikeMapper.class
 com\shu\find\model\Collection.class

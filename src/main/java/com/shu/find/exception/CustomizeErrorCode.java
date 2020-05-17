@@ -18,8 +18,8 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     FOLLOW_DONT_EXIST(2010,"这条关注不存在"),
     FILE_IS_EMPTY(2011,"上传文件不能为空"),
     IO_EXCEPTION(2012,"不可抗力因素导致文件上传失败"),
-    USER_NOT_FOUND(2013,"你找的这个人不在哦");
-
+    USER_NOT_FOUND(2013,"你找的这个人不在哦"),
+    NO_PERMISSION(2014,"当前用户无权限");
 
     @Override
     public String getMessage() {
