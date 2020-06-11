@@ -25,7 +25,7 @@
     <show-object-properties value="false" />
     <loaded-nodes>
       <connection connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef">
-        <schema name="find" object-types="function, view, dataset trigger, column, table, procedure, index, constraint" />
+        <schema name="find" object-types="view, table" />
       </connection>
     </loaded-nodes>
   </component>
@@ -33,8 +33,8 @@
     <connection id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef">
       <console name="find" type="STANDARD" schema="" session="Main" />
     </connection>
-    <connection id="b3dfd507-8024-473c-8807-df9c9a158652">
-      <console name="myPC" type="STANDARD" schema="" session="Main" />
+    <connection id="70c3a38d-02ce-4d6d-b835-b8071cfd8884">
+      <console name="myFind" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
@@ -42,7 +42,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" />
-    <connection id="b3dfd507-8024-473c-8807-df9c9a158652" />
+    <connection id="70c3a38d-02ce-4d6d-b835-b8071cfd8884" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="0ae5394e-b6f8-4f4f-bc01-d6cb253260ef" dataset="find.user" active-filter-id="aceb8187-869b-4604-8f51-5092f2703e05">
@@ -126,20 +126,20 @@
           <description value="" />
           <database-type value="MYSQL" />
           <config-type value="BASIC" />
-          <database-version value="5.7" />
+          <database-version value="5.5" />
           <driver-source value="EXTERNAL" />
           <driver-library value="D:\mysql-connector-java-8.0.17\mysql-connector-java-8.0.17.jar" />
           <driver value="com.mysql.cj.jdbc.Driver" />
           <url-type value="DATABASE" />
-          <host value="106.14.81.50" />
+          <host value="47.103.97.85" />
           <port value="3306" />
           <database value="find" />
           <type value="USER_PASSWORD" />
-          <user value="remote" />
+          <user value="root" />
           <deprecated-pwd value="MTIzNDU2" />
         </database>
         <properties>
-          <auto-commit value="false" />
+          <auto-commit value="true" />
         </properties>
         <ssh-settings>
           <active value="false" />
@@ -165,7 +165,7 @@
           <connect-automatically value="true" />
           <restore-workspace value="true" />
           <restore-workspace-deep value="true" />
-          <environment-type value="default" />
+          <environment-type value="development" />
           <idle-time-to-disconnect value="30" />
           <idle-time-to-disconnect-pool value="5" />
           <credential-expiry-time value="10" />
@@ -203,9 +203,9 @@
           <object-name-filters />
         </object-filters>
       </connection>
-      <connection id="b3dfd507-8024-473c-8807-df9c9a158652" active="true">
+      <connection id="70c3a38d-02ce-4d6d-b835-b8071cfd8884" active="true">
         <database>
-          <name value="myPC" />
+          <name value="myFind" />
           <description value="" />
           <database-type value="MYSQL" />
           <config-type value="BASIC" />
@@ -216,13 +216,13 @@
           <url-type value="DATABASE" />
           <host value="localhost" />
           <port value="3306" />
-          <database value="find" />
+          <database value="mysql" />
           <type value="USER_PASSWORD" />
           <user value="root" />
           <deprecated-pwd value="MTQ3ODUy" />
         </database>
         <properties>
-          <auto-commit value="true" />
+          <auto-commit value="false" />
         </properties>
         <ssh-settings>
           <active value="false" />
@@ -248,7 +248,7 @@
           <connect-automatically value="true" />
           <restore-workspace value="true" />
           <restore-workspace-deep value="true" />
-          <environment-type value="development" />
+          <environment-type value="default" />
           <idle-time-to-disconnect value="30" />
           <idle-time-to-disconnect-pool value="5" />
           <credential-expiry-time value="10" />
@@ -337,7 +337,7 @@
     <navigation-settings>
       <lookup-filters>
         <lookup-objects>
-          <object-type name="SCHEMA" enabled="true" />
+          <object-type name="SCHEMA" enabled="false" />
           <object-type name="USER" enabled="false" />
           <object-type name="ROLE" enabled="false" />
           <object-type name="PRIVILEGE" enabled="false" />

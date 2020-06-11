@@ -1,8 +1,9 @@
 /*用户*/
+drop table user;
 create table user
 (
-	id int auto_increment primary key,
-	account varchar(50) not null comment '用户名',
+	id int auto_increment,
+	account varchar(50) not null primary key comment '用户名',
 	password varchar(16) null comment '密码',
 	token varchar(36) null comment '缓存数据',
 	name varchar(50) null comment '昵称',
@@ -12,18 +13,17 @@ create table user
 	fans_count int default 0 null,
 	gmt_create bigint null,
 	gmt_modify bigint null,
+	like_count int default 0 comment '总计获赞数',
+    chose_count int default 0 comment '总计优质回答数',
 	constraint user_account_uindex
 		unique (account),
 	constraint user_id_uindex
 		unique (id)
 );
-alter table user add like_count int default 0 comment '总计获赞数';
-alter table user add chose_count int default 0 comment '总计优质回答数';
 
-alter table user
-	add primary key (account);
 
 /*问题或文章*/
+drop table content;
 create table content
 (
 	id int auto_increment
@@ -42,6 +42,7 @@ create table content
 );
 
 /*评论*/
+drop table comment;
 create table comment
 (
 	id int auto_increment,
@@ -85,6 +86,7 @@ create table collection
 );
 
 /*点赞*/
+drop table mylike;
 create table mylike
 (
 	id int auto_increment,
@@ -96,6 +98,7 @@ create table mylike
 		primary key (id)
 );
 /*关注*/
+drop table follow;
 create table follow
 (
     id int auto_increment,
@@ -105,11 +108,14 @@ create table follow
 	constraint follow_pk
 		primary key (id)
 );
+
+
+
 /*文件*/
 create table myfile
 (
     id int auto_increment,
-	url varchar(600) null ,
+	url varchar(600) null comment '地址',
 	name varchar(600) null,
 	path varchar(600) null,
 	constraint file_pk

@@ -1,3 +1,8 @@
+.operation{
+    float: right;
+    font-size: 9px;
+    margin-top: 9px;
+}
 .notification{
     padding: 1px 4px;
     background-color: tomato;
@@ -62,7 +67,7 @@
 
 }
 .search{
-    margin: 10px 10px 10px 10px;
+    margin: 10px 0px 10px 5px;;
 }
 .sign-up{
     background-color: #ff9e85;

@@ -53,6 +53,7 @@ public class CommentService {
         if (comment.getType() == null || !CommentTypeEnum.isExist(comment.getType())) {
             throw new CustomizeException(CustomizeErrorCode.TYPE_PARAM_WRONG);
         }
+        Content content = new Content();
         if (comment.getType() == CommentTypeEnum.COMMENT.getType()) {
             //回复评论
             Comment dbComment = commentMapper.selectByPrimaryKey(comment.getParentId());
@@ -60,30 +61,30 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
             //查询当前问题题目
-            Content content = contentMapper.selectByPrimaryKey(dbComment.getParentId());
+            content = contentMapper.selectByPrimaryKey(dbComment.getParentId());
             if (content == null) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
-            commentMapper.insert(comment);
             //增加父评论的评论数
             Comment parentComment = new Comment();
             parentComment.setId(comment.getParentId());
             parentComment.setCommentCount(1);
             commentExtMapper.incComment(parentComment);
-            //创建通知
+            //对当前一级评论者创建通知
             createNotify(dbComment.getCommentator(), comment.getCommentator(), NotificationTypeEnum.REPLY_COMMENT.getType(), commentator.getName(), content.getId(), content.getTitle());
         } else {
             //回复问题
-            Content content = contentMapper.selectByPrimaryKey(comment.getParentId());
+            content = contentMapper.selectByPrimaryKey(comment.getParentId());
             if (content == null) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
-            commentMapper.insert(comment);
-            content.setCommentCount(1);
-            contentExtMapper.incComment(content);
-            //创建通知
+            //对作者创建通知
             createNotify(content.getCreator(), comment.getCommentator(), NotificationTypeEnum.REPLY_QUESTION.getType(), commentator.getName(), content.getId(), content.getTitle());
         }
+        commentMapper.insert(comment);
+        //增加文章的评论数
+        content.setCommentCount(1);
+        contentExtMapper.incComment(content);
     }
 
     //展示在内容页的评论
@@ -161,6 +162,7 @@ public class CommentService {
 
     /**
      * 创建通知
+     *
      * @param receiver         ：接收者id
      * @param notifier         ：创建者id
      * @param notificationType ：通知类型

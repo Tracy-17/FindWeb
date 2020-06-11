@@ -9,7 +9,7 @@
     </parent>
     <groupId>com.shu</groupId>
     <artifactId>find</artifactId>
-<!--    <version>0508</version>-->
+    <version>6</version>
     <name>find</name>
     <description>web for FIND app</description>
     <!--打包-->

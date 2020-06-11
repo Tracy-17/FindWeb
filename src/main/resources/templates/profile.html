@@ -34,19 +34,19 @@
                     <div class="media-body">
                         <h4 class="media-heading">
                             <a th:href="@{'/content/'+${contentDTO.id}}" th:text="${contentDTO.title}"></a>
-                        </h4>
+
+                        <div th:if="${session.user!=null && session.user.id==contentDTO.creator}" class="operation">
+                            <a th:href="@{'/publish/'+${contentDTO.id}}" style="color: darkgrey">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true">编辑</span></a>
+                            <a th:href="@{'/delete/'+${contentDTO.id}}" style="color: darkgrey">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true">删除</span></a>
+                        </div></h4>
                         <span th:text="${contentDTO.description}" class="description"></span><br>
                         <span class="text-desc">
                             <span th:text="${contentDTO.viewCount}"></span>次浏览 ·
                             <span th:text="${contentDTO.commentCount}"></span> 个回复 ·
                             <span th:text="${contentDTO.collCount}"></span>次收藏 ·
                             <span th:text="${#dates.format(contentDTO.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
-                            <div th:if="${session.user!=null && session.user.id==contentDTO.creator}" style="margin-top: -8px;">
-                                <a th:href="@{'/publish/'+${contentDTO.id}}" class="test-menu">
-                                    <span class="glyphicon glyphicon-pencil" aria-hidden="true">编辑</span></a>
-                                <a th:href="@{'/delete/'+${contentDTO.id}}" class="test-menu">
-                                    <span class="glyphicon glyphicon-trash" aria-hidden="true">删除</span></a>
-                            </div>
                     </span>
                     </div>
                 </div>

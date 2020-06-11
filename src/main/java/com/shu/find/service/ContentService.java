@@ -103,7 +103,7 @@ public class ContentService {
         return contentDTOS;
     }
 
-    //关注的人的发布（最近十条）
+    //关注的人的发布
     public List<ContentDTO> followContent(List<User> followers) {
         List<ContentDTO> contentDTOS = new ArrayList<>(contentCapacity);
         for (User follower : followers) {
@@ -159,7 +159,6 @@ public class ContentService {
             content.setCommentCount(0);
             content.setLikeCount(0);
             content.setCollCount(0);
-
             contentMapper.insert(content);
         } else {
             //更新
@@ -173,6 +172,12 @@ public class ContentService {
             ContentExample example = new ContentExample();
             example.createCriteria()
                     .andIdEqualTo(content.getId());
+            //设置操作权限
+            if(contentMapper.selectByPrimaryKey(content.getId()).getCreator()!=content.getCreator()){
+                throw new CustomizeException(CustomizeErrorCode.NO_PERMISSION);
+            }
+            /*updateByExampleSelective是更新一条数据中的某些属性，而不是更新整条数据。
+              updateByExample需要将表的条件全部给出，也就是要给出一个对象*/
             int updated = contentMapper.updateByExampleSelective(updateContent, example);
             //异常处理
             if (updated != 1) {

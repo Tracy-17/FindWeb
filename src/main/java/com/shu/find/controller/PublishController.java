@@ -57,7 +57,6 @@ public class PublishController {
             @RequestParam(value = "id", required = false) Integer id,
             @RequestParam(value = "isArticle", required = false) Boolean isArticle,
             HttpServletRequest request,
-            HttpServletResponse response,
             //model可以把数据推送到前端页面
             Model model) {
         model.addAttribute("title", title);
@@ -107,7 +106,6 @@ public class PublishController {
         }
         content.setCreator(user.getId());
 
-        //存在风险：非法修改
         contentService.createOrUpdate(content);
         System.out.println("用户 "+content.getCreator()+" 发布了内容："+content.getTitle()+";"+ new Date());
         return "redirect:/index";
